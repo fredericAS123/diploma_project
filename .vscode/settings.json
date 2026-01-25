@@ -1,0 +1,7 @@
+{
+    "github.copilot.chat.localeOverride": "zh-CN",
+    "remote.extensionKind": {
+        "GitHub.copilot": ["ui"],
+        "GitHub.copilot-chat": ["ui"]
+    }
+}
