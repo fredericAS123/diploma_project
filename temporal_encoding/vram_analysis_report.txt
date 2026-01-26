@@ -1,0 +1,38 @@
+VRAM Growth Analysis Report
+===========================
+
+Sources:
+- vram_benchmark_report.txt
+- vram_absolute_report.txt
+
+Baseline (model weights): 7.10 GB
+
+Benchmark Growth (streaming @1 fps, up to T=30s):
+- Peak: 8.95 GB
+- Avg growth (first-last): 0.0417 GB/s
+- Linear regression slope: 0.0413 GB/s
+
+Absolute-Time Growth (streaming @1 fps, up to T=20s):
+- Peak: 10.31 GB
+- Avg growth (first-last): 0.0913 GB/s
+- Linear regression slope: 0.0924 GB/s
+
+Ask() Memory Spike:
+- Before/After ask() remained essentially unchanged in both runs (≤0.01 GB), indicating negligible spike.
+
+Projection (based on linear regression slope):
+Assuming usable VRAM = Total VRAM - 7.10 GB baseline
+
+24 GB GPU:
+- Available: 16.90 GB
+- Benchmark slope: 16.90 / 0.0413 ≈ 409 s ≈ 6.8 min
+- Absolute-time slope: 16.90 / 0.0924 ≈ 183 s ≈ 3.1 min
+
+40 GB GPU:
+- Available: 32.90 GB
+- Benchmark slope: 32.90 / 0.0413 ≈ 797 s ≈ 13.3 min
+- Absolute-time slope: 32.90 / 0.0924 ≈ 356 s ≈ 5.9 min
+
+Notes:
+- Growth rate varies with scene complexity and frame content; use the absolute-time slope as a conservative estimate.
+- Per-second curves are recorded in the two source reports above.

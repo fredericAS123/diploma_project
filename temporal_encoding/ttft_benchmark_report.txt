@@ -1,0 +1,27 @@
+TTFT Analysis Report (benchmark_video_stream.py)
+================================================
+
+Run Summary:
+- Checkpoints: T=5s, T=10s, T=30s
+- TTFTs: 0.088s, 0.074s, 0.103s
+- Average TTFT: 0.088s
+
+How TTFT is calculated in code:
+- In `VideoStreamingInference.ask()`, TTFT is defined as the elapsed wall time from the start of the `ask()` call to the moment the first token is generated.
+- The code captures `t_start = time.time()` immediately after optional CUDA synchronization.
+- It runs the prefill pass (question encoding with KV cache), then performs the first decode step (one token generation).
+- After the first token is produced, it synchronizes CUDA again and captures `t_first_token = time.time()`.
+- TTFT is computed as `t_first_token - t_start` and returned in `metrics['ttft']`.
+
+Detailed Stats:
+- Min TTFT: 0.074s (T=10s)
+- Max TTFT: 0.103s (T=30s)
+- Range: 0.029s
+
+Observations:
+- TTFT is consistently < 0.11s across all checkpoints.
+- Later timestamp (T=30s) shows a slight increase, likely due to longer KV cache and higher memory footprint.
+- No outliers or spikes; stability indicates good prefill+first-token performance under streaming cache growth.
+
+Conclusion:
+- TTFT KPI (<1.0s) is comfortably met with large safety margin.

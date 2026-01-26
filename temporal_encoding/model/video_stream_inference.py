@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoProcessor
 import gc
+import time
 
 class VideoStreamingInference:
     def __init__(self, model, processor, device="cuda"):
@@ -82,6 +83,9 @@ class VideoStreamingInference:
         if manual_time is None:
             # 默认提问发生在视频之后
             manual_time = self.current_time_step + 1
+        if self.device.startswith("cuda"):
+            torch.cuda.synchronize()
+        t_start = time.time()
             
         # 1. 构造问题 Prompt
         messages = [{"role": "user", "content": [{"type": "text", "text": question}]}]
@@ -129,35 +133,67 @@ class VideoStreamingInference:
         curr_input = next_token
         # Mask 也要随之增长
         curr_mask = torch.cat([full_mask, torch.ones((1, 1), device=self.device)], dim=1)
-        
+
+        t_first_token = None
+
         with torch.inference_mode():
-            for _ in range(max_new_tokens):
-                # 检查 EOS
-                if curr_input.item() == eos_token_id:
-                    break
+            # First decode step (for TTFT)
+            if curr_input.item() != eos_token_id:
                 generated_ids.append(curr_input.item())
-                
-                # Forward 单个 Token
+
                 outputs = self.model(
                     input_ids=curr_input,
                     attention_mask=curr_mask,
                     past_key_values=current_cache,
-                    manual_time=current_token_time, # 关键：每一步时间递增！
-                    use_cache=True
+                    manual_time=current_token_time,
+                    use_cache=True,
                 )
-                
+
                 current_cache = self._detach_past(outputs.past_key_values)
                 next_token_logits = outputs.logits[:, -1, :]
                 curr_input = torch.argmax(next_token_logits, dim=-1).unsqueeze(-1)
-                
-                # 更新状态
+
+                current_token_time += 1
+                curr_mask = torch.cat([curr_mask, torch.ones((1, 1), device=self.device)], dim=1)
+
+                if self.device.startswith("cuda"):
+                    torch.cuda.synchronize()
+                t_first_token = time.time()
+
+            for _ in range(max_new_tokens - 1):
+                if curr_input.item() == eos_token_id:
+                    break
+                generated_ids.append(curr_input.item())
+
+                outputs = self.model(
+                    input_ids=curr_input,
+                    attention_mask=curr_mask,
+                    past_key_values=current_cache,
+                    manual_time=current_token_time,
+                    use_cache=True
+                )
+
+                current_cache = self._detach_past(outputs.past_key_values)
+                next_token_logits = outputs.logits[:, -1, :]
+                curr_input = torch.argmax(next_token_logits, dim=-1).unsqueeze(-1)
+
                 current_token_time += 1
                 curr_mask = torch.cat([curr_mask, torch.ones((1, 1), device=self.device)], dim=1)
                 
         output_text = self.processor.decode(generated_ids, skip_special_tokens=True)
         # 更新全局时间轴
         self.current_time_step = max(self.current_time_step, current_token_time)
-        return output_text
+
+        if self.device.startswith("cuda"):
+            torch.cuda.synchronize()
+        t_end = time.time()
+        if t_first_token is None:
+            t_first_token = t_end
+        metrics = {
+            "ttft": t_first_token - t_start,
+            "total_latency": t_end - t_start,
+        }
+        return output_text, metrics
 
     def ask_choice(self, question, choices, manual_time=None):
         """Multiple-choice querying with log-prob scoring (more stable than free decoding)."""
