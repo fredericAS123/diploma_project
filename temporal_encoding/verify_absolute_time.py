@@ -167,13 +167,13 @@ def main():
 
     mem_before_str, _, _ = get_vram_usage()
     print(f"[Ask] Before ask() VRAM: {mem_before_str}")
-    ans1, metrics1 = engine.ask(q1, manual_time=21)
+    ans1, metrics1 = engine.ask(q1, manual_time=21, update_state=False)
     mem_after_str, peak_str, _ = get_vram_usage()
     print(f"[Ask] After ask() VRAM: {mem_after_str} | Peak: {peak_str}")
 
     mem_before_str, _, _ = get_vram_usage()
     print(f"[Ask] Before ask() VRAM: {mem_before_str}")
-    ans2, metrics2 = engine.ask(q2, manual_time=21)
+    ans2, metrics2 = engine.ask(q2, manual_time=21, update_state=False)
     mem_after_str, peak_str, _ = get_vram_usage()
     print(f"[Ask] After ask() VRAM: {mem_after_str} | Peak: {peak_str}")
 

@@ -10,6 +10,7 @@ class VideoStreamingInference:
         self.device = device
         self.video_cache = None 
         self.current_time_step = 0
+        self._system_prompt_added = False
         print(f"✅ VideoStreamingInference Engine Initialized (Manual Loop).")
 
     def _detach_past(self, past_key_values):
@@ -39,6 +40,7 @@ class VideoStreamingInference:
     def reset(self):
         self.video_cache = None
         self.current_time_step = 0
+        self._system_prompt_added = False
         gc.collect()
         torch.cuda.empty_cache()
         print("🔄 Memory Reset.")
@@ -78,7 +80,17 @@ class VideoStreamingInference:
         
         return f"Frame encoded at T={target_t}"
 
-    def ask(self, question, manual_time=None):
+    def ask(
+        self,
+        question,
+        manual_time=None,
+        max_new_tokens=256,
+        min_new_tokens=1,
+        update_state=False,
+        do_sample=False,
+        temperature=0.7,
+        top_p=0.9,
+    ):
         """Phase 2: Interaction (Manual Prefill & Decode)"""
         if manual_time is None:
             # 默认提问发生在视频之后
@@ -88,7 +100,16 @@ class VideoStreamingInference:
         t_start = time.time()
             
         # 1. 构造问题 Prompt
-        messages = [{"role": "user", "content": [{"type": "text", "text": question}]}]
+        SYSTEM_PROMPT = (
+            "You are a concise video analyst. Answer briefly and directly. "
+            "Focus on visible facts only. Avoid speculation, avoid repetition. "
+            "Strictly limit the response to at most 60 tokens."
+        )
+        messages = []
+        if not self._system_prompt_added:
+            messages.append({"role": "system", "content": [{"type": "text", "text": SYSTEM_PROMPT}]})
+            self._system_prompt_added = True
+        messages.append({"role": "user", "content": [{"type": "text", "text": question}]})
         text_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         if "<|im_start|>user" in text_prompt:
             text_prompt = "<|im_start|>user" + text_prompt.split("<|im_start|>user")[-1]
@@ -105,6 +126,23 @@ class VideoStreamingInference:
         # 将问题文本一次性输入，计算 KV Cache，且将其位置平移到 manual_time
         current_cache = self.video_cache # Start with video memory
         
+        def _select_token(logits):
+            if not do_sample:
+                return torch.argmax(logits, dim=-1).unsqueeze(-1)
+            temp = max(1e-5, float(temperature))
+            scaled = logits / temp
+            probs = torch.softmax(scaled, dim=-1)
+            if top_p is not None and 0 < top_p < 1:
+                sorted_probs, sorted_idx = torch.sort(probs, descending=True)
+                cum = torch.cumsum(sorted_probs, dim=-1)
+                mask = cum > top_p
+                mask[..., 0] = False
+                sorted_probs = sorted_probs.masked_fill(mask, 0.0)
+                sorted_probs = sorted_probs / sorted_probs.sum(dim=-1, keepdim=True)
+                next_idx = torch.multinomial(sorted_probs, num_samples=1)
+                return sorted_idx.gather(-1, next_idx)
+            return torch.multinomial(probs, num_samples=1)
+
         with torch.inference_mode():
             outputs = self.model(
                 input_ids=input_ids,
@@ -117,11 +155,13 @@ class VideoStreamingInference:
             current_cache = self._detach_past(outputs.past_key_values)
             # 获取最后一个 token 的 logits 用于预测第一个回复 token
             next_token_logits = outputs.logits[:, -1, :]
-            next_token = torch.argmax(next_token_logits, dim=-1).unsqueeze(-1)
+            next_token = _select_token(next_token_logits)
             
         # 4. Step B: Greedy Decoding Loop (逐个生成回复)
         generated_ids = []
-        max_new_tokens = 50
+        max_new_tokens = max(1, int(max_new_tokens))
+        min_new_tokens = max(1, int(min_new_tokens))
+        min_new_tokens = min(min_new_tokens, max_new_tokens)
         eos_token_id = self.processor.tokenizer.eos_token_id
         
         # 维护当前的绝对时间 ID
@@ -131,6 +171,7 @@ class VideoStreamingInference:
         current_token_time = manual_time + prompt_len
         
         curr_input = next_token
+        last_next_token_logits = next_token_logits
         # Mask 也要随之增长
         curr_mask = torch.cat([full_mask, torch.ones((1, 1), device=self.device)], dim=1)
 
@@ -138,6 +179,11 @@ class VideoStreamingInference:
 
         with torch.inference_mode():
             # First decode step (for TTFT)
+            if curr_input.item() == eos_token_id and min_new_tokens > 0:
+                tmp_logits = last_next_token_logits.clone()
+                tmp_logits[0, eos_token_id] = -1e9
+                curr_input = _select_token(tmp_logits)
+
             if curr_input.item() != eos_token_id:
                 generated_ids.append(curr_input.item())
 
@@ -151,7 +197,8 @@ class VideoStreamingInference:
 
                 current_cache = self._detach_past(outputs.past_key_values)
                 next_token_logits = outputs.logits[:, -1, :]
-                curr_input = torch.argmax(next_token_logits, dim=-1).unsqueeze(-1)
+                curr_input = _select_token(next_token_logits)
+                last_next_token_logits = next_token_logits
 
                 current_token_time += 1
                 curr_mask = torch.cat([curr_mask, torch.ones((1, 1), device=self.device)], dim=1)
@@ -162,7 +209,11 @@ class VideoStreamingInference:
 
             for _ in range(max_new_tokens - 1):
                 if curr_input.item() == eos_token_id:
-                    break
+                    if len(generated_ids) >= min_new_tokens:
+                        break
+                    tmp_logits = last_next_token_logits.clone()
+                    tmp_logits[0, eos_token_id] = -1e9
+                    curr_input = _select_token(tmp_logits)
                 generated_ids.append(curr_input.item())
 
                 outputs = self.model(
@@ -175,14 +226,16 @@ class VideoStreamingInference:
 
                 current_cache = self._detach_past(outputs.past_key_values)
                 next_token_logits = outputs.logits[:, -1, :]
-                curr_input = torch.argmax(next_token_logits, dim=-1).unsqueeze(-1)
+                curr_input = _select_token(next_token_logits)
+                last_next_token_logits = next_token_logits
 
                 current_token_time += 1
                 curr_mask = torch.cat([curr_mask, torch.ones((1, 1), device=self.device)], dim=1)
                 
         output_text = self.processor.decode(generated_ids, skip_special_tokens=True)
-        # 更新全局时间轴
-        self.current_time_step = max(self.current_time_step, current_token_time)
+        # 可选：更新全局时间轴（默认不更新，避免问答污染流式时间轴）
+        if update_state:
+            self.current_time_step = max(self.current_time_step, current_token_time)
 
         if self.device.startswith("cuda"):
             torch.cuda.synchronize()

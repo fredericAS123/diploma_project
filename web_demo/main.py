@@ -2,7 +2,7 @@ from Qwen_inference import QwenInferenceWrapper
 from webui_gradio import VideoChatWebUI
 
 # 模型路径配置
-MODEL_PATH = "Qwen/Qwen2.5-VL-3B-Instruct"
+MODEL_PATH = "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct"
 
 def main():
     # 1. 初始化推理引擎 (Backend)
