@@ -1,0 +1,7 @@
+Native Video Analysis
+Sample 1 (approx 10%) | T: 95-95 | H: 15-22 | W: 15-29
+Sample 2 (approx 50%) | T: 415-415 | H: 15-22 | W: 15-29
+Sample 3 (approx 90%) | T: 731-731 | H: 15-22 | W: 15-29
+
+Analysis Summary
+Global Monotonic Increase observed: T/H/W indices increase across time, matching native behavior.

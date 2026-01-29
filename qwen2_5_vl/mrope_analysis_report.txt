@@ -1,0 +1,12 @@
+Experiment A: Multi-Image Input
+Image 1 | T: 30-30 | H: 30-56 | W: 30-77
+Image 2 | T: 80-80 | H: 80-106 | W: 80-127
+Image 3 | T: 130-130 | H: 130-156 | W: 130-177
+
+Experiment B: Single-Image Input
+Image 1 | T: 23-23 | H: 23-49 | W: 23-70
+Image 2 | T: 23-23 | H: 23-49 | W: 23-70
+Image 3 | T: 23-23 | H: 23-49 | W: 23-70
+
+Analysis Summary
+Based on Qwen2.5-VL's mRoPE design, position IDs for visual tokens are assigned in a temporal-spatial grid. When multiple images are provided in a single prompt, the visual token blocks typically share a continuous sequence, so the Temporal (T) index tends to advance across images. When images are processed independently, each call starts its own sequence, so T indices usually reset for each image. Use the ranges above to confirm whether T is continuous in Experiment A and reset in Experiment B.

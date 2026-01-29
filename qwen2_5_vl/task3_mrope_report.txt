@@ -1,0 +1,17 @@
+Mode A: Multi-Image Reference
+Image 1 | T: 30-30 | H: 30-56 | W: 30-77
+Image 2 | T: 80-80 | H: 80-106 | W: 80-127
+Image 3 | T: 130-130 | H: 130-156 | W: 130-177
+
+Mode B: Streaming Simulation (manual_time)
+Image 1 | T: 30-30 | H: 30-56 | W: 30-77
+Image 2 | T: 80-80 | H: 80-106 | W: 80-127
+Image 3 | T: 130-130 | H: 130-156 | W: 130-177
+
+Comparison
+Image 1 | Mode A H/W: 30-56, 30-77 | Mode B H/W: 30-56, 30-77 | H/W match (full shift)
+Image 2 | Mode A H/W: 80-106, 80-127 | Mode B H/W: 80-106, 80-127 | H/W match (full shift)
+Image 3 | Mode A H/W: 130-156, 130-177 | Mode B H/W: 130-156, 130-177 | H/W match (full shift)
+
+Analysis Summary
+No Spatial Reset: Mode B H/W ranges match Mode A, indicating full 3D-RoPE alignment when using manual_time in StreamQwenModel.

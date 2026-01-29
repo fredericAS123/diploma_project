@@ -10,9 +10,38 @@ class VideoStreamingInference:
         self.device = device
         self.video_cache = None 
         self.current_time_step = 0
+        self.current_frame_index = -1
+        self.video_duration_sec = None
+        self.native_temporal_patches = None
+        self.native_fps = 1.0
+        self.native_text_len = None
+        self.last_manual_time = None
+        self.fps = None
+        self.tokens_per_second = getattr(getattr(model, "config", None), "vision_config", None)
+        if self.tokens_per_second is not None:
+            self.tokens_per_second = getattr(self.tokens_per_second, "tokens_per_second", None)
         self._system_prompt_added = False
         print(f"✅ VideoStreamingInference Engine Initialized (Manual Loop).")
 
+    def set_video_fps(self, fps: float):
+        if fps is not None and fps > 0:
+            self.fps = float(fps)
+
+    def set_video_meta(
+        self,
+        duration_sec: float,
+        temporal_patches: int,
+        native_fps: float = 1.0,
+        text_len: int | None = None,
+    ):
+        if duration_sec is not None and duration_sec > 0:
+            self.video_duration_sec = float(duration_sec)
+        if temporal_patches is not None and temporal_patches > 0:
+            self.native_temporal_patches = int(temporal_patches)
+        if native_fps is not None and native_fps > 0:
+            self.native_fps = float(native_fps)
+        if text_len is not None and text_len > 0:
+            self.native_text_len = int(text_len)
     def _detach_past(self, past_key_values):
         if past_key_values is None:
             return None
@@ -40,19 +69,38 @@ class VideoStreamingInference:
     def reset(self):
         self.video_cache = None
         self.current_time_step = 0
+        self.current_frame_index = -1
+        self.last_manual_time = None
         self._system_prompt_added = False
         gc.collect()
         torch.cuda.empty_cache()
         print("🔄 Memory Reset.")
 
-    def append_frame(self, image, manual_time=None, text_content="Frame processed."):
+    def _compute_manual_time(self, frame_time_sec=None, frame_index=None):
+        if self.tokens_per_second is None:
+            return None
+        if frame_time_sec is not None:
+            if self.fps:
+                self.current_frame_index = int(round(float(frame_time_sec) * float(self.fps)))
+            return int(round(float(frame_time_sec) * self.tokens_per_second))
+        if frame_index is not None and self.fps:
+            self.current_frame_index = int(frame_index)
+            return int(round(float(frame_index) / float(self.fps) * self.tokens_per_second))
+        if self.fps:
+            self.current_frame_index += 1
+            return int(round(float(self.current_frame_index) / float(self.fps) * self.tokens_per_second))
+        return None
+
+    def append_frame(
+        self,
+        image,
+        manual_time=None,
+        text_content="Frame processed.",
+        frame_time_sec=None,
+        frame_index=None,
+        frame_frac=None,
+    ):
         """Phase 1: Stream Encoding"""
-        if manual_time is not None:
-            self.current_time_step = manual_time
-        else:
-            self.current_time_step += 1
-        target_t = self.current_time_step
-        
         # 构造 Prompt
         messages = [{"role": "user", "content": [{"type": "image", "image": image}, {"type": "text", "text": text_content}]}]
         text_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
@@ -61,6 +109,52 @@ class VideoStreamingInference:
              text_prompt = "<|im_start|>user" + text_prompt.split("<|im_start|>user")[-1]
 
         inputs = self.processor(text=[text_prompt], images=[image], padding=True, return_tensors="pt").to(self.device)
+
+        if (
+            manual_time is None
+            and self.tokens_per_second is not None
+            and self.video_duration_sec
+            and self.native_temporal_patches
+        ):
+            input_ids = inputs.input_ids[0].tolist()
+            vision_start_id = getattr(self.model.config, "vision_start_token_id", 151652)
+            image_token_id = getattr(self.model.config, "image_token_id", 151655)
+            text_len = self.native_text_len
+            for idx, tid in enumerate(input_ids):
+                if tid == vision_start_id and idx + 1 < len(input_ids) and input_ids[idx + 1] == image_token_id:
+                    text_len = text_len if text_len is not None else idx + 1
+                    break
+            if text_len is None:
+                for idx, tid in enumerate(input_ids):
+                    if tid == image_token_id:
+                        text_len = text_len if text_len is not None else idx
+                        break
+
+            temporal_patch_size = getattr(self.model.config.vision_config, "temporal_patch_size", 1)
+            if frame_frac is not None:
+                frac = float(frame_frac)
+            elif frame_time_sec is not None and self.video_duration_sec > 0:
+                frac = float(frame_time_sec) / float(self.video_duration_sec)
+            elif frame_index is not None and self.fps and self.video_duration_sec > 0:
+                frac = (float(frame_index) / float(self.fps)) / float(self.video_duration_sec)
+            else:
+                frac = 0.0
+
+            grid_index = int(round((self.native_temporal_patches - 1) * frac))
+            interval = self.tokens_per_second * (temporal_patch_size / float(self.native_fps))
+            if text_len is not None:
+                manual_time = int(round(text_len + grid_index * interval))
+
+        if manual_time is None:
+            manual_time = self._compute_manual_time(frame_time_sec=frame_time_sec, frame_index=frame_index)
+
+        self.last_manual_time = manual_time
+        if manual_time is not None:
+            self.current_time_step = max(self.current_time_step, int(manual_time))
+        else:
+            self.current_time_step += 1
+        target_t = self.current_time_step
+
 
         past_len = self._get_past_len(self.video_cache)
         full_mask = self._build_full_attention_mask(inputs.attention_mask, past_len)
@@ -105,14 +199,12 @@ class VideoStreamingInference:
             "Focus on visible facts only. Avoid speculation, avoid repetition. "
             "Strictly limit the response to at most 60 tokens."
         )
-        messages = []
-        if not self._system_prompt_added:
-            messages.append({"role": "system", "content": [{"type": "text", "text": SYSTEM_PROMPT}]})
-            self._system_prompt_added = True
-        messages.append({"role": "user", "content": [{"type": "text", "text": question}]})
+        messages = [
+            {"role": "system", "content": [{"type": "text", "text": SYSTEM_PROMPT}]},
+            {"role": "user", "content": [{"type": "text", "text": question}]},
+        ]
         text_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        if "<|im_start|>user" in text_prompt:
-            text_prompt = "<|im_start|>user" + text_prompt.split("<|im_start|>user")[-1]
+        # Keep system prompt; do not strip to last user block.
         
         inputs = self.processor(text=[text_prompt], images=None, padding=True, return_tensors="pt").to(self.device)
         
@@ -255,8 +347,7 @@ class VideoStreamingInference:
 
         messages = [{"role": "user", "content": [{"type": "text", "text": question}]}]
         text_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        if "<|im_start|>user" in text_prompt:
-            text_prompt = "<|im_start|>user" + text_prompt.split("<|im_start|>user")[-1]
+        # Keep system prompt; do not strip to last user block.
 
         inputs = self.processor(text=[text_prompt], images=None, padding=True, return_tensors="pt").to(self.device)
         input_ids = inputs.input_ids

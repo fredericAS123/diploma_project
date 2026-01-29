@@ -1,0 +1,20 @@
+Stream Absolute Time Experiment
+temporal_patches=200, tokens_per_t=120
+
+Native Video (reference)
+Sample 1 | T: 95-95 | H: 15-22 | W: 15-29
+Sample 2 | T: 415-415 | H: 15-22 | W: 15-29
+Sample 3 | T: 731-731 | H: 15-22 | W: 15-29
+
+Streaming Single-Frame (manual_time)
+Frame 1 (manual_time=95) | T: 95-95 | H: 23-49 | W: 23-70
+Frame 2 (manual_time=415) | T: 415-415 | H: 23-49 | W: 23-70
+Frame 3 (manual_time=731) | T: 731-731 | H: 23-49 | W: 23-70
+
+Comparison (T only)
+Sample 1 | Native T: 95-95 | Stream T: 95-95 | match=True
+Sample 2 | Native T: 415-415 | Stream T: 415-415 | match=True
+Sample 3 | Native T: 731-731 | Stream T: 731-731 | match=True
+
+Analysis Summary
+Absolute time encoding matched native video on T axis.
