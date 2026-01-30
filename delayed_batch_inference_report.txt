@@ -1,0 +1,79 @@
+延迟批量编码（Delayed Batch Inference）测试报告
+日期：2026-01-30
+
+一、测试依据
+- 文档：DELAYED_BATCH_INFERENCE_GUIDE.md
+- 测试脚本：test_delayed_batch_inference.py
+- 视频源：/root/autodl-tmp/diploma/temporal_encoding/202208312002.mp4
+- 模型：/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct
+
+二、环境与配置
+- 设备：CUDA GPU
+- 引擎参数：
+  - star_memory_size=20
+  - stream_window_size=20
+  - max_pixels=2 * 224 * 224
+- 批量编码优化：logits_to_keep=1
+
+三、基础测试（--mode basic）结果
+1) 流式添加帧
+- 添加帧数：50
+- Star Memory：2
+- Stream Memory：20
+- Unique Frames：22
+- 压缩比：2.27x
+
+2) 首次提问（触发编码）
+- 编码帧数：22
+- 编码耗时：9.53s
+- Visual Tokens：29601
+- KV Cache Length：29624
+- 总耗时：14.70s
+- 生成耗时：3.58s
+
+3) 多次提问（Cache 复用）
+- 3 次连续提问均复用 cache
+- 单次总耗时：约 1.21s ~ 1.58s
+- 编码耗时：N/A（缓存复用）
+
+4) 添加新帧后重新编码
+- 新增帧数：10（总计 60）
+- 重新编码帧数：22
+- 编码耗时：8.55s
+- 总耗时：12.04s
+- 生成耗时：1.91s
+
+5) 最终统计
+- total_frames_added: 60
+- encode_count: 2
+- cache_valid: True
+- star_memory_size: 3
+- stream_memory_size: 20
+- unique_frames: 22
+- compression_ratio: 2.73x
+
+结论：基础测试通过。延迟批量编码工作流、cache 复用、新增帧触发重新编码均符合预期。
+
+四、对比测试（--mode compare）结果
+1) 原生视频推理
+- 耗时：18.35s
+- 输出：完整描述音乐比赛舞台、评委席与灯光氛围
+
+2) 延迟批量编码
+- 编码帧数：22（从 30 帧压缩到 22 帧，压缩比 1.36x）
+- 编码耗时：8.52s
+- 总耗时：13.65s
+- 生成耗时：3.56s
+- 输出：与原生推理描述一致，涵盖舞台、观众与评委反应
+
+3) 长度比
+- 延迟/原生：1.15
+
+结论：对比测试通过。延迟批量编码输出与原生推理一致性良好，且总耗时更低。
+
+五、问题与修复记录
+- 模型类不匹配导致加载失败：改用 Qwen2_5_VLForConditionalGeneration
+- 空帧输入：支持从 mp4 提取帧，避免空帧崩溃
+- 编码阶段显存峰值过高：加入 logits_to_keep=1 降低显存
+
+总体结论：延迟批量编码方案通过全部测试，满足指南要求。
