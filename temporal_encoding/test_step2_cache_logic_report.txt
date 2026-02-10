@@ -1,0 +1,18 @@
+============================================================
+TEST Step 2: KVCacheManager Pure Logic
+============================================================
+Report time: 2026-02-10T11:32:32
+  ✓ snapshot/restore correct
+  ✓ clone() independent
+  ✓ discard_snapshot() correct
+  ✓ build_full_attention_mask correct
+  ✓ clear() correct
+  ✓ get_seq_length() correct
+
+[Analysis]
+  All KVCacheManager functions behaved as expected for tuple-format caches.
+  Snapshot/restore preserved stream_state and cache values.
+
+✅ Step 2 PASSED: All KVCacheManager logic verified.
+
+Report saved to: /root/autodl-tmp/diploma_project/temporal_encoding/test_step2_cache_logic_report.txt

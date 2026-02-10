@@ -1,0 +1,26 @@
+============================================================
+TEST Step 5: End-to-End Multi-Frame Temporal Understanding
+============================================================
+Report time: 2026-02-10T11:33:03
+[StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 31.29it/s]
+
+[Test A] Single-frame image mode
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+  Cache info: {'chunks_encoded': 2, 'total_frames': 2, 'cache_seq_length': 183, 'cache_memory_mb': 0.0, 'stream_state': {'last_cache_position': 70, 'rope_deltas': [[-56]]}}
+  Answer: Blue rectangle appears.
+  TTFT=0.030s
+
+[Test B] Video chunk mode (4-frame chunk)
+🔄 Memory Reset.
+  Cache info: {'chunks_encoded': 1, 'total_frames': 4, 'cache_seq_length': 182, 'cache_memory_mb': 0.0, 'stream_state': {'last_cache_position': 61, 'rope_deltas': [[-120]]}}
+  Answer: A blue square.
+  TTFT=0.026s
+
+[Analysis]
+  Test A answer contains blue/square: True
+  Test B executed in 4-frame chunk mode for temporal consistency.
+
+✅ Step 5 PASSED: E2E streaming inference completed.
+
+Report saved to: /root/autodl-tmp/diploma_project/temporal_encoding/test_step5_e2e_report.txt

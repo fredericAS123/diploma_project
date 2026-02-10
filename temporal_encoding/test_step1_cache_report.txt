@@ -1,0 +1,21 @@
+============================================================
+TEST Step 1: Cache + Stream State Snapshot/Restore
+============================================================
+Report time: 2026-02-10T11:32:44
+[StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 29.79it/s]
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+  Append: Chunk 0 encoded (1 frame(s), cache_len=117)
+  Before ask: cache_sig=(117, 0.0), pos=60
+  Answer: The image is white.
+  TTFT=0.055s, Total=0.139s
+  Post-restore append: Chunk 1 encoded (1 frame(s), cache_len=183)
+
+[Analysis]
+  Cache signature before/after ask: (117, 0.0) -> (117, 0.0)
+  Post-restore cache length: 183
+  Stream state and cache remained isolated across QA.
+
+✅ Step 1 PASSED: Snapshot/restore isolates ask() correctly.
+
+Report saved to: /root/autodl-tmp/diploma_project/temporal_encoding/test_step1_cache_report.txt

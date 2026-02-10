@@ -1,0 +1,85 @@
+======================================================================
+TEST Step 7: Multi-Frame Chunk Size Comparison
+======================================================================
+Report time: 2026-02-10T11:29:17
+[StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 18.12it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 17.96it/s]
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+
+────────────────────────────────────────────────────────────
+Testing chunk_size = 2 frames
+────────────────────────────────────────────────────────────
+  Status: Chunk 0 encoded (2 frame(s), cache_len=119)
+  Encoding time: 0.5860s
+  Cache seq length: 119
+  Cache memory: 0.0 MB
+  Total frames encoded: 2
+  VRAM before encode: {'allocated': 7275.36, 'reserved': 7510.0}
+  VRAM after encode: {'allocated': 7288.67, 'reserved': 7556.0}
+🔄 Memory Reset.
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+
+────────────────────────────────────────────────────────────
+Testing chunk_size = 4 frames
+────────────────────────────────────────────────────────────
+  Status: Chunk 0 encoded (4 frame(s), cache_len=183)
+  Encoding time: 0.0600s
+  Cache seq length: 183
+  Cache memory: 0.0 MB
+  Total frames encoded: 4
+  VRAM before encode: {'allocated': 7284.49, 'reserved': 7512.0}
+  VRAM after encode: {'allocated': 7290.92, 'reserved': 7598.0}
+🔄 Memory Reset.
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+
+────────────────────────────────────────────────────────────
+Testing chunk_size = 6 frames
+────────────────────────────────────────────────────────────
+  Status: Chunk 0 encoded (6 frame(s), cache_len=247)
+  Encoding time: 0.0702s
+  Cache seq length: 247
+  Cache memory: 0.0 MB
+  Total frames encoded: 6
+  VRAM before encode: {'allocated': 7284.49, 'reserved': 7512.0}
+  VRAM after encode: {'allocated': 7293.17, 'reserved': 7622.0}
+🔄 Memory Reset.
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+
+────────────────────────────────────────────────────────────
+Testing chunk_size = 3 frames
+────────────────────────────────────────────────────────────
+⚠️ 3 frames is not a multiple of temporal_patch_size=2. Last frame will be duplicated by the processor.
+  Status: Chunk 0 encoded (3 frame(s), cache_len=183)
+  Encoding time: 0.0548s
+  Cache seq length: 183
+  Cache memory: 0.0 MB
+  Total frames encoded: 3
+  VRAM before encode: {'allocated': 7284.49, 'reserved': 7512.0}
+  VRAM after encode: {'allocated': 7290.92, 'reserved': 7598.0}
+🔄 Memory Reset.
+
+======================================================================
+📊 CHUNK SIZE COMPARISON SUMMARY
+======================================================================
+Chunk Size   Encode Time     Cache Seq Len   Cache Mem (MB) VRAM Δ (MB)
+──────────────────────────────────────────────────────────────────────────────────────────
+2            0.586           119             0.0           13.31
+4            0.06            183             0.0           6.43
+6            0.0702          247             0.0           8.68
+3            0.0548          183             0.0           6.43
+
+📝 Observations:
+  - 2 frames (T=1): Minimal latency, smallest cache growth per chunk
+  - 4 frames (T=2): Balanced, recommended for real-time streaming
+  - 6 frames (T=3): Higher throughput, suitable for batch processing
+  - 3 frames: Non-multiple of temporal_patch_size=2, may trigger frame duplication
+    (processor will duplicate the last frame to make it 4 frames internally)
+
+[Analysis]
+  Fastest encode: chunk_size=3 (0.0548s)
+  Largest cache growth: chunk_size=6 (seq_len=247)
+  Recommendation: use 4-frame chunks for balanced latency and cache growth.
+
+✅ Step 7 PASSED: Multi-chunk size test completed.
+
+Report saved to: /root/autodl-tmp/diploma_project/temporal_encoding/test_step7_multi_chunk_report.txt

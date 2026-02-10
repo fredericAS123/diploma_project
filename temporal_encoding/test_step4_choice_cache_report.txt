@@ -1,0 +1,16 @@
+============================================================
+TEST Step 4: ask_choice() Cache Isolation
+============================================================
+Report time: 2026-02-10T11:32:53
+[StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 31.36it/s]
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+  Choice: red
+
+[Analysis]
+  Choice output: red
+  Cache and stream_state remained identical before/after ask_choice.
+
+✅ Step 4 PASSED: ask_choice() cache + stream state isolation verified.
+
+Report saved to: /root/autodl-tmp/diploma_project/temporal_encoding/test_step4_choice_cache_report.txt

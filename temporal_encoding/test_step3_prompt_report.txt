@@ -1,0 +1,15 @@
+============================================================
+TEST Step 3: Prompt Trimming Logic
+============================================================
+Report time: 2026-02-10T11:32:39
+  ✓ Normal vision segment extracted
+  ✓ Fallback passthrough correct
+  ✓ Multi-segment takes first
+  ✓ Empty vision segment correct
+
+[Analysis]
+  _extract_vision_segment behaves correctly across normal, fallback, multi, and empty cases.
+
+✅ Step 3 PASSED: Prompt trimming logic verified.
+
+Report saved to: /root/autodl-tmp/diploma_project/temporal_encoding/test_step3_prompt_report.txt

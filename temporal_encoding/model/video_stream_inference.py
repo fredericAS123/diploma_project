@@ -1,223 +1,241 @@
-import torch
-from transformers import AutoProcessor
+"""
+VideoStreamingInference — Streaming VLM Inference (Chunk-Local / Append 模式)
+
+关键设计：
+  1) 首帧包含 system+user+vision，后续帧仅追加 vision tokens
+  2) Position 由 StreamQwenModel 内部自动跟踪（append 模式 3 分支）
+  3) ask()/ask_choice() 使用 KVCacheManager snapshot/restore，
+     同时保存/恢复模型的 stream_state，防止污染视频缓存
+  4) 累积所有历史 KV Cache，不做 sliding window 或 eviction
+
+Chunk-Local 假设：
+  - ViT 只在 chunk 内建模，跨 chunk 时序由 LLM+KV+RoPE 负责
+  - temporal_patch_size=2，每个 temporal chunk 融合 2 帧
+
+推荐 chunk 大小：
+  - 2 帧 (as_video=True, fps=1-2): 最低延迟，T=1 temporal grid
+  - 4 帧 (as_video=True, fps=2-4): 延迟/质量均衡推荐，T=2
+  - 6-8 帧 (as_video=True, fps=2-4): 更高吞吐，适合准实时
+  - 单帧 image 模式: 最简单但效率较低（1帧被复制为2帧凑对 temporal_patch_size）
+
+注意：
+  - 不再使用 manual_time / VideoMetaCalculator
+  - 若要输入多帧 chunk，请使用 as_video=True，并传入帧列表
+  - 多帧 chunk 的帧数建议为 temporal_patch_size(2) 的倍数，避免被帧填充
+"""
+
 import gc
 import time
+from typing import List, Optional
+
+import torch
+
+from .cache_manager import KVCacheManager
+
 
 class VideoStreamingInference:
-    def __init__(self, model, processor, device="cuda"):
+    def __init__(self, model, processor, device: str = "cuda"):
         self.model = model
         self.processor = processor
         self.device = device
-        self.video_cache = None 
-        self.current_time_step = 0
-        self.current_frame_index = -1
-        self.video_duration_sec = None
-        self.native_temporal_patches = None
-        self.native_fps = 1.0
-        self.native_text_len = None
-        self.last_manual_time = None
-        self.fps = None
-        self.tokens_per_second = getattr(getattr(model, "config", None), "vision_config", None)
-        if self.tokens_per_second is not None:
-            self.tokens_per_second = getattr(self.tokens_per_second, "tokens_per_second", None)
+
+        self.cache_manager = KVCacheManager()
+        self.frame_count = 0      # chunk 计数
+        self.total_frames = 0     # 实际帧数累计
         self._system_prompt_added = False
-        print(f"✅ VideoStreamingInference Engine Initialized (Manual Loop).")
 
-    def set_video_fps(self, fps: float):
-        if fps is not None and fps > 0:
-            self.fps = float(fps)
-
-    def set_video_meta(
-        self,
-        duration_sec: float,
-        temporal_patches: int,
-        native_fps: float = 1.0,
-        text_len: int | None = None,
-    ):
-        if duration_sec is not None and duration_sec > 0:
-            self.video_duration_sec = float(duration_sec)
-        if temporal_patches is not None and temporal_patches > 0:
-            self.native_temporal_patches = int(temporal_patches)
-        if native_fps is not None and native_fps > 0:
-            self.native_fps = float(native_fps)
-        if text_len is not None and text_len > 0:
-            self.native_text_len = int(text_len)
-    def _detach_past(self, past_key_values):
-        if past_key_values is None:
-            return None
-        if hasattr(past_key_values, "get_seq_length"):
-            return past_key_values
-        return tuple(tuple(p.detach() for p in layer) for layer in past_key_values)
-
-    def _get_past_len(self, past_key_values):
-        if past_key_values is None:
-            return 0
-        if hasattr(past_key_values, "get_seq_length"):
-            return past_key_values.get_seq_length()
-        return past_key_values[0][0].shape[-2]
-
-    def _build_full_attention_mask(self, attention_mask, past_len):
-        if past_len is None or past_len == 0:
-            return attention_mask
-        past_mask = torch.ones(
-            (attention_mask.shape[0], past_len),
-            dtype=attention_mask.dtype,
-            device=attention_mask.device,
-        )
-        return torch.cat([past_mask, attention_mask], dim=1)
-
-    def reset(self):
-        self.video_cache = None
-        self.current_time_step = 0
-        self.current_frame_index = -1
-        self.last_manual_time = None
-        self._system_prompt_added = False
-        gc.collect()
-        torch.cuda.empty_cache()
-        print("🔄 Memory Reset.")
-
-    def _compute_manual_time(self, frame_time_sec=None, frame_index=None):
-        if self.tokens_per_second is None:
-            return None
-        if frame_time_sec is not None:
-            if self.fps:
-                self.current_frame_index = int(round(float(frame_time_sec) * float(self.fps)))
-            return int(round(float(frame_time_sec) * self.tokens_per_second))
-        if frame_index is not None and self.fps:
-            self.current_frame_index = int(frame_index)
-            return int(round(float(frame_index) / float(self.fps) * self.tokens_per_second))
-        if self.fps:
-            self.current_frame_index += 1
-            return int(round(float(self.current_frame_index) / float(self.fps) * self.tokens_per_second))
-        return None
-
-    def append_frame(
-        self,
-        image,
-        manual_time=None,
-        text_content="Frame processed.",
-        frame_time_sec=None,
-        frame_index=None,
-        frame_frac=None,
-    ):
-        """Phase 1: Stream Encoding"""
-        # 构造 Prompt
-        messages = [{"role": "user", "content": [{"type": "image", "image": image}, {"type": "text", "text": text_content}]}]
-        text_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
-        
-        if self.video_cache is not None and "<|im_start|>system" in text_prompt:
-             text_prompt = "<|im_start|>user" + text_prompt.split("<|im_start|>user")[-1]
-
-        inputs = self.processor(text=[text_prompt], images=[image], padding=True, return_tensors="pt").to(self.device)
-
-        if (
-            manual_time is None
-            and self.tokens_per_second is not None
-            and self.video_duration_sec
-            and self.native_temporal_patches
-        ):
-            input_ids = inputs.input_ids[0].tolist()
-            vision_start_id = getattr(self.model.config, "vision_start_token_id", 151652)
-            image_token_id = getattr(self.model.config, "image_token_id", 151655)
-            text_len = self.native_text_len
-            for idx, tid in enumerate(input_ids):
-                if tid == vision_start_id and idx + 1 < len(input_ids) and input_ids[idx + 1] == image_token_id:
-                    text_len = text_len if text_len is not None else idx + 1
-                    break
-            if text_len is None:
-                for idx, tid in enumerate(input_ids):
-                    if tid == image_token_id:
-                        text_len = text_len if text_len is not None else idx
-                        break
-
-            temporal_patch_size = getattr(self.model.config.vision_config, "temporal_patch_size", 1)
-            if frame_frac is not None:
-                frac = float(frame_frac)
-            elif frame_time_sec is not None and self.video_duration_sec > 0:
-                frac = float(frame_time_sec) / float(self.video_duration_sec)
-            elif frame_index is not None and self.fps and self.video_duration_sec > 0:
-                frac = (float(frame_index) / float(self.fps)) / float(self.video_duration_sec)
-            else:
-                frac = 0.0
-
-            grid_index = int(round((self.native_temporal_patches - 1) * frac))
-            interval = self.tokens_per_second * (temporal_patch_size / float(self.native_fps))
-            if text_len is not None:
-                manual_time = int(round(text_len + grid_index * interval))
-
-        if manual_time is None:
-            manual_time = self._compute_manual_time(frame_time_sec=frame_time_sec, frame_index=frame_index)
-
-        self.last_manual_time = manual_time
-        if manual_time is not None:
-            self.current_time_step = max(self.current_time_step, int(manual_time))
-        else:
-            self.current_time_step += 1
-        target_t = self.current_time_step
-
-
-        past_len = self._get_past_len(self.video_cache)
-        full_mask = self._build_full_attention_mask(inputs.attention_mask, past_len)
-        model_inputs = {k: v for k, v in inputs.items()}
-        model_inputs["attention_mask"] = full_mask
-        
-        with torch.inference_mode():
-            # 纯 Forward，存入 Memory
-            outputs = self.model(
-                **model_inputs,
-                past_key_values=self.video_cache,
-                manual_time=target_t,
-                use_cache=True
-            )
-            self.video_cache = self._detach_past(outputs.past_key_values)
-            del outputs
-        
-        return f"Frame encoded at T={target_t}"
-
-    def ask(
-        self,
-        question,
-        manual_time=None,
-        max_new_tokens=256,
-        min_new_tokens=1,
-        update_state=False,
-        do_sample=False,
-        temperature=0.7,
-        top_p=0.9,
-    ):
-        """Phase 2: Interaction (Manual Prefill & Decode)"""
-        if manual_time is None:
-            # 默认提问发生在视频之后
-            manual_time = self.current_time_step + 1
-        if self.device.startswith("cuda"):
-            torch.cuda.synchronize()
-        t_start = time.time()
-            
-        # 1. 构造问题 Prompt
-        SYSTEM_PROMPT = (
+        # 统一的系统提示
+        self.system_prompt = (
             "You are a concise video analyst. Answer briefly and directly. "
             "Focus on visible facts only. Avoid speculation, avoid repetition. "
             "Strictly limit the response to at most 60 tokens."
         )
+
+        print("✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).")
+
+    # ── Prompt 处理 ────────────────────────────────────────────
+
+    @staticmethod
+    def _extract_vision_segment(text_prompt: str) -> str:
+        """从 chat template 中裁剪出 <|vision_start|>...<|vision_end|> 片段。"""
+        start_tok = "<|vision_start|>"
+        end_tok = "<|vision_end|>"
+        if start_tok in text_prompt and end_tok in text_prompt:
+            head = text_prompt.split(start_tok, 1)[1]
+            body = head.split(end_tok, 1)[0]
+            return f"{start_tok}{body}{end_tok}"
+        return text_prompt
+
+    def _build_frame_prompt(self, as_video: bool, vision_payload, text_content: str) -> str:
+        if not self._system_prompt_added:
+            messages = [
+                {"role": "system", "content": [{"type": "text", "text": self.system_prompt}]},
+            ]
+            if as_video:
+                messages.append(
+                    {"role": "user", "content": [
+                        {"type": "video", "video": vision_payload},
+                        {"type": "text", "text": text_content},
+                    ]}
+                )
+            else:
+                messages.append(
+                    {"role": "user", "content": [
+                        {"type": "image", "image": vision_payload},
+                        {"type": "text", "text": text_content},
+                    ]}
+                )
+
+            text_prompt = self.processor.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=False
+            )
+            self._system_prompt_added = True
+            return text_prompt
+
+        # 后续帧：仅追加视觉 token（避免重复系统/文本）
+        if as_video:
+            messages = [
+                {"role": "user", "content": [{"type": "video", "video": vision_payload}]}
+            ]
+        else:
+            messages = [
+                {"role": "user", "content": [{"type": "image", "image": vision_payload}]}
+            ]
+        text_prompt = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=False
+        )
+        return self._extract_vision_segment(text_prompt)
+
+    # ── Reset ──────────────────────────────────────────────────
+
+    def reset(self):
+        self.cache_manager.clear()
+        self.frame_count = 0
+        self.total_frames = 0
+        self._system_prompt_added = False
+        if hasattr(self.model, "reset_stream_state"):
+            self.model.reset_stream_state()
+        gc.collect()
+        if self.device.startswith("cuda"):
+            torch.cuda.empty_cache()
+        print("🔄 Memory Reset.")
+
+    # ── 追加帧 / Chunk ─────────────────────────────────────────
+
+    def append_frame(
+        self,
+        image,
+        text_content: str = "Frame processed.",
+        as_video: bool = False,
+        fps: Optional[float] = None,
+    ) -> str:
+        """
+        Phase 1: Stream Encoding (Append)
+
+        Args:
+            image: 单帧 PIL Image；或当 as_video=True 时为帧列表 (List[PIL.Image])
+            text_content: 首帧附带的文本描述（后续帧被忽略）
+            as_video: True → 使用视频 token（推荐多帧 chunk）
+            fps: 采样帧率（仅 as_video=True 时有效）
+        """
+        if as_video and not isinstance(image, (list, tuple)):
+            # 允许单帧视频作为特例
+            image = [image]
+        if (not as_video) and isinstance(image, (list, tuple)):
+            raise ValueError("When passing multiple frames, set as_video=True.")
+
+        # 1) 构造 prompt
+        text_prompt = self._build_frame_prompt(as_video, image, text_content)
+
+        # 2) Processor 输入
+        if as_video:
+            videos_kwargs = {"fps": fps} if fps is not None else None
+            inputs = self.processor(
+                text=[text_prompt],
+                videos=[image],
+                padding=True,
+                return_tensors="pt",
+                **({"videos_kwargs": videos_kwargs} if videos_kwargs is not None else {}),
+            ).to(self.device)
+        else:
+            inputs = self.processor(
+                text=[text_prompt],
+                images=[image],
+                padding=True,
+                return_tensors="pt",
+            ).to(self.device)
+
+        # 3) 构造 Attention Mask (包含 past KV cache 长度)
+        full_mask = self.cache_manager.build_full_attention_mask(
+            inputs.attention_mask,
+            cache_override=self.cache_manager.cache,
+        )
+        model_inputs = {k: v for k, v in inputs.items()}
+        model_inputs["attention_mask"] = full_mask
+
+        # 4) Forward（position 由模型内部自动计算）
+        with torch.inference_mode():
+            outputs = self.model(
+                **model_inputs,
+                past_key_values=self.cache_manager.cache,
+                use_cache=True,
+            )
+            self.cache_manager.cache = self.cache_manager.detach(outputs.past_key_values)
+            del outputs
+
+        self.frame_count += 1
+        n_frames = len(image) if as_video and isinstance(image, (list, tuple)) else 1
+        self.total_frames += n_frames
+        cache_len = self.cache_manager.get_seq_length()
+        return f"Chunk {self.frame_count - 1} encoded ({n_frames} frame(s), cache_len={cache_len})"
+
+    # ── Ask ────────────────────────────────────────────────────
+
+    def ask(
+        self,
+        question: str,
+        max_new_tokens: int = 256,
+        min_new_tokens: int = 1,
+        update_state: bool = False,
+        do_sample: bool = False,
+        temperature: float = 0.7,
+        top_p: float = 0.9,
+    ):
+        """
+        Phase 2: Interaction (Chunk Prefill + Decode)
+
+        - 问题 Prefill → Branch 2 (chunk prefill + offset)
+        - 逐 token Decode → Branch 3 (last_cache_position + 1)
+        """
+        if self.device.startswith("cuda"):
+            torch.cuda.synchronize()
+        t_start = time.time()
+
+        # Snapshot: 保护视频 KV Cache + 模型 stream_state
+        self.cache_manager.snapshot(self.model)
+
+        # 1) 构造问题 Prompt（不重复 system prompt）
         messages = [
-            {"role": "system", "content": [{"type": "text", "text": SYSTEM_PROMPT}]},
-            {"role": "user", "content": [{"type": "text", "text": question}]},
+            {"role": "user", "content": [{"type": "text", "text": question}]}
         ]
-        text_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        # Keep system prompt; do not strip to last user block.
-        
-        inputs = self.processor(text=[text_prompt], images=None, padding=True, return_tensors="pt").to(self.device)
-        
+        text_prompt = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+
+        inputs = self.processor(
+            text=[text_prompt], images=None, padding=True, return_tensors="pt"
+        ).to(self.device)
+
         input_ids = inputs.input_ids
-        
-        # 2. 构造 Attention Mask (必须显式包含 Video 历史)
-        past_len = self._get_past_len(self.video_cache)
-        full_mask = self._build_full_attention_mask(inputs.attention_mask, past_len)
-            
-        # 3. Step A: Prefill (处理问题文本)
-        # 将问题文本一次性输入，计算 KV Cache，且将其位置平移到 manual_time
-        current_cache = self.video_cache # Start with video memory
-        
+
+        # 2) 构造 Attention Mask (包含 Video 历史)
+        full_mask = self.cache_manager.build_full_attention_mask(
+            inputs.attention_mask,
+            cache_override=self.cache_manager.cache,
+        )
+
+        current_cache = self.cache_manager.cache
+
         def _select_token(logits):
             if not do_sample:
                 return torch.argmax(logits, dim=-1).unsqueeze(-1)
@@ -235,42 +253,35 @@ class VideoStreamingInference:
                 return sorted_idx.gather(-1, next_idx)
             return torch.multinomial(probs, num_samples=1)
 
+        # 3) Prefill
         with torch.inference_mode():
             outputs = self.model(
                 input_ids=input_ids,
                 attention_mask=full_mask,
                 past_key_values=current_cache,
-                manual_time=manual_time, # Shift Text to start at manual_time
-                use_cache=True
+                use_cache=True,
             )
-            
-            current_cache = self._detach_past(outputs.past_key_values)
-            # 获取最后一个 token 的 logits 用于预测第一个回复 token
+            current_cache = self.cache_manager.detach(outputs.past_key_values)
             next_token_logits = outputs.logits[:, -1, :]
             next_token = _select_token(next_token_logits)
-            
-        # 4. Step B: Greedy Decoding Loop (逐个生成回复)
-        generated_ids = []
+
+        # TTFT: 首 token 在 prefill 完成后即可确定
+        if self.device.startswith("cuda"):
+            torch.cuda.synchronize()
+        t_first_token = time.time()
+
+        # 4) Decode loop
+        generated_ids: List[int] = []
         max_new_tokens = max(1, int(max_new_tokens))
         min_new_tokens = max(1, int(min_new_tokens))
         min_new_tokens = min(min_new_tokens, max_new_tokens)
         eos_token_id = self.processor.tokenizer.eos_token_id
-        
-        # 维护当前的绝对时间 ID
-        # 问题文本长度
-        prompt_len = input_ids.shape[1]
-        # 回复的起始时间 = manual_time + len(Question)
-        current_token_time = manual_time + prompt_len
-        
+
         curr_input = next_token
         last_next_token_logits = next_token_logits
-        # Mask 也要随之增长
         curr_mask = torch.cat([full_mask, torch.ones((1, 1), device=self.device)], dim=1)
 
-        t_first_token = None
-
         with torch.inference_mode():
-            # First decode step (for TTFT)
             if curr_input.item() == eos_token_id and min_new_tokens > 0:
                 tmp_logits = last_next_token_logits.clone()
                 tmp_logits[0, eos_token_id] = -1e9
@@ -283,21 +294,15 @@ class VideoStreamingInference:
                     input_ids=curr_input,
                     attention_mask=curr_mask,
                     past_key_values=current_cache,
-                    manual_time=current_token_time,
                     use_cache=True,
                 )
 
-                current_cache = self._detach_past(outputs.past_key_values)
+                current_cache = self.cache_manager.detach(outputs.past_key_values)
                 next_token_logits = outputs.logits[:, -1, :]
                 curr_input = _select_token(next_token_logits)
                 last_next_token_logits = next_token_logits
 
-                current_token_time += 1
                 curr_mask = torch.cat([curr_mask, torch.ones((1, 1), device=self.device)], dim=1)
-
-                if self.device.startswith("cuda"):
-                    torch.cuda.synchronize()
-                t_first_token = time.time()
 
             for _ in range(max_new_tokens - 1):
                 if curr_input.item() == eos_token_id:
@@ -312,69 +317,82 @@ class VideoStreamingInference:
                     input_ids=curr_input,
                     attention_mask=curr_mask,
                     past_key_values=current_cache,
-                    manual_time=current_token_time,
-                    use_cache=True
+                    use_cache=True,
                 )
 
-                current_cache = self._detach_past(outputs.past_key_values)
+                current_cache = self.cache_manager.detach(outputs.past_key_values)
                 next_token_logits = outputs.logits[:, -1, :]
                 curr_input = _select_token(next_token_logits)
                 last_next_token_logits = next_token_logits
 
-                current_token_time += 1
                 curr_mask = torch.cat([curr_mask, torch.ones((1, 1), device=self.device)], dim=1)
-                
+
         output_text = self.processor.decode(generated_ids, skip_special_tokens=True)
-        # 可选：更新全局时间轴（默认不更新，避免问答污染流式时间轴）
+
         if update_state:
-            self.current_time_step = max(self.current_time_step, current_token_time)
+            self.cache_manager.cache = current_cache
+            self.cache_manager.discard_snapshot()
+        else:
+            # 恢复 KV Cache + 模型 stream_state
+            self.cache_manager.restore(self.model)
 
         if self.device.startswith("cuda"):
             torch.cuda.synchronize()
         t_end = time.time()
-        if t_first_token is None:
-            t_first_token = t_end
+
         metrics = {
             "ttft": t_first_token - t_start,
             "total_latency": t_end - t_start,
         }
         return output_text, metrics
 
-    def ask_choice(self, question, choices, manual_time=None):
-        """Multiple-choice querying with log-prob scoring (more stable than free decoding)."""
-        if manual_time is None:
-            manual_time = self.current_time_step + 1
+    # ── Ask Choice ─────────────────────────────────────────────
 
-        messages = [{"role": "user", "content": [{"type": "text", "text": question}]}]
-        text_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        # Keep system prompt; do not strip to last user block.
+    def ask_choice(self, question: str, choices: List[str]):
+        """
+        Multiple-choice querying with log-prob scoring.
 
-        inputs = self.processor(text=[text_prompt], images=None, padding=True, return_tensors="pt").to(self.device)
+        对问题做一次 prefill，然后对每个选项逐 token 累加 log-prob。
+        多 token 选项使用独立 cache 副本 + 独立模型状态。
+        """
+        # Snapshot: 保护视频 KV Cache + 模型 stream_state
+        self.cache_manager.snapshot(self.model)
+
+        messages = [
+            {"role": "user", "content": [{"type": "text", "text": question}]}
+        ]
+        text_prompt = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+
+        inputs = self.processor(
+            text=[text_prompt], images=None, padding=True, return_tensors="pt"
+        ).to(self.device)
         input_ids = inputs.input_ids
 
-        past_len = self._get_past_len(self.video_cache)
-        full_mask = self._build_full_attention_mask(inputs.attention_mask, past_len)
+        full_mask = self.cache_manager.build_full_attention_mask(
+            inputs.attention_mask,
+            cache_override=self.cache_manager.cache,
+        )
 
-        current_cache = self.video_cache
+        base_cache = self.cache_manager.cache
 
+        # Prefill 问题部分 → Branch 2
         with torch.inference_mode():
             outputs = self.model(
                 input_ids=input_ids,
                 attention_mask=full_mask,
-                past_key_values=current_cache,
-                manual_time=manual_time,
+                past_key_values=base_cache,
                 use_cache=True,
             )
-
-            current_cache = self._detach_past(outputs.past_key_values)
+            base_cache = self.cache_manager.detach(outputs.past_key_values)
             next_token_logits = outputs.logits[:, -1, :]
 
-        # Log-prob scoring for each choice
+        # 保存 prefill 后的模型状态（每个选项从此分叉）
+        post_prefill_state = self.model.stream_state
+
         tokenizer = self.processor.tokenizer
         log_probs = torch.log_softmax(next_token_logits, dim=-1)
-
-        prompt_len = input_ids.shape[1]
-        base_time = manual_time + prompt_len
 
         best_choice = None
         best_score = None
@@ -384,14 +402,13 @@ class VideoStreamingInference:
             if len(token_ids) == 0:
                 continue
 
-            # Score first token from prefill logits
             score = log_probs[0, token_ids[0]].item()
 
-            # If multi-token, roll forward to score remaining tokens
             if len(token_ids) > 1:
-                temp_cache = current_cache
+                # 独立 cache 副本 + 独立模型状态
+                temp_cache = self.cache_manager.clone(base_cache)
+                self.model.stream_state = post_prefill_state
                 curr_mask = torch.cat([full_mask, torch.ones((1, 1), device=self.device)], dim=1)
-                curr_time = base_time
                 curr_input = torch.tensor([[token_ids[0]]], device=self.device)
 
                 with torch.inference_mode():
@@ -400,20 +417,98 @@ class VideoStreamingInference:
                             input_ids=curr_input,
                             attention_mask=curr_mask,
                             past_key_values=temp_cache,
-                            manual_time=curr_time,
                             use_cache=True,
                         )
-                        temp_cache = self._detach_past(outputs.past_key_values)
+                        temp_cache = self.cache_manager.detach(outputs.past_key_values)
                         logits = outputs.logits[:, -1, :]
                         lp = torch.log_softmax(logits, dim=-1)
                         score += lp[0, tid].item()
 
                         curr_input = torch.tensor([[tid]], device=self.device)
-                        curr_time += 1
-                        curr_mask = torch.cat([curr_mask, torch.ones((1, 1), device=self.device)], dim=1)
+                        curr_mask = torch.cat(
+                            [curr_mask, torch.ones((1, 1), device=self.device)], dim=1
+                        )
 
             if best_score is None or score > best_score:
                 best_score = score
                 best_choice = choice
 
+        # 恢复视频 KV Cache + 模型 stream_state
+        self.cache_manager.restore(self.model)
+
         return best_choice if best_choice is not None else ""
+
+    # ── 便捷方法 ──────────────────────────────────────────────
+
+    def append_video_chunk(
+        self,
+        frames: List,
+        fps: float = 2.0,
+        text_content: str = "Video chunk processed.",
+    ) -> str:
+        """
+        追加多帧视频 chunk 的便捷方法。
+
+        Args:
+            frames: PIL Image 列表，建议帧数为 temporal_patch_size(2) 的倍数
+            fps: 帧率（影响 LLM M-RoPE 中的时间位置编码间距）
+            text_content: 首帧附带的文本描述
+
+        Returns:
+            编码状态字符串
+
+        推荐用法:
+            # 2 帧 chunk (T=1, 最低延迟)
+            engine.append_video_chunk([frame0, frame1], fps=2.0)
+
+            # 4 帧 chunk (T=2, 延迟/质量均衡)
+            engine.append_video_chunk([f0, f1, f2, f3], fps=4.0)
+        """
+        if not isinstance(frames, (list, tuple)) or len(frames) == 0:
+            raise ValueError("frames must be a non-empty list of PIL Images.")
+        if len(frames) % 2 != 0:
+            print(
+                f"⚠️ {len(frames)} frames is not a multiple of temporal_patch_size=2. "
+                f"Last frame will be duplicated by the processor."
+            )
+        return self.append_frame(frames, text_content=text_content, as_video=True, fps=fps)
+
+    def get_cache_info(self) -> dict:
+        """返回当前 KV Cache 状态信息。"""
+        cache_len = self.cache_manager.get_seq_length()
+        mem_mb = 0.0
+        cache = self.cache_manager.cache
+        if cache is not None:
+            if hasattr(cache, "get_seq_length"):
+                # DynamicCache: 估算 = n_layers × 2(K+V) × seq × heads × dim × dtype_bytes
+                try:
+                    for kv in cache.key_cache:
+                        mem_mb += kv.nelement() * kv.element_size()
+                    for kv in cache.value_cache:
+                        mem_mb += kv.nelement() * kv.element_size()
+                except Exception:
+                    pass
+            elif isinstance(cache, (tuple, list)):
+                for layer in cache:
+                    for t in layer:
+                        mem_mb += t.nelement() * t.element_size()
+            mem_mb /= (1024 * 1024)
+
+        stream_state = None
+        if hasattr(self.model, "stream_state"):
+            stream_state = {
+                "last_cache_position": self.model.stream_state["last_cache_position"],
+                "rope_deltas": (
+                    self.model.stream_state["rope_deltas"].tolist()
+                    if self.model.stream_state["rope_deltas"] is not None
+                    else None
+                ),
+            }
+
+        return {
+            "chunks_encoded": self.frame_count,
+            "total_frames": self.total_frames,
+            "cache_seq_length": cache_len,
+            "cache_memory_mb": round(mem_mb, 2),
+            "stream_state": stream_state,
+        }
