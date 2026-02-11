@@ -54,12 +54,12 @@ class TeeWriter:
             w.flush()
 
 
-def _get_vram_mb():
-    """获取当前 CUDA VRAM 使用量（MB）。"""
+def _get_vram_gb():
+    """获取当前 CUDA VRAM 使用量（GB）。"""
     if torch.cuda.is_available():
         torch.cuda.synchronize()
-        allocated = torch.cuda.memory_allocated() / (1024 ** 2)
-        reserved = torch.cuda.memory_reserved() / (1024 ** 2)
+        allocated = torch.cuda.memory_allocated() / (1024 ** 3)
+        reserved = torch.cuda.memory_reserved() / (1024 ** 3)
         return {"allocated": round(allocated, 2), "reserved": round(reserved, 2)}
     return {"allocated": 0.0, "reserved": 0.0}
 
@@ -129,7 +129,7 @@ def test_streaming_mode(frame_stride: int = 1):
     model.eval()
     engine = VideoStreamingInference(model, processor, device)
     
-    vram_init = _get_vram_mb()
+    vram_init = _get_vram_gb()
     print(f"    ✅ VRAM after model load: {vram_init}")
     
     # 3) 流式编码（按 CHUNK_SIZE 分 chunk）
@@ -142,7 +142,7 @@ def test_streaming_mode(frame_stride: int = 1):
         end_idx = min(start_idx + CHUNK_SIZE, len(frames))
         chunk_frames = frames[start_idx:end_idx]
         
-        chunk_fps = video_fps  # 使用原始视频帧率
+        chunk_fps = video_fps / frame_stride  # 使用原始视频帧率/采样步长作为 chunk fps
         status = engine.append_video_chunk(
             chunk_frames,
             fps=chunk_fps,
@@ -154,7 +154,7 @@ def test_streaming_mode(frame_stride: int = 1):
     encode_time = encode_end - encode_start
     
     cache_info = engine.get_cache_info()
-    vram_after_encode = _get_vram_mb()
+    vram_after_encode = _get_vram_gb()
     print(f"\n    ✅ Encoding completed in {encode_time:.3f}s")
     print(f"    Cache info: {cache_info}")
     print(f"    VRAM after encoding: {vram_after_encode}")
@@ -163,7 +163,7 @@ def test_streaming_mode(frame_stride: int = 1):
     print(f"\n[4] Asking question: '{TEST_QUESTION}'")
     answer, metrics = engine.ask(TEST_QUESTION, max_new_tokens=128, update_state=False)
     
-    vram_after_qa = _get_vram_mb()
+    vram_after_qa = _get_vram_gb()
     print(f"\n    ✅ Answer: {answer}")
     print(f"    TTFT: {metrics['ttft']:.3f}s")
     print(f"    Total QA latency: {metrics['total_latency']:.3f}s")
@@ -175,7 +175,7 @@ def test_streaming_mode(frame_stride: int = 1):
         "encoding_time": round(encode_time, 3),
         "frame_stride": frame_stride,
         "cache_seq_length": cache_info["cache_seq_length"],
-        "cache_memory_mb": cache_info["cache_memory_mb"],
+        "cache_memory_gb": cache_info["cache_memory_gb"],
         "vram_init": vram_init,
         "vram_after_encode": vram_after_encode,
         "vram_after_qa": vram_after_qa,
@@ -217,7 +217,7 @@ def test_native_offline_mode(frame_stride: int = 1):
     model = Qwen2_5_VLForConditionalGeneration.from_pretrained(MODEL_PATH, torch_dtype=dtype).to(device)
     model.eval()
     
-    vram_init = _get_vram_mb()
+    vram_init = _get_vram_gb()
     print(f"    ✅ VRAM after model load: {vram_init}")
     
     # 3) 一次性编码完整视频 + 问题
@@ -257,7 +257,7 @@ def test_native_offline_mode(frame_stride: int = 1):
     encode_end = time.time()
     ttft = encode_end - encode_start
     
-    vram_after_prefill = _get_vram_mb()
+    vram_after_prefill = _get_vram_gb()
     print(f"    ✅ Prefill completed, TTFT: {ttft:.3f}s")
     print(f"    VRAM after prefill: {vram_after_prefill}")
     
@@ -288,7 +288,7 @@ def test_native_offline_mode(frame_stride: int = 1):
     generated_tokens = generated_ids[0, input_len:]
     answer = processor.decode(generated_tokens, skip_special_tokens=True)
     
-    vram_after_decode = _get_vram_mb()
+    vram_after_decode = _get_vram_gb()
     print(f"\n    ✅ Answer: {answer}")
     print(f"    TTFT: {ttft:.3f}s")
     print(f"    Total latency: {total_latency:.3f}s")
@@ -341,15 +341,15 @@ def print_comparison(streaming_result, native_result, attempt_logs):
     print(f"  Streaming total QA:      {streaming_result['total_qa_latency']}s")
     print(f"  Native total latency:    {native_result['total_latency']}s")
     
-    print("\n[VRAM Usage (Allocated MB)]")
-    print(f"  Streaming after encode:  {streaming_result['vram_after_encode']['allocated']} MB")
-    print(f"  Native after prefill:    {native_result['vram_after_prefill']['allocated']} MB")
-    print(f"  Streaming after QA:      {streaming_result['vram_after_qa']['allocated']} MB")
-    print(f"  Native after decode:     {native_result['vram_after_decode']['allocated']} MB")
+    print("\n[VRAM Usage (Allocated GB)]")
+    print(f"  Streaming after encode:  {streaming_result['vram_after_encode']['allocated']} GB")
+    print(f"  Native after prefill:    {native_result['vram_after_prefill']['allocated']} GB")
+    print(f"  Streaming after QA:      {streaming_result['vram_after_qa']['allocated']} GB")
+    print(f"  Native after decode:     {native_result['vram_after_decode']['allocated']} GB")
     
     print("\n[Cache Info]")
     print(f"  Streaming cache length:  {streaming_result['cache_seq_length']}")
-    print(f"  Streaming cache memory:  {streaming_result['cache_memory_mb']} MB")
+    print(f"  Streaming cache memory:  {streaming_result['cache_memory_gb']} GB")
     print(f"  Native cache length:     {native_result['cache_seq_length']}")
     
     print("\n[Answers]")
@@ -373,7 +373,7 @@ def print_comparison(streaming_result, native_result, attempt_logs):
     vram_delta = vram_prefill - vram_stream
     print(f"  TTFT speedup (Native/Streaming): {ttft_speedup:.2f}x")
     print(f"  Total latency speedup (Native/Streaming): {total_speedup:.2f}x")
-    print(f"  VRAM delta (Native prefill - Streaming encode): {vram_delta:.2f} MB")
+    print(f"  VRAM delta (Native prefill - Streaming encode): {vram_delta:.2f} GB")
     if streaming_result["frame_stride"] != 1:
         print("  Note: Frame stride > 1 was used to avoid native OOM; results are fair within the same stride.")
     

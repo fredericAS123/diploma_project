@@ -27,7 +27,10 @@ diploma_project/
 │   ├── test_step5_e2e.py                 # GPU 测试：端到端多帧时序理解
 │   ├── test_step6_stream_vs_native.py     # 🔥 GPU 测试：流式 vs 原生离线对比
 │   ├── test_step7_multi_chunk.py          # GPU 测试：多帧 Chunk 规模性能
-│   └── TESTING_PROMPT.md                  # 测试文档与运行指南
+│   ├── test_step8_multi_round_qa.py       # 🆕 GPU 测试：多轮 QA 连续编码验证
+│   ├── test_step9_web_demo.py             # 🆕 GPU 测试：Web Demo 后端集成
+│   ├── TESTING_PROMPT.md                  # 测试文档与运行指南
+│   └── UPDATE_PROMPT_1.md                 # 🆕 Update 1 修改日志与迭代指南
 │
 ├── qwen2_5_vl/                            # 参考代码与分析脚本
 │   ├── configuration_qwen2_5_vl.py        # Qwen2.5-VL 模型配置源码
@@ -45,12 +48,12 @@ diploma_project/
 │   └── task5_stream_absolute_time_report.txt     # 绝对时间实验报告
 │
 └── web_demo/                              # Web 演示界面
-    ├── main.py                            # FastAPI 入口
-    ├── Qwen_inference.py                  # 推理封装
+    ├── main.py                            # Gradio 启动入口 (port 6006)
+    ├── Qwen_inference.py                  # 🔄 推理封装（已适配新 API，无 manual_time）
+    ├── webui_gradio.py                    # 🔄 Gradio Web UI（chunk 编码 + KV Cache 状态显示）
     ├── RoPE_learning.py                   # RoPE 学习脚本
     ├── test_Qwen.py                       # 快速测试
-    ├── webui_gradio.py                    # Gradio Web UI
-    └── webui_Qwen2_5_3B.py               # 3B 模型 Web UI
+    └── webui_Qwen2_5_3B.py               # 3B 模型 Web UI（旧版，参考用）
 ```
 
 ---
@@ -204,6 +207,16 @@ manager.clear()                            # 释放内存
 - **修复：** 移动到 prefill 完成后立即记录
 - **影响：** TTFT 指标不准确（包含了一次 decode 延迟）
 
+### Bug 4 (Medium): `cache_memory_gb` 始终为 0.0 [Update 1]
+- **问题：** transformers ≥ 4.50 的 `DynamicCache` 不再有 `key_cache`/`value_cache` 属性
+- **修复：** 新增 `_measure_cache_bytes()` 方法，按优先级尝试 3 种内部结构
+- **影响：** 所有测试报告中 cache 内存显示为 0
+
+### 优化 1 (Quality): 后续 chunk prompt 结构包裹 [Update 1]
+- **问题：** 后续帧追加裸 vision token，缺少对话结构标记（OOD）
+- **优化：** 新增 `_extract_user_vision_turn()`，后续 chunk 包裹 `<|im_start|>user\n...<|im_end|>\n`
+- **效果：** token 分布更接近训练时分布，减少质量降质
+
 ---
 
 ## 📊 推荐 Chunk 配置
@@ -233,10 +246,27 @@ python test_step3_prompt.py
 python test_step1_cache.py
 python test_step5_e2e.py
 
-# 4. 🔥 运行核心对比测试
+# 4. 🆕 多轮 QA + Web Demo 集成测试
+python test_step8_multi_round_qa.py
+python test_step9_web_demo.py
+
+# 5. 🔥 运行核心对比测试
 python test_step6_stream_vs_native.py
+
+# 6. 🆕 启动 Web Demo
+cd ../web_demo
+python main.py  # → http://localhost:6006
 ```
 
 ---
 
-**Last Updated:** 2026-02-10
+## 📋 更新日志
+
+| 版本 | 日期 | 内容 |
+|------|------|------|
+| v1.0 | 2026-02-10 | 核心实现 + 3 bug 修复 + 7 测试文件 |
+| v1.1 (Update 1) | 2026-02-11 | cache_memory_gb 修复、prompt 结构优化、多轮 QA 测试、Web Demo 集成 |
+
+---
+
+**Last Updated:** 2026-02-11

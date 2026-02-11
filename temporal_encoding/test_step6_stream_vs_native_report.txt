@@ -1,7 +1,7 @@
 ======================================================================
 TEST Step 6: Streaming vs Native Offline Inference Comparison
 ======================================================================
-Report time: 2026-02-10T11:28:14
+Report time: 2026-02-11T18:41:19
 Video: /root/autodl-tmp/diploma_project/temporal_encoding/1.mp4
 Model: /root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct
 Stream duration: 2.0s
@@ -21,34 +21,34 @@ Attempt with frame stride = 1
 
 [2] Initializing streaming engine...
 [StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 28.86it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 18.53it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 18.46it/s]
 ✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
-    ✅ VRAM after model load: {'allocated': 7275.36, 'reserved': 7510.0}
+    ✅ VRAM after model load: {'allocated': 7.1, 'reserved': 7.33}
 
 [3] Streaming encoding (4-frame chunks)...
     Chunk 1/12: Chunk 0 encoded (4 frame(s), cache_len=2450)
-    Chunk 2/12: Chunk 1 encoded (4 frame(s), cache_len=4844)
-    Chunk 3/12: Chunk 2 encoded (4 frame(s), cache_len=7238)
-    Chunk 4/12: Chunk 3 encoded (4 frame(s), cache_len=9632)
-    Chunk 5/12: Chunk 4 encoded (4 frame(s), cache_len=12026)
-    Chunk 6/12: Chunk 5 encoded (4 frame(s), cache_len=14420)
-    Chunk 7/12: Chunk 6 encoded (4 frame(s), cache_len=16814)
-    Chunk 8/12: Chunk 7 encoded (4 frame(s), cache_len=19208)
-    Chunk 9/12: Chunk 8 encoded (4 frame(s), cache_len=21602)
-    Chunk 10/12: Chunk 9 encoded (4 frame(s), cache_len=23996)
-    Chunk 11/12: Chunk 10 encoded (4 frame(s), cache_len=26390)
-    Chunk 12/12: Chunk 11 encoded (4 frame(s), cache_len=28784)
+    Chunk 2/12: Chunk 1 encoded (4 frame(s), cache_len=4849)
+    Chunk 3/12: Chunk 2 encoded (4 frame(s), cache_len=7248)
+    Chunk 4/12: Chunk 3 encoded (4 frame(s), cache_len=9647)
+    Chunk 5/12: Chunk 4 encoded (4 frame(s), cache_len=12046)
+    Chunk 6/12: Chunk 5 encoded (4 frame(s), cache_len=14445)
+    Chunk 7/12: Chunk 6 encoded (4 frame(s), cache_len=16844)
+    Chunk 8/12: Chunk 7 encoded (4 frame(s), cache_len=19243)
+    Chunk 9/12: Chunk 8 encoded (4 frame(s), cache_len=21642)
+    Chunk 10/12: Chunk 9 encoded (4 frame(s), cache_len=24041)
+    Chunk 11/12: Chunk 10 encoded (4 frame(s), cache_len=26440)
+    Chunk 12/12: Chunk 11 encoded (4 frame(s), cache_len=28839)
 
-    ✅ Encoding completed in 9.709s
-    Cache info: {'chunks_encoded': 12, 'total_frames': 48, 'cache_seq_length': 28784, 'cache_memory_mb': 0.0, 'stream_state': {'last_cache_position': 631, 'rope_deltas': [[-2346]]}}
-    VRAM after encoding: {'allocated': 8298.07, 'reserved': 9724.0}
+    ✅ Encoding completed in 10.252s
+    Cache info: {'chunks_encoded': 12, 'total_frames': 48, 'cache_seq_length': 28839, 'cache_memory_gb': 0.9901, 'stream_state': {'last_cache_position': 686, 'rope_deltas': [[-2346]]}}
+    VRAM after encoding: {'allocated': 8.1, 'reserved': 9.5}
 
 [4] Asking question: 'Describe what is happening in this video.'
 
-    ✅ Answer: A person is walking outside at night, talking to the camera. The background shows a street with buildings, trees, and a parked car. The person is wearing a white shirt and a cap.
-    TTFT: 0.091s
-    Total QA latency: 0.721s
-    VRAM after QA: {'allocated': 8296.95, 'reserved': 10162.0}
+    ✅ Answer: A person is talking to the camera while walking outside at night. The background shows a street with buildings, trees, and a parked car. The person is wearing a white shirt and a cap.
+    TTFT: 0.096s
+    Total QA latency: 0.737s
+    VRAM after QA: {'allocated': 8.1, 'reserved': 9.93}
 
 ======================================================================
 🎬 NATIVE OFFLINE MODE TEST
@@ -58,12 +58,12 @@ Attempt with frame stride = 1
     ✅ Loaded 48 frames (fps=24.00, total=3.04s)
 
 [2] Initializing native model...
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 29.34it/s]
-    ✅ VRAM after model load: {'allocated': 7284.49, 'reserved': 7512.0}
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 18.32it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 18.25it/s]
+    ✅ VRAM after model load: {'allocated': 7.11, 'reserved': 7.34}
 
 [3] Encoding full video + question...
-    ✅ Prefill completed, TTFT: 8.919s
-    VRAM after prefill: {'allocated': 17138.56, 'reserved': 18434.0}
+    ✅ Prefill completed, TTFT: 9.064s
+    VRAM after prefill: {'allocated': 16.74, 'reserved': 18.0}
 
 [4] Generating answer...
 ⚠️  Native offline mode OOM. Retrying with higher frame stride...
@@ -81,28 +81,28 @@ Attempt with frame stride = 2
 
 [2] Initializing streaming engine...
 [StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 30.12it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 31.18it/s]
 ✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
-    ✅ VRAM after model load: {'allocated': 7285.14, 'reserved': 21996.0}
+    ✅ VRAM after model load: {'allocated': 7.11, 'reserved': 21.48}
 
 [3] Streaming encoding (4-frame chunks)...
     Chunk 1/6: Chunk 0 encoded (4 frame(s), cache_len=2449)
-    Chunk 2/6: Chunk 1 encoded (4 frame(s), cache_len=4843)
-    Chunk 3/6: Chunk 2 encoded (4 frame(s), cache_len=7237)
-    Chunk 4/6: Chunk 3 encoded (4 frame(s), cache_len=9631)
-    Chunk 5/6: Chunk 4 encoded (4 frame(s), cache_len=12025)
-    Chunk 6/6: Chunk 5 encoded (4 frame(s), cache_len=14419)
+    Chunk 2/6: Chunk 1 encoded (4 frame(s), cache_len=4848)
+    Chunk 3/6: Chunk 2 encoded (4 frame(s), cache_len=7247)
+    Chunk 4/6: Chunk 3 encoded (4 frame(s), cache_len=9646)
+    Chunk 5/6: Chunk 4 encoded (4 frame(s), cache_len=12045)
+    Chunk 6/6: Chunk 5 encoded (4 frame(s), cache_len=14444)
 
-    ✅ Encoding completed in 4.189s
-    Cache info: {'chunks_encoded': 6, 'total_frames': 24, 'cache_seq_length': 14419, 'cache_memory_mb': 0.0, 'stream_state': {'last_cache_position': 342, 'rope_deltas': [[-2346]]}}
-    VRAM after encoding: {'allocated': 7792.62, 'reserved': 22018.0}
+    ✅ Encoding completed in 4.177s
+    Cache info: {'chunks_encoded': 6, 'total_frames': 24, 'cache_seq_length': 14444, 'cache_memory_gb': 0.4959, 'stream_state': {'last_cache_position': 367, 'rope_deltas': [[-2346]]}}
+    VRAM after encoding: {'allocated': 7.61, 'reserved': 21.5}
 
 [4] Asking question: 'Describe what is happening in this video.'
 
-    ✅ Answer: A person is walking outside at night, talking to the camera. The camera is shaky and moves around the person. The person is wearing a white shirt and a black cap. The background shows a street with buildings and trees. The person is talking and moving their mouth.
-    TTFT: 0.050s
-    Total QA latency: 0.912s
-    VRAM after QA: {'allocated': 7792.41, 'reserved': 22018.0}
+    ✅ Answer: A person is walking outside at night. They are wearing a white shirt with a brown and orange design on the front. The person is talking and moving their head from side to side. The background shows a street with buildings, trees, and a parked car. The person is also holding a phone in their right hand.
+    TTFT: 0.049s
+    Total QA latency: 1.088s
+    VRAM after QA: {'allocated': 7.61, 'reserved': 21.5}
 
 ======================================================================
 🎬 NATIVE OFFLINE MODE TEST
@@ -112,56 +112,56 @@ Attempt with frame stride = 2
     ✅ Loaded 24 frames (fps=24.00, total=3.04s)
 
 [2] Initializing native model...
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 31.11it/s]
-    ✅ VRAM after model load: {'allocated': 7284.49, 'reserved': 7512.0}
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 31.39it/s]
+    ✅ VRAM after model load: {'allocated': 7.11, 'reserved': 7.34}
 
 [3] Encoding full video + question...
-    ✅ Prefill completed, TTFT: 4.164s
-    VRAM after prefill: {'allocated': 12216.29, 'reserved': 16394.0}
+    ✅ Prefill completed, TTFT: 4.141s
+    VRAM after prefill: {'allocated': 11.93, 'reserved': 16.01}
 
 [4] Generating answer...
 
     ✅ Answer: The video appears to be taken at night, with the subject moving through an urban environment. The background shows buildings and street signs illuminated by artificial lighting, suggesting it might be a commercial or residential area. The subject is wearing a white shirt with a brown and orange design on the front. The camera angle is close-up, focusing primarily on the upper body of the person as they move forward. The movement is somewhat shaky, indicating that the video might have been recorded with a handheld device. The surroundings include trees and parked cars, adding to the urban setting.
-    TTFT: 4.164s
-    Total latency: 10.041s
-    VRAM after decode: {'allocated': 12216.4, 'reserved': 16396.0}
+    TTFT: 4.141s
+    Total latency: 10.109s
+    VRAM after decode: {'allocated': 11.93, 'reserved': 16.01} GB
 
 ======================================================================
 📊 COMPARISON REPORT
 ======================================================================
 
 [Encoding Performance]
-  Streaming encoding time: 4.189s
-  Native prefill time:     4.164s
+  Streaming encoding time: 4.177s
+  Native prefill time:     4.141s
 
 [Frame Sampling]
   Streaming frame stride:  2
   Native frame stride:     2
 
 [QA Performance]
-  Streaming TTFT:          0.05s
-  Native TTFT:             4.164s
-  Streaming total QA:      0.912s
-  Native total latency:    10.041s
+  Streaming TTFT:          0.049s
+  Native TTFT:             4.141s
+  Streaming total QA:      1.088s
+  Native total latency:    10.109s
 
-[VRAM Usage (Allocated MB)]
-  Streaming after encode:  7792.62 MB
-  Native after prefill:    12216.29 MB
-  Streaming after QA:      7792.41 MB
-  Native after decode:     12216.4 MB
+[VRAM Usage (Allocated GB)]
+  Streaming after encode:  7.61 GB
+  Native after prefill:    11.93 GB
+  Streaming after QA:      7.61 GB
+  Native after decode:     11.93 GB
 
 [Cache Info]
-  Streaming cache length:  14419
-  Streaming cache memory:  0.0 MB
+  Streaming cache length:  14444
+  Streaming cache memory:  0.4959 GB
   Native cache length:     14381
 
 [Answers]
-  Streaming: A person is walking outside at night, talking to the camera. The camera is shaky and moves around th...
+  Streaming: A person is walking outside at night. They are wearing a white shirt with a brown and orange design ...
   Native:    The video appears to be taken at night, with the subject moving through an urban environment. The ba...
 
 [Conversation Log]
   Question: Describe what is happening in this video.
-  Streaming Answer: A person is walking outside at night, talking to the camera. The camera is shaky and moves around the person. The person is wearing a white shirt and a black cap. The background shows a street with buildings and trees. The person is talking and moving their mouth.
+  Streaming Answer: A person is walking outside at night. They are wearing a white shirt with a brown and orange design on the front. The person is talking and moving their head from side to side. The background shows a street with buildings, trees, and a parked car. The person is also holding a phone in their right hand.
   Native Answer: The video appears to be taken at night, with the subject moving through an urban environment. The background shows buildings and street signs illuminated by artificial lighting, suggesting it might be a commercial or residential area. The subject is wearing a white shirt with a brown and orange design on the front. The camera angle is close-up, focusing primarily on the upper body of the person as they move forward. The movement is somewhat shaky, indicating that the video might have been recorded with a handheld device. The surroundings include trees and parked cars, adding to the urban setting.
 
 [Retry/Iteration Log]
@@ -171,9 +171,9 @@ Attempt with frame stride = 2
   - Stride 2: native OK
 
 [Analysis]
-  TTFT speedup (Native/Streaming): 83.28x
-  Total latency speedup (Native/Streaming): 11.01x
-  VRAM delta (Native prefill - Streaming encode): 4423.67 MB
+  TTFT speedup (Native/Streaming): 84.51x
+  Total latency speedup (Native/Streaming): 9.29x
+  VRAM delta (Native prefill - Streaming encode): 4.32 MB
   Note: Frame stride > 1 was used to avoid native OOM; results are fair within the same stride.
 
 ======================================================================

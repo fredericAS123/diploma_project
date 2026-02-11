@@ -1,7 +1,7 @@
 """
 Step 3: Prompt 裁剪逻辑测试（无需 GPU）
 
-验证 _extract_vision_segment 正确裁剪 chat template。
+验证 _extract_vision_segment 和 _extract_user_vision_turn 正确裁剪 chat template。
 """
 import os
 import sys
@@ -49,6 +49,9 @@ def main():
             print("=" * 60)
             print(f"Report time: {datetime.now().isoformat(timespec='seconds')}")
 
+            # ── _extract_vision_segment tests ──
+            print("\n[Part A] _extract_vision_segment")
+
             # Case 1: 正常 vision segment
             text = "<|im_start|>user\nhello<|vision_start|>XYZ<|vision_end|>\n<|im_end|>"
             seg = VideoStreamingInference._extract_vision_segment(text)
@@ -73,10 +76,44 @@ def main():
             assert seg4 == "<|vision_start|><|vision_end|>", f"❌ Empty segment: {seg4}"
             print("  ✓ Empty vision segment correct")
 
-            print("\n[Analysis]")
-            print("  _extract_vision_segment behaves correctly across normal, fallback, multi, and empty cases.")
+            # ── _extract_user_vision_turn tests ──
+            print("\n[Part B] _extract_user_vision_turn (prompt structure optimization)")
 
-            print("\n✅ Step 3 PASSED: Prompt trimming logic verified.")
+            # Case 5: 正常 user turn 包裹
+            text5 = "<|im_start|>system\nsys<|im_end|>\n<|im_start|>user\nhello<|vision_start|>IMG_TOKENS<|vision_end|>world<|im_end|>\n"
+            turn5 = VideoStreamingInference._extract_user_vision_turn(text5)
+            expected5 = "<|im_start|>user\n<|vision_start|>IMG_TOKENS<|vision_end|><|im_end|>\n"
+            assert turn5 == expected5, f"❌ Got: {repr(turn5)}"
+            print("  ✓ User turn with vision extracted correctly (with im_start/im_end)")
+
+            # Case 6: 无 vision token 的 fallback → 原文返回
+            text6 = "plain text without vision"
+            turn6 = VideoStreamingInference._extract_user_vision_turn(text6)
+            assert turn6 == text6, f"❌ Fallback failed: {turn6}"
+            print("  ✓ Fallback passthrough for non-vision text")
+
+            # Case 7: 验证后续帧包裹结构包含正确的特殊 token
+            text7 = "<|im_start|>user\n<|vision_start|>VID_DATA<|vision_end|><|im_end|>\n"
+            turn7 = VideoStreamingInference._extract_user_vision_turn(text7)
+            assert "<|im_start|>user" in turn7, f"❌ Missing im_start user: {turn7}"
+            assert "<|im_end|>" in turn7, f"❌ Missing im_end: {turn7}"
+            assert "<|vision_start|>VID_DATA<|vision_end|>" in turn7, f"❌ Missing vision: {turn7}"
+            print("  ✓ Wrapped turn preserves all structural tokens")
+
+            # Case 8: 验证后续帧不包含系统提示
+            text8 = "<|im_start|>system\nYou are helpful<|im_end|>\n<|im_start|>user\n<|vision_start|>FRAMES<|vision_end|><|im_end|>\n"
+            turn8 = VideoStreamingInference._extract_user_vision_turn(text8)
+            assert "system" not in turn8.split("user", 1)[-1], f"❌ System prompt leaked: {turn8}"
+            assert "You are helpful" not in turn8, f"❌ System content leaked: {turn8}"
+            print("  ✓ Wrapped turn does NOT contain system prompt")
+
+            print("\n[Analysis]")
+            print("  _extract_vision_segment: 4/4 cases passed (backward compatible)")
+            print("  _extract_user_vision_turn: 4/4 cases passed (new optimization)")
+            print("  Subsequent chunks now wrapped in <|im_start|>user...im_end> structure,")
+            print("  reducing OOD effect from bare vision tokens.")
+
+            print("\n✅ Step 3 PASSED: Prompt trimming logic verified (original + optimized).")
             print(f"\nReport saved to: {REPORT_PATH}")
         finally:
             sys.stdout = original_stdout

@@ -1,0 +1,93 @@
+================================================================================
+TEST Step 10: Maximum Frame Capacity Test (RTX 4090 24GB)
+================================================================================
+Report time: 2026-02-11T20:05:41
+Chunk size: 4 frames
+Device: CUDA
+Video path: /root/autodl-tmp/diploma_project/temporal_encoding/202208312002.mp4
+
+[Initialization] Loading model...
+[StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 28.42it/s]
+  ✅ Model loaded. VRAM (model only): {'allocated': 7.1, 'reserved': 7.33}
+
+[Video Info]
+  Resolution: 1920×1080
+  FPS: 30.31 (effective: 30.31 with stride=1)
+  Total frames: 6068
+  Duration: 200.21s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Testing: 1920×1080 (native)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+══════════════════════════════════════════════════════════════════════
+Testing resolution (native): 1920×1080
+══════════════════════════════════════════════════════════════════════
+
+[Attempt 1] Testing 10 chunks (target 40 frames, actual 40 frames)...
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+  Progress: 10/10 chunks, Cache: 53939, VRAM: 8.97GB
+  ✅ SUCCESS: 10 chunks (40 frames, padded 0)
+     Encode time: 22.489s
+     Cache seq length: 53939
+     Cache memory: 1.8518 GB
+     VRAM peak: 8.97 GB allocated, 12.13 GB reserved
+
+[Attempt 2] Testing 20 chunks (target 80 frames, actual 80 frames)...
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+  Progress: 10/20 chunks, Cache: 53939, VRAM: 8.97GB
+  Progress: 20/20 chunks, Cache: 107829, VRAM: 10.82GB
+  ✅ SUCCESS: 20 chunks (80 frames, padded 0)
+     Encode time: 57.668s
+     Cache seq length: 107829
+     Cache memory: 3.7020 GB
+     VRAM peak: 10.82 GB allocated, 18.09 GB reserved
+
+[Attempt 3] Testing 30 chunks (target 120 frames, actual 120 frames)...
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+  Progress: 10/30 chunks, Cache: 53939, VRAM: 8.97GB
+  Progress: 20/30 chunks, Cache: 107829, VRAM: 10.82GB
+  Progress: 30/30 chunks, Cache: 161719, VRAM: 12.67GB
+  ✅ SUCCESS: 30 chunks (120 frames, padded 0)
+     Encode time: 106.584s
+     Cache seq length: 161719
+     Cache memory: 5.5522 GB
+     VRAM peak: 12.67 GB allocated, 22.89 GB reserved
+
+[Attempt 4] Testing 40 chunks (target 160 frames, actual 160 frames)...
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+  Progress: 10/40 chunks, Cache: 53939, VRAM: 8.97GB
+  Progress: 20/40 chunks, Cache: 107829, VRAM: 10.82GB
+  Progress: 30/40 chunks, Cache: 161719, VRAM: 12.67GB
+  ❌ OOM at 40 chunks (160 frames)
+  Last successful: 30 chunks (120 frames)
+
+================================================================================
+📊 MAXIMUM FRAME CAPACITY SUMMARY
+================================================================================
+
+Resolution           Max Frames   Encode Time     Cache Len    Cache Mem    VRAM Peak (A/R)
+─────────────────────────────────────────────────────────────────────────────────────────────────────────
+1920×1080 (native)   120          106.584s        161719       5.5522 GB    12.67/22.89 GB
+
+[Key Findings]
+  • Highest capacity: 1920×1080 (native) with 120 frames
+  • 1920×1080 (native): 1.13 frames/sec encoding throughput
+
+[Memory Efficiency]
+  • 1920×1080 (native): 0.0509 GB per megapixel
+
+[Recommendations]
+  • For real-time streaming (24 fps target):
+
+  • Model baseline VRAM: 7.10 GB
+  • Chunk size used: 4 frames
+  • Frame stride: 1
+  • Recommendation: Use smaller resolution for longer videos if needed
+
+================================================================================
+✅ Step 10 PASSED: Maximum frame capacity test completed.
+================================================================================
+
+Report saved to: /root/autodl-tmp/diploma_project/temporal_encoding/test_step10_max_frames_report.txt

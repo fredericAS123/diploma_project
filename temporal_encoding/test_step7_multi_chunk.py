@@ -47,12 +47,12 @@ class TeeWriter:
             w.flush()
 
 
-def _get_vram_mb():
-    """获取当前 CUDA VRAM 使用量（MB）。"""
+def _get_vram_gb():
+    """获取当前 CUDA VRAM 使用量（GB）。"""
     if torch.cuda.is_available():
         torch.cuda.synchronize()
-        allocated = torch.cuda.memory_allocated() / (1024 ** 2)
-        reserved = torch.cuda.memory_reserved() / (1024 ** 2)
+        allocated = torch.cuda.memory_allocated() / (1024 ** 3)
+        reserved = torch.cuda.memory_reserved() / (1024 ** 3)
         return {"allocated": round(allocated, 2), "reserved": round(reserved, 2)}
     return {"allocated": 0.0, "reserved": 0.0}
 
@@ -76,7 +76,7 @@ def test_chunk_size(engine: VideoStreamingInference, chunk_size: int):
     frames = [_make_colored_frame(colors[i % len(colors)], f"Frame {i+1}") for i in range(chunk_size)]
     
     # 编码
-    vram_before = _get_vram_mb()
+    vram_before = _get_vram_gb()
     start = time.time()
     if torch.cuda.is_available():
         torch.cuda.synchronize()
@@ -90,7 +90,7 @@ def test_chunk_size(engine: VideoStreamingInference, chunk_size: int):
     if torch.cuda.is_available():
         torch.cuda.synchronize()
     end = time.time()
-    vram_after = _get_vram_mb()
+    vram_after = _get_vram_gb()
     
     encode_time = end - start
     cache_info = engine.get_cache_info()
@@ -98,7 +98,7 @@ def test_chunk_size(engine: VideoStreamingInference, chunk_size: int):
     print(f"  Status: {status}")
     print(f"  Encoding time: {encode_time:.4f}s")
     print(f"  Cache seq length: {cache_info['cache_seq_length']}")
-    print(f"  Cache memory: {cache_info['cache_memory_mb']} MB")
+    print(f"  Cache memory: {cache_info['cache_memory_gb']} GB")
     print(f"  Total frames encoded: {cache_info['total_frames']}")
     print(f"  VRAM before encode: {vram_before}")
     print(f"  VRAM after encode: {vram_after}")
@@ -107,7 +107,7 @@ def test_chunk_size(engine: VideoStreamingInference, chunk_size: int):
         "chunk_size": chunk_size,
         "encode_time": round(encode_time, 4),
         "cache_seq_length": cache_info["cache_seq_length"],
-        "cache_memory_mb": cache_info["cache_memory_mb"],
+        "cache_memory_gb": cache_info["cache_memory_gb"],
         "vram_before": vram_before,
         "vram_after": vram_after,
     }
@@ -161,12 +161,12 @@ def main():
             print("\n" + "=" * 70)
             print("📊 CHUNK SIZE COMPARISON SUMMARY")
             print("=" * 70)
-            print(f"{'Chunk Size':<12} {'Encode Time':<15} {'Cache Seq Len':<15} {'Cache Mem (MB)'} {'VRAM Δ (MB)'}")
+            print(f"{'Chunk Size':<12} {'Encode Time':<15} {'Cache Seq Len':<15} {'Cache Mem (GB)'} {'VRAM Δ (GB)'}")
             print("─" * 90)
             for r in results:
                 vram_delta = r["vram_after"]["allocated"] - r["vram_before"]["allocated"]
                 print(
-                    f"{r['chunk_size']:<12} {r['encode_time']:<15} {r['cache_seq_length']:<15} {r['cache_memory_mb']:<13} {vram_delta:.2f}"
+                    f"{r['chunk_size']:<12} {r['encode_time']:<15} {r['cache_seq_length']:<15} {r['cache_memory_gb']:<13} {vram_delta:.2f}"
                 )
 
             print("\n📝 Observations:")

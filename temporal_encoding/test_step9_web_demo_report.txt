@@ -1,0 +1,56 @@
+======================================================================
+TEST Step 9: Web Demo Backend Integration Test
+======================================================================
+Report time: 2026-02-11T18:39:52
+
+[1] Initializing QwenInferenceWrapper...
+Loading StreamQwenModel from: /root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct ...
+[StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|#####     | 1/2 [00:01<00:01,  1.53s/it]Loading checkpoint shards: 100%|##########| 2/2 [00:03<00:00,  1.53s/it]Loading checkpoint shards: 100%|##########| 2/2 [00:03<00:00,  1.53s/it]
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+✅ StreamQwenModel + VideoStreamingInference ready.
+  ✓ QwenInferenceWrapper initialized successfully
+
+[2] Testing process_frame() (single image)...
+  Status: Chunk 0 encoded (1 frame(s), cache_len=116)
+  ✓ process_frame() works correctly
+  Cache info: {'chunks_encoded': 1, 'total_frames': 1, 'cache_seq_length': 116, 'cache_memory_gb': 0.004, 'stream_state': {'last_cache_position': 59, 'rope_deltas': [[-56]]}}
+  ✓ cache_memory_gb = 0.0040 GB (fix verified)
+
+[3] Testing process_video_chunk()...
+  Status: Chunk 1 encoded (4 frame(s), cache_len=251)
+  Cache info: {'chunks_encoded': 2, 'total_frames': 5, 'cache_seq_length': 251, 'cache_memory_gb': 0.0086, 'stream_state': {'last_cache_position': 74, 'rope_deltas': [[-56]]}}
+  ✓ Cache grew: 116 → 251
+
+[4] Testing ask_question()...
+  Answer: Red.
+  TTFT: 0.033s, Total: 0.067s
+  ✓ ask_question() returns valid response and metrics
+  ✓ Cache restored correctly after QA
+
+[5] Testing backward compatibility (manual_time kwarg ignored)...
+  Answer: The image is a solid red color.
+  ✓ Legacy manual_time kwarg ignored without error
+
+[6] Testing reset()...
+🔄 Memory Reset.
+  Cache info after reset: {'chunks_encoded': 0, 'total_frames': 0, 'cache_seq_length': 0, 'cache_memory_gb': 0.0, 'stream_state': {'last_cache_position': -1, 'rope_deltas': None}}
+  ✓ reset() clears all state correctly
+
+[7] Testing full pipeline: chunk→ask→chunk→ask...
+  Round 1: A green screen. (TTFT=0.024s)
+  Round 2: Green, yellow. (TTFT=0.044s)
+  Final cache: {'chunks_encoded': 2, 'total_frames': 4, 'cache_seq_length': 188, 'cache_memory_gb': 0.0065, 'stream_state': {'last_cache_position': 75, 'rope_deltas': [[-56]]}}
+  ✓ Full pipeline works: chunk→ask→chunk→ask
+
+======================================================================
+✅ Step 9 PASSED: Web Demo backend integration verified.
+   - QwenInferenceWrapper init ✓
+   - process_frame / process_video_chunk ✓
+   - ask_question (with metrics + backward compat) ✓
+   - cache_memory_gb > 0 ✓
+   - reset() ✓
+   - Multi-round pipeline ✓
+======================================================================
+
+Report saved to: /root/autodl-tmp/diploma_project/temporal_encoding/test_step9_web_demo_report.txt

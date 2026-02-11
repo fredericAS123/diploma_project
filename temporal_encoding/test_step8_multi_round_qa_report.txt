@@ -1,0 +1,76 @@
+======================================================================
+TEST Step 8: Multi-Round QA (Encode→Ask→Continue Encode→Ask Again)
+======================================================================
+Report time: 2026-02-11T18:36:19
+[StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 30.89it/s]
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+
+============================================================
+📍 Phase 1: Encode red circles → Ask about color
+============================================================
+  Encode: Chunk 0 encoded (2 frame(s), cache_len=118)
+  Cache info: {'chunks_encoded': 1, 'total_frames': 2, 'cache_seq_length': 118, 'cache_memory_gb': 0.0041, 'stream_state': {'last_cache_position': 61, 'rope_deltas': [[-56]]}}
+  ✓ cache_memory_gb = 0.0041 GB (fix #1 verified)
+
+  Q1: What color is the shape you see?
+  A1: The shape is red.
+  TTFT=0.058s, Total=0.143s
+  Cache after QA (should match pre-QA): {'chunks_encoded': 1, 'total_frames': 2, 'cache_seq_length': 118, 'cache_memory_gb': 0.0041, 'stream_state': {'last_cache_position': 61, 'rope_deltas': [[-56]]}}
+  ✓ Cache restored correctly after QA round 1
+
+============================================================
+📍 Phase 2: Continue encoding blue squares → Ask about all shapes
+============================================================
+  Encode: Chunk 1 encoded (2 frame(s), cache_len=189)
+  Cache info: {'chunks_encoded': 2, 'total_frames': 4, 'cache_seq_length': 189, 'cache_memory_gb': 0.0065, 'stream_state': {'last_cache_position': 76, 'rope_deltas': [[-56]]}}
+  ✓ Cache grew: 118 → 189
+  ✓ stream_state.last_cache_position increased: 61 → 76
+
+  Q2: Describe all shapes you have seen so far, including their colors.
+  A2: A red circle and a blue square have been seen.
+  TTFT=0.026s, Total=0.199s
+  ✓ Cache restored correctly after QA round 2
+
+============================================================
+📍 Phase 3: Continue encoding green triangles → Ask about last shape
+============================================================
+  Encode: Chunk 2 encoded (2 frame(s), cache_len=260)
+  Cache info: {'chunks_encoded': 3, 'total_frames': 6, 'cache_seq_length': 260, 'cache_memory_gb': 0.0089, 'stream_state': {'last_cache_position': 91, 'rope_deltas': [[-56]]}}
+  ✓ Cache grew: 189 → 260
+
+  Q3: What shape and color appeared most recently?
+  A3: Green triangle.
+  TTFT=0.026s, Total=0.072s
+  ✓ Cache restored correctly after QA round 3
+
+======================================================================
+📊 MULTI-ROUND QA SUMMARY
+======================================================================
+
+[Cache Growth]
+  phase1: cache_len=118, cache_gb=0.0041 GB
+  phase2: cache_len=189, cache_gb=0.0065 GB
+  phase3: cache_len=260, cache_gb=0.0089 GB
+
+[Answers]
+  Round 1: The shape is red.
+  Round 2: A red circle and a blue square have been seen.
+  Round 3: Green triangle.
+
+[Latency]
+  Round 1 TTFT: 0.058s
+  Round 2 TTFT: 0.026s
+  Round 3 TTFT: 0.026s
+
+[Semantic Validation]
+  Phase 1 mentions 'red': True ✓
+  Phase 2 mentions 'blue': True ✓
+  Phase 3 mentions 'green/triangle': True ✓
+  cache_memory_gb monotonically increasing: True ✓
+
+======================================================================
+✅ Step 8 PASSED: Multi-round QA with cache continuity verified.
+======================================================================
+
+Report saved to: /root/autodl-tmp/diploma_project/temporal_encoding/test_step8_multi_round_qa_report.txt

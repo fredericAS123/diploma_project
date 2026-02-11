@@ -66,6 +66,30 @@ class VideoStreamingInference:
             return f"{start_tok}{body}{end_tok}"
         return text_prompt
 
+    @staticmethod
+    def _extract_user_vision_turn(text_prompt: str) -> str:
+        """
+        从 chat template 中提取用户 turn 中的视觉内容，保留对话结构标记。
+
+        返回: <|im_start|>user\n<|vision_start|>...<|vision_end|><|im_end|>\n
+        这样后续 chunk 的 token 分布与首帧相似，减少 OOD 降质。
+        """
+        im_start = "<|im_start|>"
+        im_end = "<|im_end|>"
+        vision_start = "<|vision_start|>"
+        vision_end = "<|vision_end|>"
+
+        # 找到包含 vision 的 user turn
+        if vision_start in text_prompt and vision_end in text_prompt:
+            # 提取 vision segment
+            head = text_prompt.split(vision_start, 1)[1]
+            body = head.split(vision_end, 1)[0]
+            vision_seg = f"{vision_start}{body}{vision_end}"
+            # 包裹在 user turn 结构中
+            return f"{im_start}user\n{vision_seg}{im_end}\n"
+
+        return text_prompt
+
     def _build_frame_prompt(self, as_video: bool, vision_payload, text_content: str) -> str:
         if not self._system_prompt_added:
             messages = [
@@ -92,7 +116,8 @@ class VideoStreamingInference:
             self._system_prompt_added = True
             return text_prompt
 
-        # 后续帧：仅追加视觉 token（避免重复系统/文本）
+        # 后续帧：保留 <|im_start|>user\n...<|im_end|> 对话结构包裹
+        # 减少裸 vision token 带来的 OOD 效应
         if as_video:
             messages = [
                 {"role": "user", "content": [{"type": "video", "video": vision_payload}]}
@@ -104,7 +129,7 @@ class VideoStreamingInference:
         text_prompt = self.processor.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=False
         )
-        return self._extract_vision_segment(text_prompt)
+        return self._extract_user_vision_turn(text_prompt)
 
     # ── Reset ──────────────────────────────────────────────────
 
@@ -473,26 +498,75 @@ class VideoStreamingInference:
             )
         return self.append_frame(frames, text_content=text_content, as_video=True, fps=fps)
 
+    @staticmethod
+    def _measure_cache_bytes(cache) -> int:
+        """
+        计算 KV Cache 的总显存占用（字节）。
+
+        兼容 3 种 DynamicCache 内部结构:
+          ① transformers ≥ 4.50: cache.layers → list[DynamicLayer]
+             每层有 .key_state / .value_state (Tensor)
+          ② transformers < 4.50: cache.key_cache / cache.value_cache → list[Tensor]
+          ③ Tuple-of-tuples: ((K, V), (K, V), ...)
+        """
+        if cache is None:
+            return 0
+
+        total = 0
+
+        # ─── DynamicCache 路径 ───
+        if hasattr(cache, "get_seq_length"):
+            try:
+                # 策略 1: 新版 .layers 属性（每层是 DynamicLayer 对象）
+                if hasattr(cache, "layers") and len(getattr(cache, "layers", [])) > 0:
+                    for layer in cache.layers:
+                        for attr in ("key_state", "value_state"):
+                            t = getattr(layer, attr, None)
+                            if t is not None and hasattr(t, "nelement"):
+                                total += t.nelement() * t.element_size()
+                    if total > 0:
+                        return total
+
+                # 策略 2: 旧版 key_cache / value_cache 列表
+                for attr in ("key_cache", "value_cache"):
+                    lst = getattr(cache, attr, None)
+                    if lst is not None:
+                        for t in lst:
+                            if hasattr(t, "nelement"):
+                                total += t.nelement() * t.element_size()
+                if total > 0:
+                    return total
+
+                # 策略 3: 通用回退 — 通过 __getitem__ 逐层提取
+                try:
+                    n = len(cache)
+                    for i in range(n):
+                        layer_kv = cache[i]
+                        if isinstance(layer_kv, (tuple, list)):
+                            for t in layer_kv:
+                                if hasattr(t, "nelement"):
+                                    total += t.nelement() * t.element_size()
+                except (TypeError, IndexError):
+                    pass
+            except Exception:
+                pass
+            return total
+
+        # ─── Tuple-of-tuples 路径 ───
+        if isinstance(cache, (tuple, list)):
+            for layer in cache:
+                if isinstance(layer, (tuple, list)):
+                    for t in layer:
+                        if hasattr(t, "nelement"):
+                            total += t.nelement() * t.element_size()
+        return total
+
     def get_cache_info(self) -> dict:
         """返回当前 KV Cache 状态信息。"""
         cache_len = self.cache_manager.get_seq_length()
-        mem_mb = 0.0
         cache = self.cache_manager.cache
-        if cache is not None:
-            if hasattr(cache, "get_seq_length"):
-                # DynamicCache: 估算 = n_layers × 2(K+V) × seq × heads × dim × dtype_bytes
-                try:
-                    for kv in cache.key_cache:
-                        mem_mb += kv.nelement() * kv.element_size()
-                    for kv in cache.value_cache:
-                        mem_mb += kv.nelement() * kv.element_size()
-                except Exception:
-                    pass
-            elif isinstance(cache, (tuple, list)):
-                for layer in cache:
-                    for t in layer:
-                        mem_mb += t.nelement() * t.element_size()
-            mem_mb /= (1024 * 1024)
+        mem_bytes = self._measure_cache_bytes(cache)
+        mem_gb = mem_bytes / (1024 ** 3)
 
         stream_state = None
         if hasattr(self.model, "stream_state"):
@@ -509,6 +583,6 @@ class VideoStreamingInference:
             "chunks_encoded": self.frame_count,
             "total_frames": self.total_frames,
             "cache_seq_length": cache_len,
-            "cache_memory_mb": round(mem_mb, 2),
+            "cache_memory_gb": round(mem_gb, 4),
             "stream_state": stream_state,
         }

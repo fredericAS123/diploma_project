@@ -1,7 +1,7 @@
 ============================================================
 TEST Step 2: KVCacheManager Pure Logic
 ============================================================
-Report time: 2026-02-10T11:32:32
+Report time: 2026-02-11T18:35:58
   ✓ snapshot/restore correct
   ✓ clone() independent
   ✓ discard_snapshot() correct

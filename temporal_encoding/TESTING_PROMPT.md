@@ -18,6 +18,7 @@
 ### 性能与对比测试（需要 GPU + 模型 + 视频）
 - **test_step6_stream_vs_native.py** - 🔥 **核心测试**：流式 vs 原生离线推理全面对比
 - **test_step7_multi_chunk.py** - 多帧 Chunk 规模性能测试
+- **test_step10_max_frames.py** - 原生分辨率最大编码帧数容量测试（真实视频 202208312002.mp4）
 
 ---
 
@@ -78,7 +79,7 @@
 ### 5. 🔥 流式 vs 原生离线推理对比（核心需求）
 
 **测试场景：**
-使用真实视频 `/root/autodl-tmp/temporal_encoding/1.mp4` (~3s, 30fps)
+使用真实视频 `/root/autodl-tmp/diploma_project/temporal_encoding/1.mp4` (~3s, 30fps)
 
 **流式模式：**
 1. 按 4 帧 chunk 逐步编码至 2 秒
@@ -118,6 +119,22 @@
 
 ---
 
+### 7. 原生分辨率最大编码帧数容量测试
+使用真实视频在原生分辨率下进行流式编码，逐步增加 chunk 数量直至 OOM 或视频帧耗尽。
+
+**测试视频：** `/root/autodl-tmp/diploma_project/temporal_encoding/202208312002.mp4`
+
+**测量指标：**
+- 最大成功编码帧数
+- 总编码时间
+- KV Cache 序列长度 / 内存占用
+- VRAM 峰值（allocated / reserved）
+- EOF/填充帧统计
+
+**相关测试：** test_step10
+
+---
+
 ## 🚀 运行指南
 
 ### 环境要求
@@ -133,7 +150,7 @@ opencv-python (test_step6 需要)
 
 **模型与数据：**
 - 模型路径：`/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct`
-- 测试视频：`/root/autodl-tmp/temporal_encoding/1.mp4`
+- 测试视频：`/root/autodl-tmp/diploma_project/temporal_encoding/1.mp4`（Step 6）; `/root/autodl-tmp/diploma_project/temporal_encoding/202208312002.mp4`（Step 10 原生分辨率）
 - GPU：推荐 >= 8GB VRAM
 
 **环境变量（可选）：**
@@ -168,6 +185,7 @@ python test_step6_stream_vs_native.py
 #### 4️⃣ 性能测试
 ```bash
 python test_step7_multi_chunk.py
+python test_step10_max_frames.py
 ```
 
 #### 5️⃣ 完整测试套件
@@ -180,7 +198,8 @@ python test_step1_cache.py && \
 python test_step4_choice_cache.py && \
 python test_step5_e2e.py && \
 python test_step6_stream_vs_native.py && \
-python test_step7_multi_chunk.py
+python test_step7_multi_chunk.py && \
+python test_step10_max_frames.py
 ```
 
 ---

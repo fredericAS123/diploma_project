@@ -1,15 +1,26 @@
 ============================================================
 TEST Step 3: Prompt Trimming Logic
 ============================================================
-Report time: 2026-02-10T11:32:39
+Report time: 2026-02-11T18:36:06
+
+[Part A] _extract_vision_segment
   ✓ Normal vision segment extracted
   ✓ Fallback passthrough correct
   ✓ Multi-segment takes first
   ✓ Empty vision segment correct
 
-[Analysis]
-  _extract_vision_segment behaves correctly across normal, fallback, multi, and empty cases.
+[Part B] _extract_user_vision_turn (prompt structure optimization)
+  ✓ User turn with vision extracted correctly (with im_start/im_end)
+  ✓ Fallback passthrough for non-vision text
+  ✓ Wrapped turn preserves all structural tokens
+  ✓ Wrapped turn does NOT contain system prompt
 
-✅ Step 3 PASSED: Prompt trimming logic verified.
+[Analysis]
+  _extract_vision_segment: 4/4 cases passed (backward compatible)
+  _extract_user_vision_turn: 4/4 cases passed (new optimization)
+  Subsequent chunks now wrapped in <|im_start|>user...im_end> structure,
+  reducing OOD effect from bare vision tokens.
+
+✅ Step 3 PASSED: Prompt trimming logic verified (original + optimized).
 
 Report saved to: /root/autodl-tmp/diploma_project/temporal_encoding/test_step3_prompt_report.txt
