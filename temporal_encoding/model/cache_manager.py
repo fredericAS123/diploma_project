@@ -10,20 +10,44 @@ KV Cache Manager for Streaming VLM Inference.
   - 通过 snapshot()/restore() 显式保护。
   - snapshot/restore 同时保存 model.stream_state，确保 mRoPE 位置追踪一致。
 
-参考 StreamingVLM 的 KV cache 管理模式（全量累积，不做 eviction）。
+KV Cache 淘汰集成 (v2):
+  通过 KVCacheEvictor 实现 3 级递进淘汰策略，
+  在 append_frame 后自动检查并触发淘汰，控制显存增长。
+  参考 StreamingVLM (MIT-HAN-Lab) + StreamingLLM + LOOK-M。
+
+注意: 淘汰操作不修改 model._last_cache_position —— 
+      在 append 模式下，剩余 token 的 position ID 不变，
+      新 token 仍从 _last_cache_position + 1 继续编号。
 """
 
 import copy
 import torch
+from typing import Optional
+
+from .kv_cache_eviction import KVCacheEvictor, EvictionConfig
 
 
 class KVCacheManager:
-    """管理 KV 缓存生命周期，支持 snapshot/restore（含模型流式状态）。"""
+    """管理 KV 缓存生命周期，支持 snapshot/restore + KV Cache 淘汰。"""
 
-    def __init__(self):
+    def __init__(self, eviction_config: Optional[EvictionConfig] = None):
         self._cache = None
         self._snapshot = None
         self._snapshot_stream_state = None
+        self._snapshot_tracker_state = None
+
+        # ── 淘汰器 ──
+        self._evictor: Optional[KVCacheEvictor] = None
+        if eviction_config is not None:
+            self._evictor = KVCacheEvictor(eviction_config)
+
+    @property
+    def evictor(self) -> Optional[KVCacheEvictor]:
+        return self._evictor
+
+    @property
+    def eviction_enabled(self) -> bool:
+        return self._evictor is not None
 
     # ── 属性 ────────────────────────────────────────────────────
 
@@ -85,7 +109,7 @@ class KVCacheManager:
 
     def snapshot(self, model=None):
         """
-        保存当前缓存的深拷贝 + 模型流式状态。
+        保存当前缓存的深拷贝 + 模型流式状态 + token tracker 状态。
         在 ask()/ask_choice() 之前调用以保护视频缓存。
 
         Args:
@@ -96,6 +120,12 @@ class KVCacheManager:
             self._snapshot_stream_state = model.stream_state
         else:
             self._snapshot_stream_state = None
+
+        # 保存 token tracker 状态
+        if self._evictor is not None and self._evictor.token_tracker is not None:
+            self._snapshot_tracker_state = self._evictor.token_tracker.snapshot()
+        else:
+            self._snapshot_tracker_state = None
 
     def restore(self, model=None):
         """
@@ -115,10 +145,72 @@ class KVCacheManager:
                 model.stream_state = self._snapshot_stream_state
             self._snapshot_stream_state = None
 
+            # 恢复 token tracker 状态
+            if (
+                self._evictor is not None
+                and self._evictor.token_tracker is not None
+                and self._snapshot_tracker_state is not None
+            ):
+                self._evictor.token_tracker.restore(self._snapshot_tracker_state)
+            self._snapshot_tracker_state = None
+
     def discard_snapshot(self):
         """丢弃快照但不恢复（当 update_state=True 时使用）。"""
         self._snapshot = None
         self._snapshot_stream_state = None
+
+    # ── KV Cache Eviction ─────────────────────────────────────
+
+    def set_first_chunk_info(self, first_chunk_cache_len: int):
+        """记录首 chunk 的 cache 长度, 用于自动确定 sink_size。"""
+        if self._evictor is not None:
+            self._evictor.set_first_chunk_info(first_chunk_cache_len)
+
+    def evict_if_needed(self) -> dict:
+        """
+        检查 KV Cache 是否超过预算，超过则执行淘汰。
+
+        返回淘汰信息字典。不修改 model._last_cache_position。
+        在 append 模式下，position ID 单调递增，淘汰不影响后续编码。
+
+        Returns:
+            dict with keys: evicted (bool), tokens_before, tokens_after, tokens_removed
+        """
+        if self._evictor is None or self._cache is None:
+            return {"evicted": False}
+
+        seq_len = self.get_seq_length()
+        if not self._evictor.should_evict(seq_len):
+            return {"evicted": False, "seq_len": seq_len}
+
+        self._cache = self._evictor.evict(self._cache, seq_len)
+        new_len = self.get_seq_length()
+
+        return {
+            "evicted": True,
+            "tokens_before": seq_len,
+            "tokens_after": new_len,
+            "tokens_removed": seq_len - new_len,
+        }
+
+    def track_tokens(self, input_ids: torch.LongTensor, is_new_chunk: bool = True):
+        """
+        将 input_ids 中的 token 类型信息追加到 token tracker。
+
+        Args:
+            input_ids: [batch=1, seq_len] 的 token ID
+            is_new_chunk: 是否为新的 chunk
+        """
+        if self._evictor is not None and self._evictor.token_tracker is not None:
+            self._evictor.token_tracker.append_tokens(
+                input_ids, self._evictor.config, is_new_chunk=is_new_chunk
+            )
+
+    def get_eviction_stats(self) -> dict:
+        """获取淘汰统计信息。"""
+        if self._evictor is not None:
+            return self._evictor.get_stats()
+        return {}
 
     # ── Attention Mask ──────────────────────────────────────────
 
@@ -161,3 +253,6 @@ class KVCacheManager:
         self._cache = None
         self._snapshot = None
         self._snapshot_stream_state = None
+        self._snapshot_tracker_state = None
+        if self._evictor is not None:
+            self._evictor.reset()

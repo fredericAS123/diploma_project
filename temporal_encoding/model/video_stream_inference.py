@@ -6,7 +6,8 @@ VideoStreamingInference — Streaming VLM Inference (Chunk-Local / Append 模式
   2) Position 由 StreamQwenModel 内部自动跟踪（append 模式 3 分支）
   3) ask()/ask_choice() 使用 KVCacheManager snapshot/restore，
      同时保存/恢复模型的 stream_state，防止污染视频缓存
-  4) 累积所有历史 KV Cache，不做 sliding window 或 eviction
+  4) (v2) 支持 KV Cache 淘汰策略，控制显存增长，实现无限长度视频流
+     参考 StreamingVLM (MIT-HAN-Lab) + StreamingLLM + LOOK-M
 
 Chunk-Local 假设：
   - ViT 只在 chunk 内建模，跨 chunk 时序由 LLM+KV+RoPE 负责
@@ -31,18 +32,26 @@ from typing import List, Optional
 import torch
 
 from .cache_manager import KVCacheManager
+from .kv_cache_eviction import EvictionConfig
 
 
 class VideoStreamingInference:
-    def __init__(self, model, processor, device: str = "cuda"):
+    def __init__(
+        self,
+        model,
+        processor,
+        device: str = "cuda",
+        eviction_config: Optional[EvictionConfig] = None,
+    ):
         self.model = model
         self.processor = processor
         self.device = device
 
-        self.cache_manager = KVCacheManager()
+        self.cache_manager = KVCacheManager(eviction_config=eviction_config)
         self.frame_count = 0      # chunk 计数
         self.total_frames = 0     # 实际帧数累计
         self._system_prompt_added = False
+        self._chunk_counter = 0   # 淘汰间隔计数器
 
         # 统一的系统提示
         self.system_prompt = (
@@ -51,7 +60,16 @@ class VideoStreamingInference:
             "Strictly limit the response to at most 60 tokens."
         )
 
-        print("✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).")
+        eviction_str = "OFF"
+        if eviction_config is not None:
+            sink_str = "auto" if eviction_config.sink_size == 0 else str(eviction_config.sink_size)
+            win_str = "auto" if eviction_config.window_size == 0 else str(eviction_config.window_size)
+            eviction_str = (
+                f"ON (max={eviction_config.max_cache_tokens}, "
+                f"sink={sink_str}, window={win_str})"
+            )
+        print(f"✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).")
+        print(f"   KV Cache Eviction: {eviction_str}")
 
     # ── Prompt 处理 ────────────────────────────────────────────
 
@@ -138,6 +156,7 @@ class VideoStreamingInference:
         self.frame_count = 0
         self.total_frames = 0
         self._system_prompt_added = False
+        self._chunk_counter = 0
         if hasattr(self.model, "reset_stream_state"):
             self.model.reset_stream_state()
         gc.collect()
@@ -207,6 +226,44 @@ class VideoStreamingInference:
             )
             self.cache_manager.cache = self.cache_manager.detach(outputs.past_key_values)
             del outputs
+
+        # 5) Token Tracking (Level 2/3 需要)
+        if "input_ids" in inputs:
+            self.cache_manager.track_tokens(inputs["input_ids"], is_new_chunk=True)
+
+        # 6) 首 chunk 自动检测 sink_size
+        cache_len_after = self.cache_manager.get_seq_length()
+        if self.cache_manager.eviction_enabled and self.frame_count == 0:
+            self.cache_manager.set_first_chunk_info(cache_len_after)
+            evictor = self.cache_manager.evictor
+            if evictor is not None:
+                print(
+                    f"   \U0001f4cd Auto-sink detected: first chunk = {cache_len_after} tokens"
+                    f" (sink={evictor.effective_sink_size}, window={evictor.effective_window_size})"
+                )
+            self._prev_cache_len = cache_len_after
+        elif self.cache_manager.eviction_enabled:
+            # 更新 chunk 统计
+            chunk_tokens = cache_len_after - getattr(self, '_prev_cache_len', 0)
+            if chunk_tokens > 0 and self.cache_manager.evictor is not None:
+                self.cache_manager.evictor.update_chunk_stats(chunk_tokens)
+            self._prev_cache_len = cache_len_after
+
+        # 7) KV Cache Eviction (如果启用)
+        eviction_info = {"evicted": False}
+        if self.cache_manager.eviction_enabled:
+            self._chunk_counter += 1
+            evictor = self.cache_manager.evictor
+            if evictor is not None:
+                interval = evictor.config.eviction_interval
+                if self._chunk_counter % interval == 0:
+                    eviction_info = self.cache_manager.evict_if_needed()
+                    if eviction_info.get("evicted"):
+                        print(
+                            f"  ✂️ Eviction: {eviction_info['tokens_before']} → "
+                            f"{eviction_info['tokens_after']} tokens "
+                            f"(-{eviction_info['tokens_removed']})"
+                        )
 
         self.frame_count += 1
         n_frames = len(image) if as_video and isinstance(image, (list, tuple)) else 1
@@ -562,7 +619,7 @@ class VideoStreamingInference:
         return total
 
     def get_cache_info(self) -> dict:
-        """返回当前 KV Cache 状态信息。"""
+        """返回当前 KV Cache 状态信息（含淘汰统计）。"""
         cache_len = self.cache_manager.get_seq_length()
         cache = self.cache_manager.cache
         mem_bytes = self._measure_cache_bytes(cache)
@@ -579,10 +636,17 @@ class VideoStreamingInference:
                 ),
             }
 
-        return {
+        info = {
             "chunks_encoded": self.frame_count,
             "total_frames": self.total_frames,
             "cache_seq_length": cache_len,
             "cache_memory_gb": round(mem_gb, 4),
             "stream_state": stream_state,
         }
+
+        # 淘汰统计
+        eviction_stats = self.cache_manager.get_eviction_stats()
+        if eviction_stats:
+            info["eviction_stats"] = eviction_stats
+
+        return info
