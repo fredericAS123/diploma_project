@@ -248,8 +248,9 @@ class KVCacheEvictor:
         self._effective_sink_size: Optional[int] = None
         # 自动计算的 window 大小
         self._effective_window_size: Optional[int] = None
-        # 每 chunk 的平均 token 数
-        self._avg_tokens_per_chunk: Optional[float] = None
+        # 每 chunk 的平均 token 数（不含首 chunk）
+        self._avg_chunk_tokens: Optional[float] = None
+        self._avg_chunk_count: int = 0
         # 首 chunk 已记录标志
         self._first_chunk_recorded: bool = False
 
@@ -274,7 +275,9 @@ class KVCacheEvictor:
         else:
             self._effective_sink_size = self.config.sink_size
 
-        self._avg_tokens_per_chunk = float(first_chunk_cache_len)
+        # 平均 chunk token 统计仅记录后续 chunk（不含首 chunk）
+        self._avg_chunk_tokens = None
+        self._avg_chunk_count = 0
 
         if self.config.window_size == 0:
             self._effective_window_size = max(
@@ -285,18 +288,23 @@ class KVCacheEvictor:
 
         # 安全检查
         total_reserved = self._effective_sink_size + self._effective_window_size
-        if total_reserved >= self.config.max_cache_tokens:
-            # window 自动缩减以确保有淘汰空间
+        if total_reserved > self.config.max_cache_tokens:
+            # 若超预算则缩减 window；等于预算是允许的
             self._effective_window_size = max(
-                0, self.config.max_cache_tokens - self._effective_sink_size - 1
+                0, self.config.max_cache_tokens - self._effective_sink_size
             )
 
     def update_chunk_stats(self, new_chunk_tokens: int):
-        """更新每 chunk 平均 token 数。"""
-        if self._avg_tokens_per_chunk is not None:
-            self._avg_tokens_per_chunk = (
-                0.8 * self._avg_tokens_per_chunk + 0.2 * new_chunk_tokens
-            )
+        """更新每 chunk 平均 token 数（简单平均，不含首 chunk）。"""
+        if new_chunk_tokens <= 0:
+            return
+        if self._avg_chunk_tokens is None or self._avg_chunk_count == 0:
+            self._avg_chunk_tokens = float(new_chunk_tokens)
+            self._avg_chunk_count = 1
+            return
+        total = self._avg_chunk_tokens * self._avg_chunk_count + float(new_chunk_tokens)
+        self._avg_chunk_count += 1
+        self._avg_chunk_tokens = total / self._avg_chunk_count
 
     @property
     def effective_sink_size(self) -> int:
@@ -575,29 +583,43 @@ class KVCacheEvictor:
 
     @staticmethod
     def _get_cache_device(cache) -> torch.device:
+        # 新版 transformers DynamicCache: cache.layers[i].keys / values
+        if hasattr(cache, "layers") and len(getattr(cache, "layers", [])) > 0:
+            layer0 = cache.layers[0]
+            if hasattr(layer0, "keys") and hasattr(layer0.keys, "device"):
+                return layer0.keys.device
+
+        # 旧结构兼容: cache.key_cache / value_cache
         if hasattr(cache, "key_cache") and len(cache.key_cache) > 0:
             t = cache.key_cache[0]
             if hasattr(t, "device"):
                 return t.device
+
         return torch.device("cpu")
 
     @staticmethod
     def _apply_index_select(cache, indices: torch.Tensor):
-        """
-        对 DynamicCache 执行 index_select 淘汰。
-
-        参考 StreamingVLM prune_id_and_kv_cache():
-          past_key_values.key_cache[i] = torch.index_select(k_layer, 2, indices_tensor)
-        """
-        if not hasattr(cache, "key_cache") or not hasattr(cache, "value_cache"):
+        """对 cache 执行 index_select 淘汰，兼容新版/旧版 DynamicCache 结构。"""
+        # 新版 transformers DynamicCache: cache.layers[i].keys / values
+        if hasattr(cache, "layers") and len(getattr(cache, "layers", [])) > 0:
+            for layer in cache.layers:
+                if hasattr(layer, "keys") and hasattr(layer, "values"):
+                    k = layer.keys
+                    v = layer.values
+                    if hasattr(k, "shape") and k.dim() >= 3:
+                        layer.keys = torch.index_select(k, 2, indices)
+                        layer.values = torch.index_select(v, 2, indices)
             return cache
 
-        for i in range(len(cache.key_cache)):
-            k = cache.key_cache[i]
-            v = cache.value_cache[i]
-            if hasattr(k, "shape") and k.dim() >= 3:
-                cache.key_cache[i] = torch.index_select(k, 2, indices)
-                cache.value_cache[i] = torch.index_select(v, 2, indices)
+        # 旧结构兼容: cache.key_cache / value_cache
+        if hasattr(cache, "key_cache") and hasattr(cache, "value_cache"):
+            for i in range(len(cache.key_cache)):
+                k = cache.key_cache[i]
+                v = cache.value_cache[i]
+                if hasattr(k, "shape") and k.dim() >= 3:
+                    cache.key_cache[i] = torch.index_select(k, 2, indices)
+                    cache.value_cache[i] = torch.index_select(v, 2, indices)
+            return cache
 
         return cache
 
@@ -613,7 +635,8 @@ class KVCacheEvictor:
         self.stats = EvictionStats()
         self._effective_sink_size = None
         self._effective_window_size = None
-        self._avg_tokens_per_chunk = None
+        self._avg_chunk_tokens = None
+        self._avg_chunk_count = 0
         self._first_chunk_recorded = False
         if self.token_tracker is not None:
             self.token_tracker.clear()
@@ -625,7 +648,7 @@ class KVCacheEvictor:
             "effective_sink_size": self.effective_sink_size,
             "effective_window_size": self.effective_window_size,
             "avg_tokens_per_chunk": (
-                round(self._avg_tokens_per_chunk) if self._avg_tokens_per_chunk else None
+                round(self._avg_chunk_tokens) if self._avg_chunk_tokens else None
             ),
             "last_eviction": {
                 "seq_len_before": self.stats.last_eviction_seq_len_before,

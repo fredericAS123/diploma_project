@@ -428,6 +428,183 @@ class VideoStreamingInference:
         }
         return output_text, metrics
 
+    def ask_stream(
+        self,
+        question: str,
+        max_new_tokens: int = 256,
+        min_new_tokens: int = 1,
+        update_state: bool = False,
+        do_sample: bool = False,
+        temperature: float = 0.7,
+        top_p: float = 0.9,
+    ):
+        """
+        流式问答：按 token 增量产出文本，最后返回完整 metrics。
+
+        Yields:
+            {
+              "type": "token", "delta": str, "text": str, "ttft": float|None
+            }
+            {
+              "type": "final", "text": str, "metrics": {...}
+            }
+        """
+        if self.device.startswith("cuda"):
+            torch.cuda.synchronize()
+        t_start = time.time()
+
+        # Snapshot: 保护视频 KV Cache + 模型 stream_state
+        self.cache_manager.snapshot(self.model)
+
+        messages = [{"role": "user", "content": [{"type": "text", "text": question}]}]
+        text_prompt = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+
+        inputs = self.processor(
+            text=[text_prompt], images=None, padding=True, return_tensors="pt"
+        ).to(self.device)
+
+        input_ids = inputs.input_ids
+        full_mask = self.cache_manager.build_full_attention_mask(
+            inputs.attention_mask,
+            cache_override=self.cache_manager.cache,
+        )
+        current_cache = self.cache_manager.cache
+
+        def _select_token(logits):
+            if not do_sample:
+                return torch.argmax(logits, dim=-1).unsqueeze(-1)
+            temp = max(1e-5, float(temperature))
+            scaled = logits / temp
+            probs = torch.softmax(scaled, dim=-1)
+            if top_p is not None and 0 < top_p < 1:
+                sorted_probs, sorted_idx = torch.sort(probs, descending=True)
+                cum = torch.cumsum(sorted_probs, dim=-1)
+                mask = cum > top_p
+                mask[..., 0] = False
+                sorted_probs = sorted_probs.masked_fill(mask, 0.0)
+                sorted_probs = sorted_probs / sorted_probs.sum(dim=-1, keepdim=True)
+                next_idx = torch.multinomial(sorted_probs, num_samples=1)
+                return sorted_idx.gather(-1, next_idx)
+            return torch.multinomial(probs, num_samples=1)
+
+        with torch.inference_mode():
+            outputs = self.model(
+                input_ids=input_ids,
+                attention_mask=full_mask,
+                past_key_values=current_cache,
+                use_cache=True,
+            )
+            current_cache = self.cache_manager.detach(outputs.past_key_values)
+            next_token_logits = outputs.logits[:, -1, :]
+            next_token = _select_token(next_token_logits)
+
+        if self.device.startswith("cuda"):
+            torch.cuda.synchronize()
+        t_first_token = time.time()
+
+        generated_ids: List[int] = []
+        max_new_tokens = max(1, int(max_new_tokens))
+        min_new_tokens = max(1, int(min_new_tokens))
+        min_new_tokens = min(min_new_tokens, max_new_tokens)
+        eos_token_id = self.processor.tokenizer.eos_token_id
+
+        curr_input = next_token
+        last_next_token_logits = next_token_logits
+        curr_mask = torch.cat([full_mask, torch.ones((1, 1), device=self.device)], dim=1)
+
+        streamed_text = ""
+        ttft_sent = False
+
+        with torch.inference_mode():
+            if curr_input.item() == eos_token_id and min_new_tokens > 0:
+                tmp_logits = last_next_token_logits.clone()
+                tmp_logits[0, eos_token_id] = -1e9
+                curr_input = _select_token(tmp_logits)
+
+            if curr_input.item() != eos_token_id:
+                generated_ids.append(curr_input.item())
+                new_text = self.processor.decode(generated_ids, skip_special_tokens=True)
+                delta = new_text[len(streamed_text):]
+                streamed_text = new_text
+                if delta:
+                    yield {
+                        "type": "token",
+                        "delta": delta,
+                        "text": streamed_text,
+                        "ttft": (t_first_token - t_start) if not ttft_sent else None,
+                    }
+                    ttft_sent = True
+
+                outputs = self.model(
+                    input_ids=curr_input,
+                    attention_mask=curr_mask,
+                    past_key_values=current_cache,
+                    use_cache=True,
+                )
+
+                current_cache = self.cache_manager.detach(outputs.past_key_values)
+                next_token_logits = outputs.logits[:, -1, :]
+                curr_input = _select_token(next_token_logits)
+                last_next_token_logits = next_token_logits
+                curr_mask = torch.cat([curr_mask, torch.ones((1, 1), device=self.device)], dim=1)
+
+            for _ in range(max_new_tokens - 1):
+                if curr_input.item() == eos_token_id:
+                    if len(generated_ids) >= min_new_tokens:
+                        break
+                    tmp_logits = last_next_token_logits.clone()
+                    tmp_logits[0, eos_token_id] = -1e9
+                    curr_input = _select_token(tmp_logits)
+
+                generated_ids.append(curr_input.item())
+                new_text = self.processor.decode(generated_ids, skip_special_tokens=True)
+                delta = new_text[len(streamed_text):]
+                streamed_text = new_text
+                if delta:
+                    yield {
+                        "type": "token",
+                        "delta": delta,
+                        "text": streamed_text,
+                        "ttft": None,
+                    }
+
+                outputs = self.model(
+                    input_ids=curr_input,
+                    attention_mask=curr_mask,
+                    past_key_values=current_cache,
+                    use_cache=True,
+                )
+
+                current_cache = self.cache_manager.detach(outputs.past_key_values)
+                next_token_logits = outputs.logits[:, -1, :]
+                curr_input = _select_token(next_token_logits)
+                last_next_token_logits = next_token_logits
+                curr_mask = torch.cat([curr_mask, torch.ones((1, 1), device=self.device)], dim=1)
+
+        output_text = self.processor.decode(generated_ids, skip_special_tokens=True)
+
+        if update_state:
+            self.cache_manager.cache = current_cache
+            self.cache_manager.discard_snapshot()
+        else:
+            self.cache_manager.restore(self.model)
+
+        if self.device.startswith("cuda"):
+            torch.cuda.synchronize()
+        t_end = time.time()
+
+        metrics = {
+            "ttft": t_first_token - t_start,
+            "total_latency": t_end - t_start,
+        }
+        yield {
+            "type": "final",
+            "text": output_text,
+            "metrics": metrics,
+        }
+
     # ── Ask Choice ─────────────────────────────────────────────
 
     def ask_choice(self, question: str, choices: List[str]):

@@ -65,14 +65,27 @@ class KVCacheManager:
         """返回缓存中当前的序列长度。"""
         if self._cache is None:
             return 0
+
+        # 优先从实际 KV tensor 形状读取，避免 DynamicCache 内部计数在手动裁剪后过期。
+        if hasattr(self._cache, "layers") and len(getattr(self._cache, "layers", [])) > 0:
+            l0 = self._cache.layers[0]
+            if hasattr(l0, "keys") and hasattr(l0.keys, "shape") and l0.keys.dim() >= 3:
+                return int(l0.keys.shape[2])
+
+        if hasattr(self._cache, "key_cache") and len(getattr(self._cache, "key_cache", [])) > 0:
+            k0 = self._cache.key_cache[0]
+            if hasattr(k0, "shape") and k0.dim() >= 3:
+                return int(k0.shape[2])
+
         # transformers DynamicCache
         if hasattr(self._cache, "get_seq_length"):
-            return self._cache.get_seq_length()
+            return int(self._cache.get_seq_length())
+
         # Tuple-of-tuples: ((k, v), (k, v), ...)
         if isinstance(self._cache, (tuple, list)) and len(self._cache) > 0:
             first_layer = self._cache[0]
             if isinstance(first_layer, (tuple, list)) and len(first_layer) > 0:
-                return first_layer[0].shape[2]  # [batch, heads, seq, dim]
+                return int(first_layer[0].shape[2])  # [batch, heads, seq, dim]
         return 0
 
     # ── Detach ──────────────────────────────────────────────────
@@ -229,12 +242,20 @@ class KVCacheManager:
         c = cache_override if cache_override is not None else self._cache
         past_len = 0
         if c is not None:
-            if hasattr(c, "get_seq_length"):
-                past_len = c.get_seq_length()
+            if hasattr(c, "layers") and len(getattr(c, "layers", [])) > 0:
+                first_layer = c.layers[0]
+                if hasattr(first_layer, "keys") and hasattr(first_layer.keys, "shape") and first_layer.keys.dim() >= 3:
+                    past_len = int(first_layer.keys.shape[2])
+            elif hasattr(c, "key_cache") and len(getattr(c, "key_cache", [])) > 0:
+                first_k = c.key_cache[0]
+                if hasattr(first_k, "shape") and first_k.dim() >= 3:
+                    past_len = int(first_k.shape[2])
+            elif hasattr(c, "get_seq_length"):
+                past_len = int(c.get_seq_length())
             elif isinstance(c, (tuple, list)) and len(c) > 0:
                 first = c[0]
                 if isinstance(first, (tuple, list)) and len(first) > 0:
-                    past_len = first[0].shape[2]
+                    past_len = int(first[0].shape[2])
 
         if past_len == 0:
             return new_mask

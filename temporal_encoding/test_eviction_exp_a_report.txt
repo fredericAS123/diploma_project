@@ -1,0 +1,67 @@
+======================================================================
+EXPERIMENT A: sink_size Auto-Detection Verification
+======================================================================
+Report time: 2026-02-24T12:38:08
+max_cache_tokens = 100000
+Chunk frame configs to test: [2, 4]
+
+[1] Loading model...
+[StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 18.00it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 17.93it/s]
+  VRAM after load: {'allocated': 7.105, 'reserved': 7.334}
+
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+   KV Cache Eviction: ON (max=100000, sink=auto, window=auto)
+   📍 Auto-sink detected: first chunk = 2744 tokens (sink=2744, window=97256)
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+   KV Cache Eviction: ON (max=100000, sink=auto, window=auto)
+   📍 Auto-sink detected: first chunk = 5435 tokens (sink=5435, window=94565)
+
+============================================================
+Testing: chunk_frames=2, 1920×1080
+============================================================
+  [Before] first_chunk_recorded = False ✅
+  [Chunk 0] cache_len = 2744
+  [Chunk 0] effective_sink_size = 2744
+  [Chunk 0] effective_window_size = 97256
+  [Chunk 0] sink + window = 100000 (should ≤ 100000)
+  [Chunk 0] ✅ sink == cache_len
+  [Chunk 0] ✅ window == max_cache_tokens - sink
+  [Chunk 1] cache_len = 5442, avg_chunk_tokens = 2698
+  [Chunk 2] cache_len = 8140, avg_chunk_tokens = 2698
+  [Chunk 3] cache_len = 10838, avg_chunk_tokens = 2698
+  [Chunk 4] cache_len = 13536, avg_chunk_tokens = 2698
+  Actual per-chunk tokens: [2698, 2698, 2698, 2698]
+  Actual average: 2698
+  Recorded average: 2698
+  ✅ Average chunk tokens match
+
+============================================================
+Testing: chunk_frames=4, 1920×1080
+============================================================
+  [Before] first_chunk_recorded = False ✅
+  [Chunk 0] cache_len = 5435
+  [Chunk 0] effective_sink_size = 5435
+  [Chunk 0] effective_window_size = 94565
+  [Chunk 0] sink + window = 100000 (should ≤ 100000)
+  [Chunk 0] ✅ sink == cache_len
+  [Chunk 0] ✅ window == max_cache_tokens - sink
+  [Chunk 1] cache_len = 10824, avg_chunk_tokens = 5389
+  [Chunk 2] cache_len = 16213, avg_chunk_tokens = 5389
+  [Chunk 3] cache_len = 21602, avg_chunk_tokens = 5389
+  [Chunk 4] cache_len = 26991, avg_chunk_tokens = 5389
+  Actual per-chunk tokens: [5389, 5389, 5389, 5389]
+  Actual average: 5389
+  Recorded average: 5389
+  ✅ Average chunk tokens match
+
+======================================================================
+SUMMARY
+======================================================================
+  chunk_frames=2: sink_size = 2744 tokens
+  chunk_frames=4: sink_size = 5435 tokens
+  ✅ 不同 chunk_frames 产生不同 sink_size
+  ✅ chunk_frames=2: sink=2744 >> 128 (旧版硬编码值)
+  ✅ chunk_frames=4: sink=5435 >> 128 (旧版硬编码值)
+
+✅ EXPERIMENT A COMPLETE

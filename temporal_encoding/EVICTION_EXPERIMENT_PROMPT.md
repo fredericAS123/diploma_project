@@ -2,7 +2,7 @@
 
 > **用途**: 在 GPU 机器 (AutoDL, RTX 4090 24GB) 的 Copilot Agent 上逐步执行
 > **前提**: 已部署 `/root/autodl-tmp/diploma_project/` 项目，模型权重在 `/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct`
-> **视频文件**: `/root/autodl-tmp/diploma_project/temporal_encoding/1.mp4`
+> **视频文件**: `/root/autodl-tmp/diploma_project/temporal_encoding/202208312002.mp4`
 
 ---
 

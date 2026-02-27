@@ -262,7 +262,79 @@ engine = VideoStreamingInference(model, processor, eviction_config=config)
 
 详见 [EVICTION_EXPERIMENT_PROMPT.md](EVICTION_EXPERIMENT_PROMPT.md)。
 
-三个实验分别验证:
-1. **实验 A — sink_size 自动检测**: 验证首 chunk 自动检测的正确性, 不同分辨率/帧数下 sink 值是否合理
-2. **实验 B — OOM-Free 长视频处理**: 处理完整 1.mp4, 确认淘汰后显存不超限
-3. **实验 C — 滑窗逐段 + 周期性提问**: 编码 + 周期性 ask(), 验证淘汰不影响问答质量
+四个实验分别验证:
+1. **实验 A — sink_size 自动检测**: 验证首 chunk 自动检测的正确性, 不同分辨率/帧数下 sink 值是否合理。
+2. **实验 B — OOM-Free 长视频处理**: 处理完整 `202208312002.mp4`, 确认淘汰后显存不超限。
+3. **实验 C — 滑窗逐段 + 周期性提问**: 编码 + 周期性 ask(), 验证淘汰不影响问答稳定性。
+4. **实验 D — 全视频累计歌词抽取**: 按“截至当前时刻累计可见文本”持续提问, 输出去重后的全视频歌词集合。
+
+
+---
+
+## 🧩 2026-02-24 项目改进更新（v2.1）
+
+### 代码层关键修复
+
+1. **DynamicCache 兼容修复（关键）**
+   - 问题: 仅按旧结构 `key_cache/value_cache` 做淘汰会在新 `transformers` 结构下“统计显示已淘汰，但实际序列长度未下降”。
+   - 改进: 在淘汰逻辑中兼容 `cache.layers[i].keys/values` 结构，确保 `torch.index_select` 真正裁剪 KV。
+   - 结果: `cache_len` 在超限后稳定回落到 `max_cache_tokens`，OOM 风险显著下降。
+
+2. **窗口自动计算 off-by-one 修复**
+   - 问题: `sink + window == max` 时被额外减 1，导致窗口值与设计不一致。
+   - 改进: 仅在 `sink + window > max` 时才回退窗口。
+   - 结果: 与实验 A 判定严格一致（`window = max - sink`）。
+
+3. **chunk 平均 token 统计修复**
+   - 问题: 旧统计口径与测试脚本断言不一致，出现平均值偏差。
+   - 改进: 统一为“首 chunk 后的简单平均”，并与 `EvictionConfig` 自动检测流程对齐。
+   - 结果: 实验 A 的 `avg_chunk_tokens` 与实际增量稳定匹配。
+
+4. **缓存长度读取与掩码构造一致性修复**
+   - 问题: 淘汰后若仅读取内部计数而非实际 tensor shape，可能出现注意力掩码长度滞后。
+   - 改进: `cache_manager.py` 优先读取真实 KV tensor 的 `seq` 维长度。
+   - 结果: 淘汰后 attention mask 与真实 cache 长度严格一致。
+
+### 新增/强化测试脚本与作用
+
+| 文件 | 作用 | 关键价值 |
+|------|------|----------|
+| `test_eviction_exp_a.py` | sink/window 自动检测正确性 | 保证淘汰基线参数正确 |
+| `test_eviction_exp_b.py` | 长视频 OOM-Free | 验证显存可控与 `ask()` 可用性 |
+| `test_eviction_exp_c.py` | 周期问答稳定性 | 验证 snapshot/restore 在频繁淘汰下可用 |
+| `test_eviction_exp_c_window_compare_report.txt` | 无窗口 vs 有窗口回答质量对比结果 | 证明滑动窗口对歌词抽取有提升 |
+| `test_eviction_exp_d_cumulative_lyrics.py` | **新增**：全视频累计歌词抽取实验 | 满足“截至当前累计字幕”业务目标 |
+| `test_eviction_exp_d_cumulative_lyrics_report_v2.txt` | **新增**：迭代后精炼报告 | 形成可复现的最终结果基线 |
+
+### 实验 D 设计思路（新增）
+
+- **核心问题**: 传统“当前帧 OCR 提问”容易漏掉早期字幕，不满足“迄今为止累计输出”的需求。
+- **策略**:
+  1) 维持流式 append + eviction；
+  2) 每固定 chunk 周期提问“截至当前累计歌词”；
+  3) 同时补问“当前帧歌词”作为兜底；
+  4) 合并、清洗、去重、按首次时间排序输出最终歌词清单。
+- **迭代优化**:
+  - v1: 高召回但噪声多（品牌词、歌手名、制作信息混入）；
+  - v2: 加强 prompt + 规则过滤，保留歌词正文，显著提升可读性。
+
+### 当前推荐默认配置
+
+- `VIDEO_PATH=/root/autodl-tmp/diploma_project/temporal_encoding/202208312002.mp4`
+- `MAX_CACHE_TOKENS=150000`（4090 24GB 下稳定）
+- `CHUNK_FRAMES=4`
+- `SAMPLE_FPS=2.0`
+- 累计歌词任务建议 `ASK_INTERVAL=10`
+
+---
+
+## ✅ 面向“原生 Qwen2.5-VL 不微调”可行性结论
+
+- **工程可行性**: 高。通过上述修复，系统已能稳定长时运行、稳定淘汰、稳定问答恢复。
+- **任务可行性（歌词字幕抽取）**: 中高。实测可提取多条歌词正文，且滑动窗口优于无窗口。
+- **上限判断**: 不微调条件下，模型仍可能在以下场景退化：
+  1) 低对比度/动态模糊字幕；
+  2) 字幕样式极端复杂；
+  3) 长时段后重复/广告词污染。
+
+**结论**: 在“不做额外微调”的约束下，依靠当前改进（动态淘汰修复 + 累计提问策略 + 文本清洗）可以**成功达到可用级别**，并能满足课程项目的系统目标；若追求“接近人工字幕”的工业级准确率，后续仍建议加入轻量适配（如 OCR 辅助或任务微调）。

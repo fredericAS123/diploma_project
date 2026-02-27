@@ -17,7 +17,7 @@ _TEMPORAL_DIR = os.path.join(_PROJECT_ROOT, "temporal_encoding")
 if _TEMPORAL_DIR not in sys.path:
     sys.path.insert(0, _TEMPORAL_DIR)
 
-from model import StreamQwenModel, VideoStreamingInference
+from model import StreamQwenModel, VideoStreamingInference, EvictionConfig
 
 
 class QwenInferenceWrapper:
@@ -55,6 +55,26 @@ class QwenInferenceWrapper:
         """重置流式引擎（新视频开始时调用）。"""
         with self.inference_lock:
             self.engine.reset()
+
+    def reset_with_eviction(self, enable_eviction: bool = False, max_cache_tokens: int = 150000):
+        """重置并以新的淘汰配置重建流式引擎。
+
+        Args:
+            enable_eviction: 是否启用 KV Cache 淘汰 (Sink + Sliding Window)
+            max_cache_tokens: 最大 cache token 数（淘汰阈值）
+        """
+        with self.inference_lock:
+            eviction_config = None
+            if enable_eviction:
+                eviction_config = EvictionConfig(
+                    max_cache_tokens=int(max_cache_tokens),
+                    sink_size=0,       # auto-detect from first chunk
+                    window_size=0,     # auto = max - sink
+                )
+            self.engine = VideoStreamingInference(
+                self.model, self.processor, device=self.device,
+                eviction_config=eviction_config,
+            )
 
     def process_frame(self, image, **kwargs) -> str:
         """
@@ -110,6 +130,29 @@ class QwenInferenceWrapper:
             return response, metrics
         return response
 
+    def ask_question_stream(
+        self,
+        question: str,
+        max_new_tokens: int = 256,
+        min_new_tokens: int = 1,
+        do_sample: bool = False,
+        temperature: float = 0.7,
+        top_p: float = 0.9,
+        update_state: bool = False,
+    ):
+        """流式问答：逐 token 返回增量文本。"""
+        with self.inference_lock:
+            for event in self.engine.ask_stream(
+                question,
+                max_new_tokens=max_new_tokens,
+                min_new_tokens=min_new_tokens,
+                do_sample=do_sample,
+                temperature=temperature,
+                top_p=top_p,
+                update_state=update_state,
+            ):
+                yield event
+
     def ask_choice(self, question: str, choices: list[str]) -> str:
         """多选题评分，返回得分最高的选项。"""
         with self.inference_lock:
@@ -118,6 +161,46 @@ class QwenInferenceWrapper:
     def get_cache_info(self) -> dict:
         """获取当前 KV Cache 状态信息。"""
         return self.engine.get_cache_info()
+
+    def get_memory_breakdown(self, cache_info: dict | None = None) -> dict:
+        """返回显存拆分估算（GB）：模型、KV、推理临时、总已分配/保留。"""
+        if cache_info is None:
+            cache_info = self.get_cache_info()
+
+        if not torch.cuda.is_available():
+            return {
+                "model_gb": 0.0,
+                "kv_cache_gb": float(cache_info.get("cache_memory_gb", 0.0)),
+                "runtime_gb": 0.0,
+                "allocated_gb": 0.0,
+                "reserved_gb": 0.0,
+            }
+
+        allocated_gb = torch.cuda.memory_allocated() / (1024 ** 3)
+        reserved_gb = torch.cuda.memory_reserved() / (1024 ** 3)
+        kv_gb = float(cache_info.get("cache_memory_gb", 0.0))
+
+        # 参数+buffer 的显存占用估算
+        ptr_seen = set()
+        model_bytes = 0
+        for t in list(self.model.parameters()) + list(self.model.buffers()):
+            if not t.is_cuda:
+                continue
+            ptr = int(t.data_ptr())
+            if ptr in ptr_seen:
+                continue
+            ptr_seen.add(ptr)
+            model_bytes += t.nelement() * t.element_size()
+        model_gb = model_bytes / (1024 ** 3)
+
+        runtime_gb = max(0.0, allocated_gb - model_gb - kv_gb)
+        return {
+            "model_gb": round(model_gb, 3),
+            "kv_cache_gb": round(kv_gb, 3),
+            "runtime_gb": round(runtime_gb, 3),
+            "allocated_gb": round(allocated_gb, 3),
+            "reserved_gb": round(reserved_gb, 3),
+        }
 
     def native_video_inference(
         self,

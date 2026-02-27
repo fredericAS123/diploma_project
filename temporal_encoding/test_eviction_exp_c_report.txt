@@ -1,0 +1,162 @@
+======================================================================
+EXPERIMENT C: Sliding Window + Periodic Auto-Questioning
+======================================================================
+Report time: 2026-02-24T12:58:21
+Ask interval: every 25 chunks (~50s)
+Eviction: max_cache_tokens=150000, sink/window=auto
+
+[1] Loading model...
+[StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 31.96it/s]
+  VRAM: {'allocated': 7.105, 'reserved': 7.334}
+
+[2] Extracting frames...
+  Video: /root/autodl-tmp/diploma_project/temporal_encoding/202208312002.mp4
+  Duration: 200.2s, Total: 6068 frames
+  Sampling at 2.0 fps → 400 frames
+
+[3] Creating engine with eviction...
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+   KV Cache Eviction: ON (max=150000, sink=auto, window=auto)
+
+[4] Encoding with periodic questioning...
+   📍 Auto-sink detected: first chunk = 5435 tokens (sink=5435, window=144565)
+
+  ─── Ask at chunk 25 (video ~50s / 200s) ───
+  Cache: len=134771, mem=4.627 GB, VRAM=11.74 GB, evictions=0
+  Answer: No text visible...
+  TTFT: 0.413s, Cache restored: ✅
+  ✂️ Eviction: 150938 → 150000 tokens (-938)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+
+  ─── Ask at chunk 50 (video ~100s / 200s) ───
+  Cache: len=150000, mem=5.150 GB, VRAM=12.26 GB, evictions=23
+  Answer: No text visible...
+  TTFT: 0.424s, Cache restored: ✅
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+
+  ─── Ask at chunk 75 (video ~150s / 200s) ───
+  Cache: len=150000, mem=5.150 GB, VRAM=12.26 GB, evictions=48
+  Answer: No text visible...
+  TTFT: 0.424s, Cache restored: ✅
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+
+  ─── Ask at chunk 100 (video ~200s / 200s) ───
+  Cache: len=150000, mem=5.150 GB, VRAM=12.26 GB, evictions=73
+  Answer: No text visible....
+  TTFT: 0.423s, Cache restored: ✅
+
+  ✅ Done: 100 chunks, 4 questions asked
+  Total time: 536.8s
+
+======================================================================
+ALL COLLECTED LYRICS / SUBTITLES
+======================================================================
+
+[~50s] (chunk 25):
+  No text visible
+
+[~100s] (chunk 50):
+  No text visible
+
+[~150s] (chunk 75):
+  No text visible
+
+[~200s] (chunk 100):
+  No text visible.
+
+======================================================================
+DEDUPLICATED LYRICS (all unique lines)
+======================================================================
+
+  Total unique lines: 0
+
+======================================================================
+SUMMARY & PASS/FAIL
+======================================================================
+  Video duration: 200s
+  Total chunks: 100
+  Questions asked: 4
+  Unique lyric lines: 0
+  Final cache_len: 150000
+  Total time: 536.8s
+  Total evictions: 73
+  Total tokens evicted: 388946
+  Average TTFT: 0.421s
+
+  ✅ [C1] No OOM — processed all 100 chunks
+  ✅ [C2] All 4 ask() calls correctly restored cache (snapshot/restore)
+  ⚠️ [C3] All answers were empty/no text — video may not contain visible text
+  ⚠️ [C4] No lyrics extracted — may be expected if video has no text
+  ✅ [C5] Average TTFT (0.421s) < 10s
+
+🎉 EXPERIMENT C: ALL PASSED
