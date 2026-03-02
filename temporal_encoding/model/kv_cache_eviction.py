@@ -108,6 +108,17 @@ class EvictionConfig:
     """每追加多少个 chunk 后执行一次淘汰检查。
     1 = 每个 chunk 后检查 (推荐, 防止峰值超限)。"""
 
+    # ── Level 1 边界连续性保护 ──
+    enable_sink_boundary_guard: bool = True
+    """是否启用 sink 裁剪边界保护。
+    启用后在 sink 之后额外保留一小段 token，并等量减少尾部 window，
+    总预算不变。可缓解“刚跨过裁剪边界的信息顺序错乱/丢失”。"""
+
+    sink_boundary_guard_tokens: int = 0
+    """sink 边界保护 token 数。
+    0 = 自动估计（约 1 个 chunk，且不超过 window 的 20%）；
+    >0 = 手动指定。"""
+
 
 @dataclass
 class EvictionStats:
@@ -367,8 +378,29 @@ class KVCacheEvictor:
             return cache
 
         window = min(window, seq_len - sink)
+        # 边界保护：在 sink 后额外保留一段 token（并等量缩减尾部 window）
+        # 目的：缓解裁剪边缘的上下文断裂，减少顺序颠倒/边界遗忘。
+        boundary_guard = 0
+        if self.config.enable_sink_boundary_guard and window > 0:
+            if self.config.sink_boundary_guard_tokens > 0:
+                boundary_guard = self.config.sink_boundary_guard_tokens
+            elif self._avg_chunk_tokens is not None:
+                # 自动：大约保留 1 个 chunk，且不超过 window 的 20%
+                boundary_guard = int(min(self._avg_chunk_tokens, max(1, window * 0.2)))
 
-        indices_to_keep = list(range(sink)) + list(range(seq_len - window, seq_len))
+            # 只能从“中间可删区域”拿，且不会超过 window（预算守恒）
+            max_guard = max(0, seq_len - sink - window)
+            boundary_guard = max(0, min(boundary_guard, max_guard, window))
+
+        tail_window = max(0, window - boundary_guard)
+
+        keep_set = set(range(sink))
+        if boundary_guard > 0:
+            keep_set.update(range(sink, sink + boundary_guard))
+        if tail_window > 0:
+            keep_set.update(range(seq_len - tail_window, seq_len))
+
+        indices_to_keep = sorted(keep_set)
         indices_tensor = torch.tensor(
             indices_to_keep,
             device=self._get_cache_device(cache),
@@ -600,6 +632,8 @@ class KVCacheEvictor:
     @staticmethod
     def _apply_index_select(cache, indices: torch.Tensor):
         """对 cache 执行 index_select 淘汰，兼容新版/旧版 DynamicCache 结构。"""
+        new_seq_len = int(indices.shape[0])
+
         # 新版 transformers DynamicCache: cache.layers[i].keys / values
         if hasattr(cache, "layers") and len(getattr(cache, "layers", [])) > 0:
             for layer in cache.layers:
@@ -609,6 +643,7 @@ class KVCacheEvictor:
                     if hasattr(k, "shape") and k.dim() >= 3:
                         layer.keys = torch.index_select(k, 2, indices)
                         layer.values = torch.index_select(v, 2, indices)
+            KVCacheEvictor._sync_dynamic_cache_meta(cache, new_seq_len)
             return cache
 
         # 旧结构兼容: cache.key_cache / value_cache
@@ -619,9 +654,32 @@ class KVCacheEvictor:
                 if hasattr(k, "shape") and k.dim() >= 3:
                     cache.key_cache[i] = torch.index_select(k, 2, indices)
                     cache.value_cache[i] = torch.index_select(v, 2, indices)
+            KVCacheEvictor._sync_dynamic_cache_meta(cache, new_seq_len)
             return cache
 
         return cache
+
+    @staticmethod
+    def _sync_dynamic_cache_meta(cache, new_seq_len: int):
+        """尽可能同步 DynamicCache 内部长度计数，避免手动裁剪后元数据过期。"""
+        # 常见字段（不同 transformers 版本命名不同）
+        for attr in ("_seen_tokens", "seen_tokens", "_seq_length", "seq_length"):
+            if hasattr(cache, attr):
+                try:
+                    setattr(cache, attr, int(new_seq_len))
+                except Exception:
+                    pass
+
+        # 层级缓存上的可能长度字段
+        layers = getattr(cache, "layers", None)
+        if layers is not None:
+            for layer in layers:
+                for attr in ("_seq_length", "seq_length"):
+                    if hasattr(layer, attr):
+                        try:
+                            setattr(layer, attr, int(new_seq_len))
+                        except Exception:
+                            pass
 
     def _update_stats(self, before: int, after: int, removed: int):
         self.stats.total_evictions += 1

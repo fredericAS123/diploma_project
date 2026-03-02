@@ -57,7 +57,7 @@ class VideoStreamingInference:
         self.system_prompt = (
             "You are a concise video analyst. Answer briefly and directly. "
             "Focus on visible facts only. Avoid speculation, avoid repetition. "
-            "Strictly limit the response to at most 60 tokens."
+            # "Strictly limit the response to at most 60 tokens."
         )
 
         eviction_str = "OFF"
@@ -825,5 +825,23 @@ class VideoStreamingInference:
         eviction_stats = self.cache_manager.get_eviction_stats()
         if eviction_stats:
             info["eviction_stats"] = eviction_stats
+
+        # 淘汰策略说明（用于前端状态栏展示）
+        if self.cache_manager.evictor is not None:
+            cfg = self.cache_manager.evictor.config
+            if cfg.enable_frame_importance:
+                strategy = "L3-importance"
+            elif cfg.enable_temporal_sampling:
+                strategy = "L2-mid-anchors"
+            else:
+                strategy = "L1-sink-window"
+            info["eviction_strategy"] = strategy
+            info["eviction_config"] = {
+                "max_cache_tokens": int(cfg.max_cache_tokens),
+                "enable_temporal_sampling": bool(cfg.enable_temporal_sampling),
+                "mid_retention_ratio": float(cfg.mid_retention_ratio),
+                "enable_sink_boundary_guard": bool(cfg.enable_sink_boundary_guard),
+                "sink_boundary_guard_tokens": int(cfg.sink_boundary_guard_tokens),
+            }
 
         return info

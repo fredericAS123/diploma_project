@@ -56,20 +56,37 @@ class QwenInferenceWrapper:
         with self.inference_lock:
             self.engine.reset()
 
-    def reset_with_eviction(self, enable_eviction: bool = False, max_cache_tokens: int = 150000):
+    def reset_with_eviction(
+        self,
+        enable_eviction: bool = False,
+        max_cache_tokens: int = 150000,
+        use_mid_anchors: bool = False,
+        mid_retention_ratio: float = 0.2,
+    ):
         """重置并以新的淘汰配置重建流式引擎。
 
         Args:
-            enable_eviction: 是否启用 KV Cache 淘汰 (Sink + Sliding Window)
+            enable_eviction: 是否启用 KV Cache 淘汰
             max_cache_tokens: 最大 cache token 数（淘汰阈值）
+            use_mid_anchors: 是否启用中段锚点 (Level-2)
+            mid_retention_ratio: Level-2 中段保留比例
         """
         with self.inference_lock:
             eviction_config = None
             if enable_eviction:
+                # 默认采用 Level-1（sink+tail-window+边界保护），
+                # 中段锚点作为可选增强开关，按任务场景决定是否启用。
+                max_tok = int(max_cache_tokens)
                 eviction_config = EvictionConfig(
-                    max_cache_tokens=int(max_cache_tokens),
+                    max_cache_tokens=max_tok,
                     sink_size=0,       # auto-detect from first chunk
-                    window_size=0,     # auto = max - sink
+                    # 默认全部预算给尾窗；开启中段锚点时会改为保守尾窗比例
+                    window_size=0 if not use_mid_anchors else int(max_tok * 0.65),
+                    enable_temporal_sampling=bool(use_mid_anchors),
+                    mid_retention_ratio=float(mid_retention_ratio),
+                    # Level-1 边界连续性保护（即使回退到 Level-1 也更稳）
+                    enable_sink_boundary_guard=True,
+                    sink_boundary_guard_tokens=0,
                 )
             self.engine = VideoStreamingInference(
                 self.model, self.processor, device=self.device,
