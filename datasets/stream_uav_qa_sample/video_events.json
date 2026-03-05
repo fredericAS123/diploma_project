@@ -1,0 +1,2510 @@
+[
+  {
+    "video_name": "uav0000013_00000_v",
+    "num_frames": 269,
+    "duration_seconds": 8.97,
+    "image_size": [
+      1344,
+      756
+    ],
+    "num_sampled_frames": 9,
+    "num_events": 7,
+    "scenes": [
+      {
+        "frame_idx": 0,
+        "timestamp": 0.0,
+        "scene": {
+          "total_objects": 23,
+          "category_counts": {
+            "pedestrian": 10,
+            "tricycle": 1,
+            "motor": 7,
+            "people": 5
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 16,
+            "r1c2": 2,
+            "r2c0": 2,
+            "r2c1": 1,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 8,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 8,
+          "pedestrian_count": 15,
+          "vehicle_coverage_ratio": 0.0262,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "tricycle": 1,
+            "motor": 7
+          }
+        }
+      },
+      {
+        "frame_idx": 30,
+        "timestamp": 1.0,
+        "scene": {
+          "total_objects": 23,
+          "category_counts": {
+            "pedestrian": 10,
+            "tricycle": 1,
+            "motor": 7,
+            "people": 5
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 15,
+            "r1c2": 2,
+            "r2c0": 2,
+            "r2c1": 2,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 8,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 8,
+          "pedestrian_count": 15,
+          "vehicle_coverage_ratio": 0.0277,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "tricycle": 1,
+            "motor": 7
+          }
+        }
+      },
+      {
+        "frame_idx": 60,
+        "timestamp": 2.0,
+        "scene": {
+          "total_objects": 25,
+          "category_counts": {
+            "pedestrian": 12,
+            "tricycle": 1,
+            "motor": 7,
+            "people": 5
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 2,
+            "r1c1": 15,
+            "r1c2": 2,
+            "r2c0": 2,
+            "r2c1": 2,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 9,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 8,
+          "pedestrian_count": 17,
+          "vehicle_coverage_ratio": 0.0297,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "tricycle": 1,
+            "motor": 7
+          }
+        }
+      },
+      {
+        "frame_idx": 90,
+        "timestamp": 3.0,
+        "scene": {
+          "total_objects": 29,
+          "category_counts": {
+            "pedestrian": 14,
+            "tricycle": 1,
+            "motor": 7,
+            "people": 6,
+            "bicycle": 1
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 3,
+            "r1c1": 18,
+            "r1c2": 3,
+            "r2c0": 2,
+            "r2c1": 2,
+            "r2c2": 1
+          },
+          "occlusion_stats": {
+            "partially_occluded": 15,
+            "heavily_occluded": 1
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 8,
+          "pedestrian_count": 20,
+          "vehicle_coverage_ratio": 0.0301,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "tricycle": 1,
+            "motor": 7
+          }
+        }
+      },
+      {
+        "frame_idx": 120,
+        "timestamp": 4.0,
+        "scene": {
+          "total_objects": 31,
+          "category_counts": {
+            "pedestrian": 15,
+            "motor": 7,
+            "people": 8,
+            "bicycle": 1
+          },
+          "density_level": "dense",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 1,
+            "r0c2": 0,
+            "r1c0": 4,
+            "r1c1": 20,
+            "r1c2": 2,
+            "r2c0": 2,
+            "r2c1": 0,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 18,
+            "heavily_occluded": 1
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 7,
+          "pedestrian_count": 23,
+          "vehicle_coverage_ratio": 0.0253,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "motor": 7
+          }
+        }
+      },
+      {
+        "frame_idx": 150,
+        "timestamp": 5.0,
+        "scene": {
+          "total_objects": 32,
+          "category_counts": {
+            "pedestrian": 15,
+            "motor": 7,
+            "people": 8,
+            "bicycle": 1,
+            "awning-tricycle": 1
+          },
+          "density_level": "dense",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 2,
+            "r0c2": 0,
+            "r1c0": 5,
+            "r1c1": 16,
+            "r1c2": 2,
+            "r2c0": 2,
+            "r2c1": 3,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 17,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 8,
+          "pedestrian_count": 23,
+          "vehicle_coverage_ratio": 0.0342,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "motor": 7,
+            "awning-tricycle": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 180,
+        "timestamp": 6.0,
+        "scene": {
+          "total_objects": 28,
+          "category_counts": {
+            "pedestrian": 14,
+            "motor": 5,
+            "people": 7,
+            "bicycle": 1,
+            "awning-tricycle": 1
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 1,
+            "r0c2": 0,
+            "r1c0": 8,
+            "r1c1": 10,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 6,
+            "r2c2": 3
+          },
+          "occlusion_stats": {
+            "partially_occluded": 15,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 6,
+          "pedestrian_count": 21,
+          "vehicle_coverage_ratio": 0.03,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "motor": 5,
+            "awning-tricycle": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 210,
+        "timestamp": 7.0,
+        "scene": {
+          "total_objects": 32,
+          "category_counts": {
+            "pedestrian": 20,
+            "motor": 4,
+            "people": 7,
+            "awning-tricycle": 1
+          },
+          "density_level": "dense",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 1,
+            "r0c2": 0,
+            "r1c0": 11,
+            "r1c1": 11,
+            "r1c2": 0,
+            "r2c0": 6,
+            "r2c1": 1,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 19,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 5,
+          "pedestrian_count": 27,
+          "vehicle_coverage_ratio": 0.0269,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "motor": 4,
+            "awning-tricycle": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 240,
+        "timestamp": 8.0,
+        "scene": {
+          "total_objects": 32,
+          "category_counts": {
+            "pedestrian": 22,
+            "people": 6,
+            "motor": 4
+          },
+          "density_level": "dense",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 3,
+            "r0c2": 0,
+            "r1c0": 4,
+            "r1c1": 13,
+            "r1c2": 0,
+            "r2c0": 11,
+            "r2c1": 1,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 17,
+            "heavily_occluded": 1
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 4,
+          "pedestrian_count": 28,
+          "vehicle_coverage_ratio": 0.0183,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "motor": 4
+          }
+        }
+      }
+    ],
+    "events": [
+      {
+        "time_span": {
+          "from": 1.0,
+          "to": 2.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 2",
+            "from": 23,
+            "to": 25,
+            "magnitude": 2
+          },
+          {
+            "type": "category_change",
+            "category": "pedestrian",
+            "from": 10,
+            "to": 12,
+            "description": "pedestrian count increased from 10 to 12"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 2.0,
+          "to": 3.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 4",
+            "from": 25,
+            "to": 29,
+            "magnitude": 4
+          },
+          {
+            "type": "object_appear",
+            "category": "bicycle",
+            "count": 1,
+            "description": "1 bicycle(s) appeared in scene"
+          },
+          {
+            "type": "category_change",
+            "category": "pedestrian",
+            "from": 12,
+            "to": 14,
+            "description": "pedestrian count increased from 12 to 14"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 3.0,
+          "to": 4.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 2",
+            "from": 29,
+            "to": 31,
+            "magnitude": 2
+          },
+          {
+            "type": "category_change",
+            "category": "people",
+            "from": 6,
+            "to": 8,
+            "description": "people count increased from 6 to 8"
+          },
+          {
+            "type": "object_disappear",
+            "category": "tricycle",
+            "count": 1,
+            "description": "All 1 tricycle(s) left the scene"
+          },
+          {
+            "type": "density_change",
+            "from": "moderate",
+            "to": "dense",
+            "description": "Scene density changed from moderate to dense"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 4.0,
+          "to": 5.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "object_appear",
+            "category": "awning-tricycle",
+            "count": 1,
+            "description": "1 awning-tricycle(s) appeared in scene"
+          }
+        ],
+        "has_significant_change": false
+      },
+      {
+        "time_span": {
+          "from": 5.0,
+          "to": 6.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects decreased by 4",
+            "from": 32,
+            "to": 28,
+            "magnitude": 4
+          },
+          {
+            "type": "category_change",
+            "category": "motor",
+            "from": 7,
+            "to": 5,
+            "description": "motor count decreased from 7 to 5"
+          },
+          {
+            "type": "density_change",
+            "from": "dense",
+            "to": "moderate",
+            "description": "Scene density changed from dense to moderate"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 6.0,
+          "to": 7.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 4",
+            "from": 28,
+            "to": 32,
+            "magnitude": 4
+          },
+          {
+            "type": "object_disappear",
+            "category": "bicycle",
+            "count": 1,
+            "description": "All 1 bicycle(s) left the scene"
+          },
+          {
+            "type": "category_change",
+            "category": "pedestrian",
+            "from": 14,
+            "to": 20,
+            "description": "pedestrian count increased from 14 to 20"
+          },
+          {
+            "type": "density_change",
+            "from": "moderate",
+            "to": "dense",
+            "description": "Scene density changed from moderate to dense"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 7.0,
+          "to": 8.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "object_disappear",
+            "category": "awning-tricycle",
+            "count": 1,
+            "description": "All 1 awning-tricycle(s) left the scene"
+          },
+          {
+            "type": "category_change",
+            "category": "pedestrian",
+            "from": 20,
+            "to": 22,
+            "description": "pedestrian count increased from 20 to 22"
+          }
+        ],
+        "has_significant_change": true
+      }
+    ],
+    "traffic_timeline": [
+      {
+        "timestamp": 0.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 8,
+        "pedestrian_count": 15
+      },
+      {
+        "timestamp": 1.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 8,
+        "pedestrian_count": 15
+      },
+      {
+        "timestamp": 2.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 8,
+        "pedestrian_count": 17
+      },
+      {
+        "timestamp": 3.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 8,
+        "pedestrian_count": 20
+      },
+      {
+        "timestamp": 4.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 7,
+        "pedestrian_count": 23
+      },
+      {
+        "timestamp": 5.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 8,
+        "pedestrian_count": 23
+      },
+      {
+        "timestamp": 6.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 6,
+        "pedestrian_count": 21
+      },
+      {
+        "timestamp": 7.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 5,
+        "pedestrian_count": 27
+      },
+      {
+        "timestamp": 8.0,
+        "congestion": "free_flow",
+        "vehicle_count": 4,
+        "pedestrian_count": 28
+      }
+    ]
+  },
+  {
+    "video_name": "uav0000013_01073_v",
+    "num_frames": 58,
+    "duration_seconds": 1.93,
+    "image_size": [
+      1344,
+      756
+    ],
+    "num_sampled_frames": 2,
+    "num_events": 1,
+    "scenes": [
+      {
+        "frame_idx": 0,
+        "timestamp": 0.0,
+        "scene": {
+          "total_objects": 23,
+          "category_counts": {
+            "pedestrian": 13,
+            "people": 6,
+            "motor": 4
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 6,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 8,
+            "r1c2": 5,
+            "r2c0": 3,
+            "r2c1": 1,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 13,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 4,
+          "pedestrian_count": 19,
+          "vehicle_coverage_ratio": 0.0478,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "motor": 4
+          }
+        }
+      },
+      {
+        "frame_idx": 30,
+        "timestamp": 1.0,
+        "scene": {
+          "total_objects": 19,
+          "category_counts": {
+            "motor": 3,
+            "pedestrian": 10,
+            "people": 6
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 7,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 4,
+            "r1c2": 2,
+            "r2c0": 0,
+            "r2c1": 1,
+            "r2c2": 5
+          },
+          "occlusion_stats": {
+            "partially_occluded": 9,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 3,
+          "pedestrian_count": 16,
+          "vehicle_coverage_ratio": 0.0158,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "motor": 3
+          }
+        }
+      }
+    ],
+    "events": [
+      {
+        "time_span": {
+          "from": 0.0,
+          "to": 1.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects decreased by 4",
+            "from": 23,
+            "to": 19,
+            "magnitude": 4
+          },
+          {
+            "type": "category_change",
+            "category": "pedestrian",
+            "from": 13,
+            "to": 10,
+            "description": "pedestrian count decreased from 13 to 10"
+          }
+        ],
+        "has_significant_change": true
+      }
+    ],
+    "traffic_timeline": [
+      {
+        "timestamp": 0.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 4,
+        "pedestrian_count": 19
+      },
+      {
+        "timestamp": 1.0,
+        "congestion": "free_flow",
+        "vehicle_count": 3,
+        "pedestrian_count": 16
+      }
+    ]
+  },
+  {
+    "video_name": "uav0000013_01392_v",
+    "num_frames": 118,
+    "duration_seconds": 3.93,
+    "image_size": [
+      1344,
+      756
+    ],
+    "num_sampled_frames": 4,
+    "num_events": 3,
+    "scenes": [
+      {
+        "frame_idx": 0,
+        "timestamp": 0.0,
+        "scene": {
+          "total_objects": 19,
+          "category_counts": {
+            "people": 5,
+            "motor": 4,
+            "pedestrian": 9,
+            "awning-tricycle": 1
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 1,
+            "r0c1": 8,
+            "r0c2": 0,
+            "r1c0": 2,
+            "r1c1": 4,
+            "r1c2": 1,
+            "r2c0": 1,
+            "r2c1": 0,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 12,
+            "heavily_occluded": 2
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 5,
+          "pedestrian_count": 14,
+          "vehicle_coverage_ratio": 0.0145,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "motor": 4,
+            "awning-tricycle": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 30,
+        "timestamp": 1.0,
+        "scene": {
+          "total_objects": 22,
+          "category_counts": {
+            "motor": 5,
+            "people": 6,
+            "pedestrian": 10,
+            "awning-tricycle": 1
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 4,
+            "r0c2": 0,
+            "r1c0": 3,
+            "r1c1": 12,
+            "r1c2": 2,
+            "r2c0": 0,
+            "r2c1": 0,
+            "r2c2": 1
+          },
+          "occlusion_stats": {
+            "partially_occluded": 16,
+            "heavily_occluded": 2
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 6,
+          "pedestrian_count": 16,
+          "vehicle_coverage_ratio": 0.0225,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "motor": 5,
+            "awning-tricycle": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 60,
+        "timestamp": 2.0,
+        "scene": {
+          "total_objects": 28,
+          "category_counts": {
+            "motor": 8,
+            "people": 6,
+            "pedestrian": 13,
+            "awning-tricycle": 1
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 2,
+            "r0c1": 8,
+            "r0c2": 0,
+            "r1c0": 3,
+            "r1c1": 6,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 6,
+            "r2c2": 3
+          },
+          "occlusion_stats": {
+            "partially_occluded": 18,
+            "heavily_occluded": 1
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 9,
+          "pedestrian_count": 19,
+          "vehicle_coverage_ratio": 0.0489,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "motor": 8,
+            "awning-tricycle": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 90,
+        "timestamp": 3.0,
+        "scene": {
+          "total_objects": 27,
+          "category_counts": {
+            "motor": 8,
+            "people": 5,
+            "pedestrian": 12,
+            "tricycle": 1,
+            "awning-tricycle": 1
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 7,
+            "r0c2": 1,
+            "r1c0": 5,
+            "r1c1": 8,
+            "r1c2": 0,
+            "r2c0": 1,
+            "r2c1": 3,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 18,
+            "heavily_occluded": 3
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 10,
+          "pedestrian_count": 17,
+          "vehicle_coverage_ratio": 0.0321,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "motor": 8,
+            "tricycle": 1,
+            "awning-tricycle": 1
+          }
+        }
+      }
+    ],
+    "events": [
+      {
+        "time_span": {
+          "from": 0.0,
+          "to": 1.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 3",
+            "from": 19,
+            "to": 22,
+            "magnitude": 3
+          }
+        ],
+        "has_significant_change": false
+      },
+      {
+        "time_span": {
+          "from": 1.0,
+          "to": 2.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 6",
+            "from": 22,
+            "to": 28,
+            "magnitude": 6
+          },
+          {
+            "type": "category_change",
+            "category": "motor",
+            "from": 5,
+            "to": 8,
+            "description": "motor count increased from 5 to 8"
+          },
+          {
+            "type": "category_change",
+            "category": "pedestrian",
+            "from": 10,
+            "to": 13,
+            "description": "pedestrian count increased from 10 to 13"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 2.0,
+          "to": 3.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "object_appear",
+            "category": "tricycle",
+            "count": 1,
+            "description": "1 tricycle(s) appeared in scene"
+          }
+        ],
+        "has_significant_change": false
+      }
+    ],
+    "traffic_timeline": [
+      {
+        "timestamp": 0.0,
+        "congestion": "free_flow",
+        "vehicle_count": 5,
+        "pedestrian_count": 14
+      },
+      {
+        "timestamp": 1.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 6,
+        "pedestrian_count": 16
+      },
+      {
+        "timestamp": 2.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 9,
+        "pedestrian_count": 19
+      },
+      {
+        "timestamp": 3.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 10,
+        "pedestrian_count": 17
+      }
+    ]
+  },
+  {
+    "video_name": "uav0000020_00406_v",
+    "num_frames": 501,
+    "duration_seconds": 16.7,
+    "image_size": [
+      1344,
+      756
+    ],
+    "num_sampled_frames": 17,
+    "num_events": 6,
+    "scenes": [
+      {
+        "frame_idx": 0,
+        "timestamp": 0.0,
+        "scene": {
+          "total_objects": 21,
+          "category_counts": {
+            "pedestrian": 15,
+            "awning-tricycle": 1,
+            "people": 2,
+            "bicycle": 1,
+            "motor": 2
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 17,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 0,
+            "r2c2": 4
+          },
+          "occlusion_stats": {
+            "partially_occluded": 14,
+            "heavily_occluded": 1
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 3,
+          "pedestrian_count": 17,
+          "vehicle_coverage_ratio": 0.0072,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 2
+          }
+        }
+      },
+      {
+        "frame_idx": 30,
+        "timestamp": 1.0,
+        "scene": {
+          "total_objects": 21,
+          "category_counts": {
+            "pedestrian": 15,
+            "awning-tricycle": 1,
+            "people": 2,
+            "bicycle": 1,
+            "motor": 2
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 17,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 0,
+            "r2c2": 4
+          },
+          "occlusion_stats": {
+            "partially_occluded": 14,
+            "heavily_occluded": 1
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 3,
+          "pedestrian_count": 17,
+          "vehicle_coverage_ratio": 0.0078,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 2
+          }
+        }
+      },
+      {
+        "frame_idx": 60,
+        "timestamp": 2.0,
+        "scene": {
+          "total_objects": 21,
+          "category_counts": {
+            "pedestrian": 15,
+            "awning-tricycle": 1,
+            "people": 2,
+            "bicycle": 1,
+            "motor": 2
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 17,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 0,
+            "r2c2": 4
+          },
+          "occlusion_stats": {
+            "partially_occluded": 14,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 3,
+          "pedestrian_count": 17,
+          "vehicle_coverage_ratio": 0.0077,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 2
+          }
+        }
+      },
+      {
+        "frame_idx": 90,
+        "timestamp": 3.0,
+        "scene": {
+          "total_objects": 17,
+          "category_counts": {
+            "pedestrian": 11,
+            "awning-tricycle": 1,
+            "people": 2,
+            "bicycle": 1,
+            "motor": 2
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 17,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 0,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 13,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 3,
+          "pedestrian_count": 13,
+          "vehicle_coverage_ratio": 0.0091,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 2
+          }
+        }
+      },
+      {
+        "frame_idx": 120,
+        "timestamp": 4.0,
+        "scene": {
+          "total_objects": 17,
+          "category_counts": {
+            "pedestrian": 11,
+            "awning-tricycle": 1,
+            "people": 2,
+            "bicycle": 1,
+            "motor": 2
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 16,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 1,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 13,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 3,
+          "pedestrian_count": 13,
+          "vehicle_coverage_ratio": 0.0114,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 2
+          }
+        }
+      },
+      {
+        "frame_idx": 150,
+        "timestamp": 5.0,
+        "scene": {
+          "total_objects": 18,
+          "category_counts": {
+            "pedestrian": 12,
+            "awning-tricycle": 1,
+            "people": 2,
+            "bicycle": 1,
+            "motor": 2
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 15,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 2,
+            "r2c2": 1
+          },
+          "occlusion_stats": {
+            "partially_occluded": 14,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 3,
+          "pedestrian_count": 14,
+          "vehicle_coverage_ratio": 0.0144,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 2
+          }
+        }
+      },
+      {
+        "frame_idx": 180,
+        "timestamp": 6.0,
+        "scene": {
+          "total_objects": 20,
+          "category_counts": {
+            "pedestrian": 13,
+            "awning-tricycle": 1,
+            "people": 2,
+            "bicycle": 1,
+            "motor": 3
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 14,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 5,
+            "r2c2": 1
+          },
+          "occlusion_stats": {
+            "partially_occluded": 15,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 4,
+          "pedestrian_count": 15,
+          "vehicle_coverage_ratio": 0.0228,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 3
+          }
+        }
+      },
+      {
+        "frame_idx": 210,
+        "timestamp": 7.0,
+        "scene": {
+          "total_objects": 20,
+          "category_counts": {
+            "pedestrian": 13,
+            "awning-tricycle": 1,
+            "people": 2,
+            "bicycle": 1,
+            "motor": 3
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 14,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 4,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 15,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 4,
+          "pedestrian_count": 15,
+          "vehicle_coverage_ratio": 0.03,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 3
+          }
+        }
+      },
+      {
+        "frame_idx": 240,
+        "timestamp": 8.0,
+        "scene": {
+          "total_objects": 19,
+          "category_counts": {
+            "pedestrian": 12,
+            "awning-tricycle": 1,
+            "people": 2,
+            "bicycle": 1,
+            "motor": 3
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 14,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 4,
+            "r2c2": 1
+          },
+          "occlusion_stats": {
+            "partially_occluded": 15,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 4,
+          "pedestrian_count": 14,
+          "vehicle_coverage_ratio": 0.0374,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 3
+          }
+        }
+      },
+      {
+        "frame_idx": 270,
+        "timestamp": 9.0,
+        "scene": {
+          "total_objects": 18,
+          "category_counts": {
+            "pedestrian": 12,
+            "awning-tricycle": 1,
+            "people": 2,
+            "bicycle": 1,
+            "motor": 2
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 14,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 2,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 14,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 3,
+          "pedestrian_count": 14,
+          "vehicle_coverage_ratio": 0.0272,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 2
+          }
+        }
+      },
+      {
+        "frame_idx": 300,
+        "timestamp": 10.0,
+        "scene": {
+          "total_objects": 23,
+          "category_counts": {
+            "pedestrian": 15,
+            "awning-tricycle": 1,
+            "people": 3,
+            "motor": 4
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 2,
+            "r1c1": 14,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 5,
+            "r2c2": 2
+          },
+          "occlusion_stats": {
+            "partially_occluded": 17,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 5,
+          "pedestrian_count": 18,
+          "vehicle_coverage_ratio": 0.0385,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 4
+          }
+        }
+      },
+      {
+        "frame_idx": 330,
+        "timestamp": 11.0,
+        "scene": {
+          "total_objects": 22,
+          "category_counts": {
+            "pedestrian": 15,
+            "awning-tricycle": 1,
+            "people": 3,
+            "motor": 3
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 1,
+            "r1c1": 15,
+            "r1c2": 0,
+            "r2c0": 1,
+            "r2c1": 5,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 17,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 4,
+          "pedestrian_count": 18,
+          "vehicle_coverage_ratio": 0.0321,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 3
+          }
+        }
+      },
+      {
+        "frame_idx": 360,
+        "timestamp": 12.0,
+        "scene": {
+          "total_objects": 19,
+          "category_counts": {
+            "awning-tricycle": 1,
+            "motor": 3,
+            "pedestrian": 13,
+            "people": 2
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 13,
+            "r1c2": 0,
+            "r2c0": 2,
+            "r2c1": 4,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 14,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 4,
+          "pedestrian_count": 15,
+          "vehicle_coverage_ratio": 0.0357,
+          "congestion_level": "light_traffic",
+          "vehicle_types": {
+            "awning-tricycle": 1,
+            "motor": 3
+          }
+        }
+      },
+      {
+        "frame_idx": 390,
+        "timestamp": 13.0,
+        "scene": {
+          "total_objects": 16,
+          "category_counts": {
+            "people": 2,
+            "motor": 2,
+            "pedestrian": 12
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 13,
+            "r1c2": 0,
+            "r2c0": 0,
+            "r2c1": 3,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 12,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 2,
+          "pedestrian_count": 14,
+          "vehicle_coverage_ratio": 0.01,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "motor": 2
+          }
+        }
+      },
+      {
+        "frame_idx": 420,
+        "timestamp": 14.0,
+        "scene": {
+          "total_objects": 16,
+          "category_counts": {
+            "people": 2,
+            "motor": 2,
+            "pedestrian": 12
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 13,
+            "r1c2": 0,
+            "r2c0": 3,
+            "r2c1": 0,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 12,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 2,
+          "pedestrian_count": 14,
+          "vehicle_coverage_ratio": 0.0061,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "motor": 2
+          }
+        }
+      },
+      {
+        "frame_idx": 450,
+        "timestamp": 15.0,
+        "scene": {
+          "total_objects": 15,
+          "category_counts": {
+            "pedestrian": 12,
+            "motor": 2,
+            "people": 1
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 11,
+            "r1c2": 4,
+            "r2c0": 0,
+            "r2c1": 0,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 7,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 2,
+          "pedestrian_count": 13,
+          "vehicle_coverage_ratio": 0.0026,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "motor": 2
+          }
+        }
+      },
+      {
+        "frame_idx": 480,
+        "timestamp": 16.0,
+        "scene": {
+          "total_objects": 19,
+          "category_counts": {
+            "pedestrian": 12,
+            "motor": 4,
+            "people": 3
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 0,
+            "r0c1": 0,
+            "r0c2": 0,
+            "r1c0": 3,
+            "r1c1": 7,
+            "r1c2": 9,
+            "r2c0": 0,
+            "r2c1": 0,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 11,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "pedestrian"
+        },
+        "traffic": {
+          "vehicle_count": 4,
+          "pedestrian_count": 15,
+          "vehicle_coverage_ratio": 0.0128,
+          "congestion_level": "free_flow",
+          "vehicle_types": {
+            "motor": 4
+          }
+        }
+      }
+    ],
+    "events": [
+      {
+        "time_span": {
+          "from": 2.0,
+          "to": 3.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects decreased by 4",
+            "from": 21,
+            "to": 17,
+            "magnitude": 4
+          },
+          {
+            "type": "category_change",
+            "category": "pedestrian",
+            "from": 15,
+            "to": 11,
+            "description": "pedestrian count decreased from 15 to 11"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 5.0,
+          "to": 6.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 2",
+            "from": 18,
+            "to": 20,
+            "magnitude": 2
+          }
+        ],
+        "has_significant_change": false
+      },
+      {
+        "time_span": {
+          "from": 9.0,
+          "to": 10.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 5",
+            "from": 18,
+            "to": 23,
+            "magnitude": 5
+          },
+          {
+            "type": "object_disappear",
+            "category": "bicycle",
+            "count": 1,
+            "description": "All 1 bicycle(s) left the scene"
+          },
+          {
+            "type": "category_change",
+            "category": "motor",
+            "from": 2,
+            "to": 4,
+            "description": "motor count increased from 2 to 4"
+          },
+          {
+            "type": "category_change",
+            "category": "pedestrian",
+            "from": 12,
+            "to": 15,
+            "description": "pedestrian count increased from 12 to 15"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 11.0,
+          "to": 12.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects decreased by 3",
+            "from": 22,
+            "to": 19,
+            "magnitude": 3
+          },
+          {
+            "type": "category_change",
+            "category": "pedestrian",
+            "from": 15,
+            "to": 13,
+            "description": "pedestrian count decreased from 15 to 13"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 12.0,
+          "to": 13.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects decreased by 3",
+            "from": 19,
+            "to": 16,
+            "magnitude": 3
+          },
+          {
+            "type": "object_disappear",
+            "category": "awning-tricycle",
+            "count": 1,
+            "description": "All 1 awning-tricycle(s) left the scene"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 15.0,
+          "to": 16.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 4",
+            "from": 15,
+            "to": 19,
+            "magnitude": 4
+          },
+          {
+            "type": "category_change",
+            "category": "motor",
+            "from": 2,
+            "to": 4,
+            "description": "motor count increased from 2 to 4"
+          },
+          {
+            "type": "category_change",
+            "category": "people",
+            "from": 1,
+            "to": 3,
+            "description": "people count increased from 1 to 3"
+          }
+        ],
+        "has_significant_change": true
+      }
+    ],
+    "traffic_timeline": [
+      {
+        "timestamp": 0.0,
+        "congestion": "free_flow",
+        "vehicle_count": 3,
+        "pedestrian_count": 17
+      },
+      {
+        "timestamp": 1.0,
+        "congestion": "free_flow",
+        "vehicle_count": 3,
+        "pedestrian_count": 17
+      },
+      {
+        "timestamp": 2.0,
+        "congestion": "free_flow",
+        "vehicle_count": 3,
+        "pedestrian_count": 17
+      },
+      {
+        "timestamp": 3.0,
+        "congestion": "free_flow",
+        "vehicle_count": 3,
+        "pedestrian_count": 13
+      },
+      {
+        "timestamp": 4.0,
+        "congestion": "free_flow",
+        "vehicle_count": 3,
+        "pedestrian_count": 13
+      },
+      {
+        "timestamp": 5.0,
+        "congestion": "free_flow",
+        "vehicle_count": 3,
+        "pedestrian_count": 14
+      },
+      {
+        "timestamp": 6.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 4,
+        "pedestrian_count": 15
+      },
+      {
+        "timestamp": 7.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 4,
+        "pedestrian_count": 15
+      },
+      {
+        "timestamp": 8.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 4,
+        "pedestrian_count": 14
+      },
+      {
+        "timestamp": 9.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 3,
+        "pedestrian_count": 14
+      },
+      {
+        "timestamp": 10.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 5,
+        "pedestrian_count": 18
+      },
+      {
+        "timestamp": 11.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 4,
+        "pedestrian_count": 18
+      },
+      {
+        "timestamp": 12.0,
+        "congestion": "light_traffic",
+        "vehicle_count": 4,
+        "pedestrian_count": 15
+      },
+      {
+        "timestamp": 13.0,
+        "congestion": "free_flow",
+        "vehicle_count": 2,
+        "pedestrian_count": 14
+      },
+      {
+        "timestamp": 14.0,
+        "congestion": "free_flow",
+        "vehicle_count": 2,
+        "pedestrian_count": 14
+      },
+      {
+        "timestamp": 15.0,
+        "congestion": "free_flow",
+        "vehicle_count": 2,
+        "pedestrian_count": 13
+      },
+      {
+        "timestamp": 16.0,
+        "congestion": "free_flow",
+        "vehicle_count": 4,
+        "pedestrian_count": 15
+      }
+    ]
+  },
+  {
+    "video_name": "uav0000071_03240_v",
+    "num_frames": 181,
+    "duration_seconds": 6.03,
+    "image_size": [
+      1904,
+      1071
+    ],
+    "num_sampled_frames": 7,
+    "num_events": 5,
+    "scenes": [
+      {
+        "frame_idx": 0,
+        "timestamp": 0.0,
+        "scene": {
+          "total_objects": 43,
+          "category_counts": {
+            "people": 14,
+            "motor": 4,
+            "pedestrian": 10,
+            "car": 12,
+            "tricycle": 1,
+            "bicycle": 2
+          },
+          "density_level": "dense",
+          "spatial_distribution": {
+            "r0c0": 12,
+            "r0c1": 11,
+            "r0c2": 8,
+            "r1c0": 1,
+            "r1c1": 5,
+            "r1c2": 3,
+            "r2c0": 2,
+            "r2c1": 0,
+            "r2c2": 1
+          },
+          "occlusion_stats": {
+            "partially_occluded": 14,
+            "heavily_occluded": 1
+          },
+          "dominant_category": "people"
+        },
+        "traffic": {
+          "vehicle_count": 17,
+          "pedestrian_count": 24,
+          "vehicle_coverage_ratio": 0.1051,
+          "congestion_level": "moderate_traffic",
+          "vehicle_types": {
+            "motor": 4,
+            "car": 12,
+            "tricycle": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 30,
+        "timestamp": 1.0,
+        "scene": {
+          "total_objects": 43,
+          "category_counts": {
+            "people": 14,
+            "motor": 4,
+            "pedestrian": 9,
+            "bicycle": 3,
+            "car": 12,
+            "tricycle": 1
+          },
+          "density_level": "dense",
+          "spatial_distribution": {
+            "r0c0": 13,
+            "r0c1": 10,
+            "r0c2": 10,
+            "r1c0": 0,
+            "r1c1": 2,
+            "r1c2": 5,
+            "r2c0": 3,
+            "r2c1": 0,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 13,
+            "heavily_occluded": 1
+          },
+          "dominant_category": "people"
+        },
+        "traffic": {
+          "vehicle_count": 17,
+          "pedestrian_count": 23,
+          "vehicle_coverage_ratio": 0.0863,
+          "congestion_level": "moderate_traffic",
+          "vehicle_types": {
+            "motor": 4,
+            "car": 12,
+            "tricycle": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 60,
+        "timestamp": 2.0,
+        "scene": {
+          "total_objects": 33,
+          "category_counts": {
+            "people": 10,
+            "motor": 3,
+            "pedestrian": 6,
+            "bicycle": 1,
+            "car": 12,
+            "tricycle": 1
+          },
+          "density_level": "dense",
+          "spatial_distribution": {
+            "r0c0": 10,
+            "r0c1": 7,
+            "r0c2": 8,
+            "r1c0": 4,
+            "r1c1": 2,
+            "r1c2": 2,
+            "r2c0": 0,
+            "r2c1": 0,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 7,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "car"
+        },
+        "traffic": {
+          "vehicle_count": 16,
+          "pedestrian_count": 16,
+          "vehicle_coverage_ratio": 0.153,
+          "congestion_level": "moderate_traffic",
+          "vehicle_types": {
+            "motor": 3,
+            "car": 12,
+            "tricycle": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 90,
+        "timestamp": 3.0,
+        "scene": {
+          "total_objects": 22,
+          "category_counts": {
+            "people": 4,
+            "motor": 3,
+            "pedestrian": 5,
+            "bicycle": 1,
+            "tricycle": 1,
+            "car": 8
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 5,
+            "r0c1": 8,
+            "r0c2": 0,
+            "r1c0": 0,
+            "r1c1": 2,
+            "r1c2": 4,
+            "r2c0": 1,
+            "r2c1": 2,
+            "r2c2": 0
+          },
+          "occlusion_stats": {
+            "partially_occluded": 7,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "car"
+        },
+        "traffic": {
+          "vehicle_count": 12,
+          "pedestrian_count": 9,
+          "vehicle_coverage_ratio": 0.1979,
+          "congestion_level": "moderate_traffic",
+          "vehicle_types": {
+            "motor": 3,
+            "tricycle": 1,
+            "car": 8
+          }
+        }
+      },
+      {
+        "frame_idx": 120,
+        "timestamp": 4.0,
+        "scene": {
+          "total_objects": 24,
+          "category_counts": {
+            "pedestrian": 6,
+            "people": 3,
+            "bicycle": 1,
+            "motor": 2,
+            "car": 11,
+            "van": 1
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 5,
+            "r0c1": 4,
+            "r0c2": 8,
+            "r1c0": 0,
+            "r1c1": 3,
+            "r1c2": 1,
+            "r2c0": 1,
+            "r2c1": 1,
+            "r2c2": 1
+          },
+          "occlusion_stats": {
+            "partially_occluded": 9,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "car"
+        },
+        "traffic": {
+          "vehicle_count": 14,
+          "pedestrian_count": 9,
+          "vehicle_coverage_ratio": 0.1918,
+          "congestion_level": "moderate_traffic",
+          "vehicle_types": {
+            "motor": 2,
+            "car": 11,
+            "van": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 150,
+        "timestamp": 5.0,
+        "scene": {
+          "total_objects": 20,
+          "category_counts": {
+            "pedestrian": 5,
+            "people": 4,
+            "bicycle": 1,
+            "motor": 2,
+            "car": 7,
+            "van": 1
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 2,
+            "r0c1": 2,
+            "r0c2": 8,
+            "r1c0": 4,
+            "r1c1": 1,
+            "r1c2": 1,
+            "r2c0": 0,
+            "r2c1": 1,
+            "r2c2": 1
+          },
+          "occlusion_stats": {
+            "partially_occluded": 10,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "car"
+        },
+        "traffic": {
+          "vehicle_count": 10,
+          "pedestrian_count": 9,
+          "vehicle_coverage_ratio": 0.1448,
+          "congestion_level": "moderate_traffic",
+          "vehicle_types": {
+            "motor": 2,
+            "car": 7,
+            "van": 1
+          }
+        }
+      },
+      {
+        "frame_idx": 180,
+        "timestamp": 6.0,
+        "scene": {
+          "total_objects": 22,
+          "category_counts": {
+            "pedestrian": 4,
+            "bicycle": 1,
+            "people": 6,
+            "motor": 3,
+            "car": 8
+          },
+          "density_level": "moderate",
+          "spatial_distribution": {
+            "r0c0": 4,
+            "r0c1": 0,
+            "r0c2": 6,
+            "r1c0": 0,
+            "r1c1": 8,
+            "r1c2": 3,
+            "r2c0": 0,
+            "r2c1": 0,
+            "r2c2": 1
+          },
+          "occlusion_stats": {
+            "partially_occluded": 13,
+            "heavily_occluded": 0
+          },
+          "dominant_category": "car"
+        },
+        "traffic": {
+          "vehicle_count": 11,
+          "pedestrian_count": 10,
+          "vehicle_coverage_ratio": 0.112,
+          "congestion_level": "moderate_traffic",
+          "vehicle_types": {
+            "motor": 3,
+            "car": 8
+          }
+        }
+      }
+    ],
+    "events": [
+      {
+        "time_span": {
+          "from": 1.0,
+          "to": 2.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects decreased by 10",
+            "from": 43,
+            "to": 33,
+            "magnitude": 10
+          },
+          {
+            "type": "category_change",
+            "category": "bicycle",
+            "from": 3,
+            "to": 1,
+            "description": "bicycle count decreased from 3 to 1"
+          },
+          {
+            "type": "category_change",
+            "category": "pedestrian",
+            "from": 9,
+            "to": 6,
+            "description": "pedestrian count decreased from 9 to 6"
+          },
+          {
+            "type": "category_change",
+            "category": "people",
+            "from": 14,
+            "to": 10,
+            "description": "people count decreased from 14 to 10"
+          },
+          {
+            "type": "dominant_change",
+            "from": "people",
+            "to": "car",
+            "description": "Dominant category changed from people to car"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 2.0,
+          "to": 3.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects decreased by 11",
+            "from": 33,
+            "to": 22,
+            "magnitude": 11
+          },
+          {
+            "type": "category_change",
+            "category": "car",
+            "from": 12,
+            "to": 8,
+            "description": "car count decreased from 12 to 8"
+          },
+          {
+            "type": "category_change",
+            "category": "people",
+            "from": 10,
+            "to": 4,
+            "description": "people count decreased from 10 to 4"
+          },
+          {
+            "type": "density_change",
+            "from": "dense",
+            "to": "moderate",
+            "description": "Scene density changed from dense to moderate"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 3.0,
+          "to": 4.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 2",
+            "from": 22,
+            "to": 24,
+            "magnitude": 2
+          },
+          {
+            "type": "category_change",
+            "category": "car",
+            "from": 8,
+            "to": 11,
+            "description": "car count increased from 8 to 11"
+          },
+          {
+            "type": "object_disappear",
+            "category": "tricycle",
+            "count": 1,
+            "description": "All 1 tricycle(s) left the scene"
+          },
+          {
+            "type": "object_appear",
+            "category": "van",
+            "count": 1,
+            "description": "1 van(s) appeared in scene"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 4.0,
+          "to": 5.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects decreased by 4",
+            "from": 24,
+            "to": 20,
+            "magnitude": 4
+          },
+          {
+            "type": "category_change",
+            "category": "car",
+            "from": 11,
+            "to": 7,
+            "description": "car count decreased from 11 to 7"
+          }
+        ],
+        "has_significant_change": true
+      },
+      {
+        "time_span": {
+          "from": 5.0,
+          "to": 6.0,
+          "duration": 1.0
+        },
+        "events": [
+          {
+            "type": "count_change",
+            "description": "Total objects increased by 2",
+            "from": 20,
+            "to": 22,
+            "magnitude": 2
+          },
+          {
+            "type": "category_change",
+            "category": "people",
+            "from": 4,
+            "to": 6,
+            "description": "people count increased from 4 to 6"
+          },
+          {
+            "type": "object_disappear",
+            "category": "van",
+            "count": 1,
+            "description": "All 1 van(s) left the scene"
+          }
+        ],
+        "has_significant_change": true
+      }
+    ],
+    "traffic_timeline": [
+      {
+        "timestamp": 0.0,
+        "congestion": "moderate_traffic",
+        "vehicle_count": 17,
+        "pedestrian_count": 24
+      },
+      {
+        "timestamp": 1.0,
+        "congestion": "moderate_traffic",
+        "vehicle_count": 17,
+        "pedestrian_count": 23
+      },
+      {
+        "timestamp": 2.0,
+        "congestion": "moderate_traffic",
+        "vehicle_count": 16,
+        "pedestrian_count": 16
+      },
+      {
+        "timestamp": 3.0,
+        "congestion": "moderate_traffic",
+        "vehicle_count": 12,
+        "pedestrian_count": 9
+      },
+      {
+        "timestamp": 4.0,
+        "congestion": "moderate_traffic",
+        "vehicle_count": 14,
+        "pedestrian_count": 9
+      },
+      {
+        "timestamp": 5.0,
+        "congestion": "moderate_traffic",
+        "vehicle_count": 10,
+        "pedestrian_count": 9
+      },
+      {
+        "timestamp": 6.0,
+        "congestion": "moderate_traffic",
+        "vehicle_count": 11,
+        "pedestrian_count": 10
+      }
+    ]
+  }
+]

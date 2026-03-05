@@ -1,0 +1,906 @@
+[
+  {
+    "question": "What type of object has recently appeared in the scene?",
+    "options": [
+      "A. awning-tricycle",
+      "B. motor",
+      "C. truck",
+      "D. bicycle"
+    ],
+    "answer": "A",
+    "answer_text": "awning-tricycle",
+    "query_timestamp": 5.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "awning-tricycle appeared in scene @5.0s",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "Is there any people visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "A",
+    "answer_text": "Yes",
+    "query_timestamp": 4.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@4.0s: people present (8)",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "How many motor(s) are currently visible in the aerial view?",
+    "options": [
+      "A. 5",
+      "B. 4",
+      "C. 7",
+      "D. 3"
+    ],
+    "answer": "C",
+    "answer_text": "7",
+    "query_timestamp": 1.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@1.0s: motor=7",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "What type of object has recently disappeared from the scene?",
+    "options": [
+      "A. awning-tricycle",
+      "B. truck",
+      "C. van",
+      "D. tricycle"
+    ],
+    "answer": "A",
+    "answer_text": "awning-tricycle",
+    "query_timestamp": 8.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "awning-tricycle disappeared from scene @8.0s",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "How many pedestrian(s) are currently visible in the aerial view?",
+    "options": [
+      "A. 8",
+      "B. 5",
+      "C. 7",
+      "D. 10"
+    ],
+    "answer": "D",
+    "answer_text": "10",
+    "query_timestamp": 0.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@0.0s: pedestrian=10",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "What is the correct chronological order of these observed events?",
+    "options": [
+      "A. pedestrian count increased from 10 to 12 → All 1 tricycle(s) left the scene → pedestrian count increased from 20 to 22",
+      "B. pedestrian count increased from 20 to 22 → All 1 tricycle(s) left the scene → pedestrian count increased from 10 to 12",
+      "C. pedestrian count increased from 10 to 12 → pedestrian count increased from 20 to 22 → All 1 tricycle(s) left the scene",
+      "D. They occurred simultaneously"
+    ],
+    "answer": "A",
+    "answer_text": "pedestrian count increased from 10 to 12 → All 1 tricycle(s) left the scene → pedestrian count increased from 20 to 22",
+    "query_timestamp": 8.0,
+    "qa_type": "backward",
+    "difficulty": "L3",
+    "source_evidence": "Events sorted by time: [{\"desc\": \"pedestrian count increased from 10 to 12\", \"ts\": 2.0}, {\"desc\": \"All 1 tricycle(s) left the scene\", \"ts\": 4.0}, {\"desc\": \"pedestrian count increased from 20 to 22\", \"ts\": 8.0}]",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "Compared to earlier frames, has the total number of objects in the scene increased or decreased?",
+    "options": [
+      "A. Increased by about 2 (from 23 to 25)",
+      "B. Decreased by about 2 (from 23 to 21)",
+      "C. Remained roughly the same",
+      "D. Cannot be determined from the video"
+    ],
+    "answer": "A",
+    "answer_text": "Increased from 23 to 25",
+    "query_timestamp": 2.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "Count change: 23→25 over 1.0s",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "How would you describe the current scene density from the aerial perspective?",
+    "options": [
+      "A. Very densely crowded",
+      "B. Densely populated with many objects",
+      "C. Sparse with only a few objects",
+      "D. Moderately populated"
+    ],
+    "answer": "B",
+    "answer_text": "Densely populated with many objects",
+    "query_timestamp": 4.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@4.0s: density=dense, total=31",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "How has the scene density changed over the recent video segment?",
+    "options": [
+      "A. Changed from dense to moderate",
+      "B. Changed from moderate to dense",
+      "C. Remained at dense level throughout",
+      "D. Fluctuated unpredictably"
+    ],
+    "answer": "A",
+    "answer_text": "Density changed from dense to moderate",
+    "query_timestamp": 6.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "Density: dense→moderate",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "What is the most common type of object currently visible from the drone?",
+    "options": [
+      "A. truck",
+      "B. pedestrian",
+      "C. people",
+      "D. tricycle"
+    ],
+    "answer": "B",
+    "answer_text": "pedestrian",
+    "query_timestamp": 5.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@5.0s: dominant=pedestrian, counts={'pedestrian': 15, 'motor': 7, 'people': 8, 'bicycle': 1, 'awning-tricycle': 1}",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "Is there any bicycle visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "A",
+    "answer_text": "Yes",
+    "query_timestamp": 3.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@3.0s: bicycle present (1)",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "Based on the traffic trend observed, what is your prediction for the near future?",
+    "options": [
+      "A. Traffic congestion is likely to worsen",
+      "B. Traffic congestion is likely to improve",
+      "C. Traffic will likely remain at a similar level",
+      "D. Insufficient information to make a prediction"
+    ],
+    "answer": "C",
+    "answer_text": "Traffic is likely to remain similar",
+    "query_timestamp": 8.0,
+    "qa_type": "forward",
+    "difficulty": "L3",
+    "source_evidence": "Recent 5 vehicle counts: [7, 8, 6, 5, 4], slope=-0.75",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "Is there any car visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "B",
+    "answer_text": "No",
+    "query_timestamp": 3.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@3.0s: car absent",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "Based on your observation of the video stream, what is the overall trend of traffic flow?",
+    "options": [
+      "A. Traffic is gradually increasing",
+      "B. Traffic is gradually decreasing",
+      "C. Traffic has remained relatively stable",
+      "D. Traffic is fluctuating unpredictably"
+    ],
+    "answer": "C",
+    "answer_text": "Traffic is stable",
+    "query_timestamp": 8.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "Vehicle counts (recent half): [7, 8, 6, 5, 4]",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "Is there any bus visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "B",
+    "answer_text": "No",
+    "query_timestamp": 0.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@0.0s: bus absent",
+    "video_name": "uav0000013_00000_v"
+  },
+  {
+    "question": "How would you describe the current scene density from the aerial perspective?",
+    "options": [
+      "A. Densely populated with many objects",
+      "B. Sparse with only a few objects",
+      "C. Moderately populated",
+      "D. Almost empty with few or no objects"
+    ],
+    "answer": "C",
+    "answer_text": "Moderately populated",
+    "query_timestamp": 1.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@1.0s: density=moderate, total=22",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "Is there any truck visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "B",
+    "answer_text": "No",
+    "query_timestamp": 0.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@0.0s: truck absent",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "How many motor(s) are currently visible in the aerial view?",
+    "options": [
+      "A. 6",
+      "B. 4",
+      "C. 5",
+      "D. 8"
+    ],
+    "answer": "D",
+    "answer_text": "8",
+    "query_timestamp": 2.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@2.0s: motor=8",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "Compared to earlier frames, has the total number of objects in the scene increased or decreased?",
+    "options": [
+      "A. Increased by about 3 (from 19 to 22)",
+      "B. Decreased by about 3 (from 19 to 16)",
+      "C. Remained roughly the same",
+      "D. Cannot be determined from the video"
+    ],
+    "answer": "A",
+    "answer_text": "Increased from 19 to 22",
+    "query_timestamp": 1.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "Count change: 19→22 over 1.0s",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "What is the most common type of object currently visible from the drone?",
+    "options": [
+      "A. bicycle",
+      "B. awning-tricycle",
+      "C. bus",
+      "D. pedestrian"
+    ],
+    "answer": "D",
+    "answer_text": "pedestrian",
+    "query_timestamp": 1.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@1.0s: dominant=pedestrian, counts={'motor': 5, 'people': 6, 'pedestrian': 10, 'awning-tricycle': 1}",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "Is there any bus visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "B",
+    "answer_text": "No",
+    "query_timestamp": 2.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@2.0s: bus absent",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "How many awning-tricycle(s) are currently visible in the aerial view?",
+    "options": [
+      "A. 3",
+      "B. 2",
+      "C. 0",
+      "D. 1"
+    ],
+    "answer": "D",
+    "answer_text": "1",
+    "query_timestamp": 0.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@0.0s: awning-tricycle=1",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "Is there any people visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "A",
+    "answer_text": "Yes",
+    "query_timestamp": 0.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@0.0s: people present (5)",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "What is the correct chronological order of these observed events?",
+    "options": [
+      "A. Total objects increased by 6 → motor count increased from 5 to 8 → 1 tricycle(s) appeared in scene",
+      "B. 1 tricycle(s) appeared in scene → motor count increased from 5 to 8 → Total objects increased by 6",
+      "C. Total objects increased by 6 → 1 tricycle(s) appeared in scene → motor count increased from 5 to 8",
+      "D. They occurred simultaneously"
+    ],
+    "answer": "A",
+    "answer_text": "Total objects increased by 6 → motor count increased from 5 to 8 → 1 tricycle(s) appeared in scene",
+    "query_timestamp": 3.0,
+    "qa_type": "backward",
+    "difficulty": "L3",
+    "source_evidence": "Events sorted by time: [{\"desc\": \"Total objects increased by 6\", \"ts\": 2.0}, {\"desc\": \"motor count increased from 5 to 8\", \"ts\": 2.0}, {\"desc\": \"1 tricycle(s) appeared in scene\", \"ts\": 3.0}]",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "Is there any awning-tricycle visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "A",
+    "answer_text": "Yes",
+    "query_timestamp": 1.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@1.0s: awning-tricycle present (1)",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "Is there any bicycle visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "B",
+    "answer_text": "No",
+    "query_timestamp": 1.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@1.0s: bicycle absent",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "What type of object has recently appeared in the scene?",
+    "options": [
+      "A. tricycle",
+      "B. bus",
+      "C. van",
+      "D. bicycle"
+    ],
+    "answer": "A",
+    "answer_text": "tricycle",
+    "query_timestamp": 3.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "tricycle appeared in scene @3.0s",
+    "video_name": "uav0000013_01392_v"
+  },
+  {
+    "question": "How would you describe the current scene density from the aerial perspective?",
+    "options": [
+      "A. Almost empty with few or no objects",
+      "B. Sparse with only a few objects",
+      "C. Densely populated with many objects",
+      "D. Moderately populated"
+    ],
+    "answer": "D",
+    "answer_text": "Moderately populated",
+    "query_timestamp": 11.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@11.0s: density=moderate, total=22",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "Is there any pedestrian visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "A",
+    "answer_text": "Yes",
+    "query_timestamp": 15.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@15.0s: pedestrian present (12)",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "How many people(s) are currently visible in the aerial view?",
+    "options": [
+      "A. 0",
+      "B. 1",
+      "C. 3",
+      "D. 2"
+    ],
+    "answer": "C",
+    "answer_text": "3",
+    "query_timestamp": 11.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@11.0s: people=3",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "What is the most common type of object currently visible from the drone?",
+    "options": [
+      "A. bicycle",
+      "B. bus",
+      "C. awning-tricycle",
+      "D. pedestrian"
+    ],
+    "answer": "D",
+    "answer_text": "pedestrian",
+    "query_timestamp": 14.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@14.0s: dominant=pedestrian, counts={'people': 2, 'motor': 2, 'pedestrian': 12}",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "Based on your observation of the video stream, what is the overall trend of traffic flow?",
+    "options": [
+      "A. Traffic is gradually increasing",
+      "B. Traffic is gradually decreasing",
+      "C. Traffic has remained relatively stable",
+      "D. Traffic is fluctuating unpredictably"
+    ],
+    "answer": "C",
+    "answer_text": "Traffic is stable",
+    "query_timestamp": 16.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "Vehicle counts (recent half): [4, 3, 5, 4, 4, 2, 2, 2, 4]",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "Compared to earlier frames, has the total number of objects in the scene increased or decreased?",
+    "options": [
+      "A. Increased by about 3 (from 22 to 19)",
+      "B. Decreased by about 3 (from 22 to 19)",
+      "C. Remained roughly the same",
+      "D. Cannot be determined from the video"
+    ],
+    "answer": "B",
+    "answer_text": "Decreased from 22 to 19",
+    "query_timestamp": 12.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "Count change: 22→19 over 1.0s",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "What type of object has recently disappeared from the scene?",
+    "options": [
+      "A. tricycle",
+      "B. awning-tricycle",
+      "C. pedestrian",
+      "D. car"
+    ],
+    "answer": "B",
+    "answer_text": "awning-tricycle",
+    "query_timestamp": 13.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "awning-tricycle disappeared from scene @13.0s",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "Is there any awning-tricycle visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "A",
+    "answer_text": "Yes",
+    "query_timestamp": 12.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@12.0s: awning-tricycle present (1)",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "Is there any bicycle visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "A",
+    "answer_text": "Yes",
+    "query_timestamp": 7.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@7.0s: bicycle present (1)",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "How many pedestrian(s) are currently visible in the aerial view?",
+    "options": [
+      "A. 13",
+      "B. 12",
+      "C. 15",
+      "D. 7"
+    ],
+    "answer": "C",
+    "answer_text": "15",
+    "query_timestamp": 0.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@0.0s: pedestrian=15",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "Is there any truck visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "B",
+    "answer_text": "No",
+    "query_timestamp": 12.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@12.0s: truck absent",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "What is the correct chronological order of these observed events?",
+    "options": [
+      "A. pedestrian count increased from 12 to 15 → All 1 bicycle(s) left the scene → Total objects decreased by 3",
+      "B. Total objects decreased by 3 → All 1 bicycle(s) left the scene → pedestrian count increased from 12 to 15",
+      "C. pedestrian count increased from 12 to 15 → Total objects decreased by 3 → All 1 bicycle(s) left the scene",
+      "D. They occurred simultaneously"
+    ],
+    "answer": "A",
+    "answer_text": "pedestrian count increased from 12 to 15 → All 1 bicycle(s) left the scene → Total objects decreased by 3",
+    "query_timestamp": 12.0,
+    "qa_type": "backward",
+    "difficulty": "L3",
+    "source_evidence": "Events sorted by time: [{\"desc\": \"pedestrian count increased from 12 to 15\", \"ts\": 10.0}, {\"desc\": \"All 1 bicycle(s) left the scene\", \"ts\": 10.0}, {\"desc\": \"Total objects decreased by 3\", \"ts\": 12.0}]",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "Is there any bus visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "B",
+    "answer_text": "No",
+    "query_timestamp": 7.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@7.0s: bus absent",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "Is there any tricycle visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "B",
+    "answer_text": "No",
+    "query_timestamp": 15.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@15.0s: tricycle absent",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "Based on the traffic trend observed, what is your prediction for the near future?",
+    "options": [
+      "A. Traffic congestion is likely to worsen",
+      "B. Traffic congestion is likely to improve",
+      "C. Traffic will likely remain at a similar level",
+      "D. Insufficient information to make a prediction"
+    ],
+    "answer": "C",
+    "answer_text": "Traffic is likely to remain similar",
+    "query_timestamp": 16.0,
+    "qa_type": "forward",
+    "difficulty": "L3",
+    "source_evidence": "Recent 5 vehicle counts: [4, 2, 2, 2, 4], slope=0.00",
+    "video_name": "uav0000020_00406_v"
+  },
+  {
+    "question": "Is there any awning-tricycle visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "B",
+    "answer_text": "No",
+    "query_timestamp": 5.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@5.0s: awning-tricycle absent",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "What type of object has recently appeared in the scene?",
+    "options": [
+      "A. van",
+      "B. motor",
+      "C. tricycle",
+      "D. people"
+    ],
+    "answer": "A",
+    "answer_text": "van",
+    "query_timestamp": 4.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "van appeared in scene @4.0s",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "What type of object has recently disappeared from the scene?",
+    "options": [
+      "A. van",
+      "B. car",
+      "C. people",
+      "D. tricycle"
+    ],
+    "answer": "A",
+    "answer_text": "van",
+    "query_timestamp": 6.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "van disappeared from scene @6.0s",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "Is there any pedestrian visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "A",
+    "answer_text": "Yes",
+    "query_timestamp": 4.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@4.0s: pedestrian present (6)",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "How would you describe the current scene density from the aerial perspective?",
+    "options": [
+      "A. Almost empty with few or no objects",
+      "B. Densely populated with many objects",
+      "C. Very densely crowded",
+      "D. Sparse with only a few objects"
+    ],
+    "answer": "B",
+    "answer_text": "Densely populated with many objects",
+    "query_timestamp": 1.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@1.0s: density=dense, total=43",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "Compared to earlier frames, has the total number of objects in the scene increased or decreased?",
+    "options": [
+      "A. Increased by about 4 (from 24 to 20)",
+      "B. Decreased by about 4 (from 24 to 20)",
+      "C. Remained roughly the same",
+      "D. Cannot be determined from the video"
+    ],
+    "answer": "B",
+    "answer_text": "Decreased from 24 to 20",
+    "query_timestamp": 5.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "Count change: 24→20 over 1.0s",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "Is there any tricycle visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "A",
+    "answer_text": "Yes",
+    "query_timestamp": 3.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@3.0s: tricycle present (1)",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "What is the most common type of object currently visible from the drone?",
+    "options": [
+      "A. bicycle",
+      "B. car",
+      "C. awning-tricycle",
+      "D. bus"
+    ],
+    "answer": "B",
+    "answer_text": "car",
+    "query_timestamp": 2.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@2.0s: dominant=car, counts={'people': 10, 'motor': 3, 'pedestrian': 6, 'bicycle': 1, 'car': 12, 'tricycle': 1}",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "How has the scene density changed over the recent video segment?",
+    "options": [
+      "A. Changed from dense to moderate",
+      "B. Changed from moderate to dense",
+      "C. Remained at dense level throughout",
+      "D. Fluctuated unpredictably"
+    ],
+    "answer": "A",
+    "answer_text": "Density changed from dense to moderate",
+    "query_timestamp": 3.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "Density: dense→moderate",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "How many tricycle(s) are currently visible in the aerial view?",
+    "options": [
+      "A. 0",
+      "B. 3",
+      "C. 2",
+      "D. 1"
+    ],
+    "answer": "D",
+    "answer_text": "1",
+    "query_timestamp": 0.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@0.0s: tricycle=1",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "What is the correct chronological order of these observed events?",
+    "options": [
+      "A. bicycle count decreased from 3 to 1 → pedestrian count decreased from 9 to 6 → Scene density changed from dense to moderate",
+      "B. Scene density changed from dense to moderate → pedestrian count decreased from 9 to 6 → bicycle count decreased from 3 to 1",
+      "C. bicycle count decreased from 3 to 1 → pedestrian count decreased from 9 to 6 → Scene density changed from dense to moderate",
+      "D. They occurred simultaneously"
+    ],
+    "answer": "A",
+    "answer_text": "bicycle count decreased from 3 to 1 → pedestrian count decreased from 9 to 6 → Scene density changed from dense to moderate",
+    "query_timestamp": 3.0,
+    "qa_type": "backward",
+    "difficulty": "L3",
+    "source_evidence": "Events sorted by time: [{\"desc\": \"bicycle count decreased from 3 to 1\", \"ts\": 2.0}, {\"desc\": \"pedestrian count decreased from 9 to 6\", \"ts\": 2.0}, {\"desc\": \"Scene density changed from dense to moderate\", \"ts\": 3.0}]",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "Based on your observation of the video stream, what is the overall trend of traffic flow?",
+    "options": [
+      "A. Traffic is gradually increasing",
+      "B. Traffic is gradually decreasing",
+      "C. Traffic has remained relatively stable",
+      "D. Traffic is fluctuating unpredictably"
+    ],
+    "answer": "C",
+    "answer_text": "Traffic is stable",
+    "query_timestamp": 6.0,
+    "qa_type": "backward",
+    "difficulty": "L2",
+    "source_evidence": "Vehicle counts (recent half): [12, 14, 10, 11]",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "Is there any car visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "A",
+    "answer_text": "Yes",
+    "query_timestamp": 5.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@5.0s: car present (7)",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "Based on the traffic trend observed, what is your prediction for the near future?",
+    "options": [
+      "A. Traffic congestion is likely to worsen",
+      "B. Traffic congestion is likely to improve",
+      "C. Traffic will likely remain at a similar level",
+      "D. Insufficient information to make a prediction"
+    ],
+    "answer": "B",
+    "answer_text": "Traffic is likely to improve",
+    "query_timestamp": 6.0,
+    "qa_type": "forward",
+    "difficulty": "L3",
+    "source_evidence": "Recent 5 vehicle counts: [16, 12, 14, 10, 11], slope=-1.25",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "Is there any bus visible in the current drone footage?",
+    "options": [
+      "A. Yes",
+      "B. No"
+    ],
+    "answer": "B",
+    "answer_text": "No",
+    "query_timestamp": 3.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@3.0s: bus absent",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "How many car(s) are currently visible in the aerial view?",
+    "options": [
+      "A. 4",
+      "B. 6",
+      "C. 5",
+      "D. 8"
+    ],
+    "answer": "D",
+    "answer_text": "8",
+    "query_timestamp": 6.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@6.0s: car=8",
+    "video_name": "uav0000071_03240_v"
+  },
+  {
+    "question": "How many bicycle(s) are currently visible in the aerial view?",
+    "options": [
+      "A. 0",
+      "B. 2",
+      "C. 1",
+      "D. 3"
+    ],
+    "answer": "D",
+    "answer_text": "3",
+    "query_timestamp": 1.0,
+    "qa_type": "realtime",
+    "difficulty": "L1",
+    "source_evidence": "Frame@1.0s: bicycle=3",
+    "video_name": "uav0000071_03240_v"
+  }
+]
