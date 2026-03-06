@@ -118,6 +118,7 @@ class QwenInferenceWrapper:
     def ask_question(
         self,
         question: str,
+        query_image=None,
         max_new_tokens: int = 256,
         min_new_tokens: int = 1,
         do_sample: bool = False,
@@ -136,6 +137,7 @@ class QwenInferenceWrapper:
         with self.inference_lock:
             response, metrics = self.engine.ask(
                 question,
+                query_image=query_image,
                 max_new_tokens=max_new_tokens,
                 min_new_tokens=min_new_tokens,
                 do_sample=do_sample,
@@ -150,6 +152,7 @@ class QwenInferenceWrapper:
     def ask_question_stream(
         self,
         question: str,
+        query_image=None,
         max_new_tokens: int = 256,
         min_new_tokens: int = 1,
         do_sample: bool = False,
@@ -161,6 +164,7 @@ class QwenInferenceWrapper:
         with self.inference_lock:
             for event in self.engine.ask_stream(
                 question,
+                query_image=query_image,
                 max_new_tokens=max_new_tokens,
                 min_new_tokens=min_new_tokens,
                 do_sample=do_sample,

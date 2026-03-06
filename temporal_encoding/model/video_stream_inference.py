@@ -149,6 +149,38 @@ class VideoStreamingInference:
         )
         return self._extract_user_vision_turn(text_prompt)
 
+    def _build_question_inputs(self, question: str, query_image=None):
+        """构造问答输入；可选附加一张查询图像作为视觉锚点。"""
+        if query_image is None:
+            messages = [
+                {"role": "user", "content": [{"type": "text", "text": question}]}
+            ]
+            text_prompt = self.processor.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True
+            )
+            return self.processor(
+                text=[text_prompt], images=None, padding=True, return_tensors="pt"
+            ).to(self.device)
+
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image", "image": query_image},
+                    {"type": "text", "text": question},
+                ],
+            }
+        ]
+        text_prompt = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+        return self.processor(
+            text=[text_prompt],
+            images=[query_image],
+            padding=True,
+            return_tensors="pt",
+        ).to(self.device)
+
     # ── Reset ──────────────────────────────────────────────────
 
     def reset(self):
@@ -276,6 +308,7 @@ class VideoStreamingInference:
     def ask(
         self,
         question: str,
+        query_image=None,
         max_new_tokens: int = 256,
         min_new_tokens: int = 1,
         update_state: bool = False,
@@ -296,17 +329,8 @@ class VideoStreamingInference:
         # Snapshot: 保护视频 KV Cache + 模型 stream_state
         self.cache_manager.snapshot(self.model)
 
-        # 1) 构造问题 Prompt（不重复 system prompt）
-        messages = [
-            {"role": "user", "content": [{"type": "text", "text": question}]}
-        ]
-        text_prompt = self.processor.apply_chat_template(
-            messages, tokenize=False, add_generation_prompt=True
-        )
-
-        inputs = self.processor(
-            text=[text_prompt], images=None, padding=True, return_tensors="pt"
-        ).to(self.device)
+        # 1) 构造问题 Prompt；可选附加当前帧图像作为查询锚点
+        inputs = self._build_question_inputs(question, query_image=query_image)
 
         input_ids = inputs.input_ids
 
@@ -431,6 +455,7 @@ class VideoStreamingInference:
     def ask_stream(
         self,
         question: str,
+        query_image=None,
         max_new_tokens: int = 256,
         min_new_tokens: int = 1,
         update_state: bool = False,
@@ -456,14 +481,7 @@ class VideoStreamingInference:
         # Snapshot: 保护视频 KV Cache + 模型 stream_state
         self.cache_manager.snapshot(self.model)
 
-        messages = [{"role": "user", "content": [{"type": "text", "text": question}]}]
-        text_prompt = self.processor.apply_chat_template(
-            messages, tokenize=False, add_generation_prompt=True
-        )
-
-        inputs = self.processor(
-            text=[text_prompt], images=None, padding=True, return_tensors="pt"
-        ).to(self.device)
+        inputs = self._build_question_inputs(question, query_image=query_image)
 
         input_ids = inputs.input_ids
         full_mask = self.cache_manager.build_full_attention_mask(

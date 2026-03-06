@@ -98,6 +98,25 @@ class VideoChatWebUI:
             return (a, b)
         return None
 
+    @staticmethod
+    def _is_current_frame_question(question: str) -> bool:
+        if not question:
+            return False
+        q = question.replace(" ", "")
+        keywords = (
+            "当前帧", "这一帧", "这帧", "当前画面", "现在画面", "此刻画面",
+            "当前字幕", "这帧字幕", "当前帧的歌词", "现在这句歌词", "当前歌词字幕",
+        )
+        return any(key in q for key in keywords)
+
+    @staticmethod
+    def _build_current_frame_grounded_question(question: str) -> str:
+        return (
+            "请只根据这张当前帧图像回答，不要引用更早或更晚的视频内容。"
+            "如果问题询问歌词/字幕，只回答当前画面里实际可见的那一句。"
+            f"问题：{question}"
+        )
+
     def _solve_order_question_streaming(self, a: str, b: str) -> str:
         """
         用 ask_choice 在流式 KV 记忆上做二选一顺序判定。
@@ -613,12 +632,22 @@ class VideoChatWebUI:
             yield self.history_synchronizer.get_chat_history(), f"{(t1 - t0):.3f}", cache_str, comparison, mem_str, mem_wave
             return
 
+        current_frame_query = self._is_current_frame_question(question)
+        query_image = self.last_frame_pil if current_frame_query else None
+        effective_question = (
+            self._build_current_frame_grounded_question(question)
+            if current_frame_query else question
+        )
+
         try:
             # 重置 VRAM 峰值统计
             if torch.cuda.is_available():
                 torch.cuda.reset_peak_memory_stats()
 
-            assistant_prefix = "📡 [流式推理 - KV Cache 复用]\n"
+            if current_frame_query and query_image is not None:
+                assistant_prefix = "📡 [流式推理 - KV Cache 复用 + 当前帧视觉锚定]\n"
+            else:
+                assistant_prefix = "📡 [流式推理 - KV Cache 复用]\n"
             assistant_idx = self.history_synchronizer.add_message("assistant", assistant_prefix)
             final_text = ""
             ttft_stream = 0.0
@@ -628,7 +657,8 @@ class VideoChatWebUI:
             last_ui_ts = 0.0
             last_cache_str = ""
             for event in self.inference_engine.ask_question_stream(
-                question,
+                effective_question,
+                query_image=query_image,
                 max_new_tokens=256,
                 min_new_tokens=8,
                 do_sample=False,
@@ -683,7 +713,7 @@ class VideoChatWebUI:
             try:
                 sf_response, sf_metrics = self.inference_engine.single_frame_inference(
                     image=self.last_frame_pil,
-                    question=question,
+                    question=effective_question,
                     max_new_tokens=256,
                     min_new_tokens=8,
                     do_sample=False,
