@@ -1,0 +1,149 @@
+======================================================================
+EXPERIMENT B: OOM-Free Long Video Processing with KV Cache Eviction
+======================================================================
+Report time: 2026-02-24T12:12:38
+Eviction config: max_cache_tokens=150000, sink=auto, window=auto
+Expected: test_step10 shows OOM at 40 chunks (160 frames) without eviction.
+With eviction, should process ALL chunks without OOM.
+
+[1] Loading model...
+[StreamQwenModel] Initialized. vision_start=151652, vision_end=151653
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 18.74it/s]Loading checkpoint shards: 100%|##########| 2/2 [00:00<00:00, 18.69it/s]
+  VRAM after model load: {'allocated': 7.105, 'reserved': 7.334, 'max_allocated': 7.105}
+
+[2] Extracting frames from video...
+  Video: /root/autodl-tmp/diploma_project/temporal_encoding/202208312002.mp4
+  Duration: 200.2s, FPS: 30.3, Total frames: 6068
+  Sampling at 2.0 fps → 400 frames
+  Total frames extracted: 400
+  Expected chunks (4 frames/chunk): 100
+  ⚠️ Without eviction, OOM at ~40 chunks (160 frames).
+  With eviction (max=150000), should handle all 100 chunks.
+
+[3] Creating streaming inference engine with eviction...
+✅ VideoStreamingInference Engine Initialized (Chunk-Local / Append Mode).
+   KV Cache Eviction: ON (max=150000, sink=auto, window=auto)
+
+[4] Encoding video chunks...
+   📍 Auto-sink detected: first chunk = 5435 tokens (sink=5435, window=144565)
+  Chunk    1/100: cache_len=  5435, mem=0.187 GB, VRAM=7.30/10.60 GB, evictions=0, evicted=0
+  Chunk   10/100: cache_len= 53936, mem=1.852 GB, VRAM=8.97/12.13 GB, evictions=0, evicted=0
+  Chunk   20/100: cache_len=107826, mem=3.702 GB, VRAM=10.82/18.96 GB, evictions=0, evicted=0
+  ✂️ Eviction: 150938 → 150000 tokens (-938)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  Chunk   30/100: cache_len=150000, mem=5.150 GB, VRAM=12.26/20.91 GB, evictions=3, evicted=11716
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  Chunk   40/100: cache_len=150000, mem=5.150 GB, VRAM=12.26/20.91 GB, evictions=13, evicted=65606
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  Chunk   50/100: cache_len=150000, mem=5.150 GB, VRAM=12.26/20.91 GB, evictions=23, evicted=119496
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  Chunk   60/100: cache_len=150000, mem=5.150 GB, VRAM=12.26/20.91 GB, evictions=33, evicted=173386
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  Chunk   70/100: cache_len=150000, mem=5.150 GB, VRAM=12.26/20.91 GB, evictions=43, evicted=227276
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  Chunk   80/100: cache_len=150000, mem=5.150 GB, VRAM=12.26/20.91 GB, evictions=53, evicted=281166
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  Chunk   90/100: cache_len=150000, mem=5.150 GB, VRAM=12.26/20.91 GB, evictions=63, evicted=335056
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  ✂️ Eviction: 155389 → 150000 tokens (-5389)
+  Chunk  100/100: cache_len=150000, mem=5.150 GB, VRAM=12.26/20.91 GB, evictions=73, evicted=388946
+
+  ✅ Encoding completed: 100 chunks, 400 frames in 549.0s
+  Final VRAM: {'allocated': 12.264, 'reserved': 20.914, 'max_allocated': 17.742}
+  First eviction at chunk: 28
+  Effective sink_size: 5435
+  Effective window_size: 144565
+  Avg chunk tokens: 5356
+
+[5] Verification: asking a question...
+  Pre-ask cache: len=150000, mem=5.150 GB
+  Answer: The video features a woman performing on a stage. She is wearing a white dress with a floral pattern and is holding a microphone. The stage is lit with colorful lights, and there are other people in the background. The woman is singing and dancing, and the audience is watching her.
+  TTFT: 0.440s
+  Post-ask cache: len=150000
+  ✅ Cache restored after ask()
+
+======================================================================
+SUMMARY
+======================================================================
+  Video: /root/autodl-tmp/diploma_project/temporal_encoding/202208312002.mp4 (200s)
+  Total frames: 400
+  Total chunks: 100
+  Encoding time: 549.0s (0.73 frames/sec)
+  Max cache tokens: 150000
+  Final cache_len: 150000
+  Final VRAM: allocated=12.26 GB, reserved=20.91 GB, max_allocated=17.74 GB
+  Total evictions: 73
+  Total tokens evicted: 388946
+
+──────────────────────────────────────────────────────────────────────
+PASS/FAIL CRITERIA:
+  ✅ [P1] No OOM — processed all 100 chunks (test_step10 OOM at 40 chunks without eviction)
+  ✅ [P2] cache_len (150000) ≤ max (150000)
+  ✅ [P3] Eviction occurred (73 times, 388946 tokens)
+  ✅ [P4] Max VRAM allocated (17.74 GB) < 23 GB
+  ✅ [P5] ask() returned valid answer (282 chars)
+
+🎉 EXPERIMENT B: ALL PASSED
