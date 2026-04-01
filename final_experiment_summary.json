@@ -1,0 +1,4834 @@
+{
+  "generated_from": {
+    "baseline_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval",
+    "fps1_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1",
+    "fps4_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4",
+    "fps4_chunk4_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4_chunk4_resume130k_v2",
+    "native_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_single_frame_eval",
+    "api_video_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_api_video_prefix_eval"
+  },
+  "parameters": {
+    "baseline": null,
+    "fps1": {
+      "experiment_name": "stream_uav_qa_correct_pool_stream3b_eval_fps1",
+      "evaluation_type": "streaming_3b",
+      "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+      "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+      "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1",
+      "ttft_source": "choice_prefill",
+      "kv_cache_config": {
+        "max_cache_tokens": 150000
+      },
+      "l1_config": {
+        "mode": "single_frame_video",
+        "chunk_size": 1,
+        "fps": 1.0,
+        "input_mode": "video",
+        "append_frame_as_video": true,
+        "fps_semantics": "append_frame_video_fps",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+      },
+      "l23_config": {
+        "mode": "history_prefix",
+        "fps": 1.0,
+        "chunk_sizes": [
+          2,
+          4
+        ],
+        "fps_semantics": "append_video_chunk_fps",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+      }
+    },
+    "fps4_completed_branches": {
+      "l1": {
+        "experiment_name": "stream_uav_qa_correct_pool_stream3b_eval_fps4",
+        "evaluation_type": "streaming_3b",
+        "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+        "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+        "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4",
+        "ttft_source": "choice_prefill",
+        "kv_cache_config": {
+          "max_cache_tokens": 150000
+        },
+        "l1_config": {
+          "mode": "single_frame_video",
+          "chunk_size": 1,
+          "fps": 4.0,
+          "input_mode": "video",
+          "append_frame_as_video": true,
+          "fps_semantics": "append_frame_video_fps",
+          "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+        },
+        "l23_config": {
+          "mode": "history_prefix",
+          "fps": 4.0,
+          "chunk_sizes": [
+            2,
+            4
+          ],
+          "fps_semantics": "append_video_chunk_fps",
+          "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+        },
+        "branch": {
+          "branch_name": "l1_single_frame_video_chunk1",
+          "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4/l1_single_frame_video_chunk1",
+          "mode": "single_frame_video",
+          "chunk_size": 1,
+          "fps": 4.0,
+          "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json",
+          "l1_input_mode": "video"
+        }
+      },
+      "chunk2": {
+        "experiment_name": "stream_uav_qa_correct_pool_stream3b_eval_fps4",
+        "evaluation_type": "streaming_3b",
+        "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+        "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+        "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4",
+        "ttft_source": "choice_prefill",
+        "kv_cache_config": {
+          "max_cache_tokens": 150000
+        },
+        "l1_config": {
+          "mode": "single_frame_video",
+          "chunk_size": 1,
+          "fps": 4.0,
+          "input_mode": "video",
+          "append_frame_as_video": true,
+          "fps_semantics": "append_frame_video_fps",
+          "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+        },
+        "l23_config": {
+          "mode": "history_prefix",
+          "fps": 4.0,
+          "chunk_sizes": [
+            2,
+            4
+          ],
+          "fps_semantics": "append_video_chunk_fps",
+          "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+        },
+        "branch": {
+          "branch_name": "l23_history_prefix_chunk2",
+          "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4/l23_history_prefix_chunk2",
+          "mode": "history_prefix",
+          "chunk_size": 2,
+          "fps": 4.0,
+          "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+        }
+      }
+    },
+    "fps4_chunk4_rescue": {
+      "experiment_name": "stream_uav_qa_correct_pool_stream3b_eval_fps4_chunk4_resume130k_v2",
+      "evaluation_type": "streaming_3b",
+      "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+      "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+      "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4_chunk4_resume130k_v2",
+      "ttft_source": "choice_prefill",
+      "kv_cache_config": {
+        "max_cache_tokens": 130000
+      },
+      "l1_config": {
+        "mode": "single_frame_video",
+        "chunk_size": 1,
+        "fps": 4.0,
+        "input_mode": "video",
+        "append_frame_as_video": true,
+        "fps_semantics": "append_frame_video_fps",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+      },
+      "l23_config": {
+        "mode": "history_prefix",
+        "fps": 4.0,
+        "chunk_sizes": [
+          4
+        ],
+        "fps_semantics": "append_video_chunk_fps",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+      }
+    },
+    "native": {
+      "experiment_name": "stream_uav_qa_correct_pool_qwen25vl_single_frame_eval",
+      "evaluation_type": "qwen2_5_vl_native_single_frame",
+      "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+      "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+      "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_single_frame_eval",
+      "ttft_source": "choice_prefill",
+      "baseline_config": {
+        "input_mode": "single_image_current_frame_only",
+        "query_frame_selection": "timestamp_clamp_to_current_frame",
+        "choice_scoring": "option_letter_logprob"
+      },
+      "l1_config": {
+        "mode": "single_frame_native",
+        "chunk_size": 1,
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+      },
+      "l23_config": {
+        "mode": "current_frame_only_native",
+        "chunk_size": 1,
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+      }
+    },
+    "api_video": {
+      "experiment_name": "stream_uav_qa_correct_pool_qwen25vl_api_video_prefix_eval",
+      "evaluation_type": "qwen2_5_vl_api_video_prefix",
+      "model_path": "qwen2.5-vl-3b-instruct",
+      "api_config": {
+        "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "api_key_env": "DASHSCOPE_API_KEY",
+        "request_timeout": 300.0,
+        "stream": true,
+        "ttft_source": "stream_first_delta"
+      },
+      "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json",
+      "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+      "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_api_video_prefix_eval",
+      "l1_policy": "reused_from_native_single_frame_baseline",
+      "l23_config": {
+        "mode": "history_prefix_api_video",
+        "history_prefix_fps": 0.25,
+        "fps_semantics": "api_video_input_fps",
+        "chunk_size": null,
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+      }
+    }
+  },
+  "results": {
+    "baseline": {
+      "l1": {
+        "branch_name": "l1_single_frame_chunk1",
+        "generated_at": "2026-03-18T17:56:02+0800",
+        "mode_name": "L1 Single-Frame Chunk1",
+        "num_queries": 204,
+        "num_correct": 136,
+        "num_wrong": 68,
+        "overall_accuracy": 0.6666666666666666,
+        "by_difficulty": {
+          "L1": {
+            "count": 204,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 30.5
+          }
+        },
+        "by_qa_type": {
+          "realtime": {
+            "count": 204,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 30.5
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 11,
+            "accuracy": 0.6363636363636364,
+            "avg_ttft_ms": 34.5
+          },
+          "uav0000013_01392_v": {
+            "count": 8,
+            "accuracy": 0.875,
+            "avg_ttft_ms": 31.5
+          },
+          "uav0000020_00406_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 44.7
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.5555555555555556,
+            "avg_ttft_ms": 26.9
+          },
+          "uav0000072_04488_v": {
+            "count": 3,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 26.3
+          },
+          "uav0000072_05448_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 26.2
+          },
+          "uav0000072_06432_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 26.5
+          },
+          "uav0000076_00720_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 25.8
+          },
+          "uav0000079_00480_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 26.2
+          },
+          "uav0000084_00000_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 33.7
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.8571428571428571,
+            "avg_ttft_ms": 39.9
+          },
+          "uav0000124_00944_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 32.1
+          },
+          "uav0000126_00001_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 31.2
+          },
+          "uav0000138_00000_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 31.7
+          },
+          "uav0000140_01590_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 32.2
+          },
+          "uav0000143_02250_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 31.6
+          },
+          "uav0000145_00000_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 32.5
+          },
+          "uav0000150_02310_v": {
+            "count": 3,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 31.7
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 31.9
+          },
+          "uav0000222_03150_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 32.1
+          },
+          "uav0000239_03720_v": {
+            "count": 5,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 30.9
+          },
+          "uav0000239_12336_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 31.4
+          },
+          "uav0000243_00001_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 31.8
+          },
+          "uav0000244_01440_v": {
+            "count": 1,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 25.7
+          },
+          "uav0000263_03289_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 26.4
+          },
+          "uav0000264_02760_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 25.8
+          },
+          "uav0000266_03598_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 32.2
+          },
+          "uav0000266_04830_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 31.7
+          },
+          "uav0000270_00001_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 26.0
+          },
+          "uav0000273_00001_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 25.5
+          },
+          "uav0000278_00001_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 48.8
+          },
+          "uav0000279_00001_v": {
+            "count": 4,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 28.7
+          },
+          "uav0000281_00460_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 25.5
+          },
+          "uav0000288_00001_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 27.0
+          },
+          "uav0000289_00001_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 26.2
+          },
+          "uav0000289_06922_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 26.0
+          },
+          "uav0000295_02300_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 31.1
+          },
+          "uav0000300_00000_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 26.7
+          },
+          "uav0000307_00000_v": {
+            "count": 1,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 26.9
+          },
+          "uav0000308_00000_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 26.4
+          },
+          "uav0000308_01380_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 26.6
+          },
+          "uav0000309_00000_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 26.9
+          },
+          "uav0000315_00000_v": {
+            "count": 4,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 25.9
+          },
+          "uav0000316_01288_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 32.1
+          },
+          "uav0000323_01173_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 25.9
+          },
+          "uav0000326_01035_v": {
+            "count": 3,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 27.4
+          },
+          "uav0000329_04715_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 27.0
+          },
+          "uav0000342_04692_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 27.0
+          }
+        },
+        "avg_latency_ms": 96.8,
+        "avg_ttft_ms": 30.5,
+        "avg_cache_seq_len": 3068.8,
+        "worst_videos": [
+          {
+            "video_name": "uav0000072_06432_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 103.8,
+            "avg_ttft_ms": 26.5
+          },
+          {
+            "video_name": "uav0000270_00001_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 83.7,
+            "avg_ttft_ms": 26.0
+          },
+          {
+            "video_name": "uav0000315_00000_v",
+            "count": 4,
+            "accuracy": 0.25,
+            "avg_latency_ms": 82.4,
+            "avg_ttft_ms": 25.9
+          },
+          {
+            "video_name": "uav0000239_12336_v",
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 101.5,
+            "avg_ttft_ms": 31.4
+          },
+          {
+            "video_name": "uav0000138_00000_v",
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_latency_ms": 98.6,
+            "avg_ttft_ms": 31.7
+          },
+          {
+            "video_name": "uav0000222_03150_v",
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_latency_ms": 105.6,
+            "avg_ttft_ms": 32.1
+          },
+          {
+            "video_name": "uav0000295_02300_v",
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_latency_ms": 81.8,
+            "avg_ttft_ms": 31.1
+          },
+          {
+            "video_name": "uav0000309_00000_v",
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_latency_ms": 102.9,
+            "avg_ttft_ms": 26.9
+          },
+          {
+            "video_name": "uav0000266_04830_v",
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_latency_ms": 89.7,
+            "avg_ttft_ms": 31.7
+          },
+          {
+            "video_name": "uav0000020_00406_v",
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_latency_ms": 125.2,
+            "avg_ttft_ms": 44.7
+          }
+        ],
+        "mode": "single_frame",
+        "chunk_size": 1,
+        "fps": 1.0,
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval/l1_single_frame_chunk1",
+        "ttft_source": "choice_prefill",
+        "run_elapsed_seconds": 227.8
+      },
+      "chunk2": {
+        "branch_name": "l23_history_prefix_chunk2",
+        "generated_at": "2026-03-18T18:00:41+0800",
+        "mode_name": "L2-L3 History-Prefix Chunk2",
+        "num_queries": 347,
+        "num_correct": 179,
+        "num_wrong": 168,
+        "overall_accuracy": 0.515850144092219,
+        "by_difficulty": {
+          "L2": {
+            "count": 272,
+            "accuracy": 0.5551470588235294,
+            "avg_ttft_ms": 41.5
+          },
+          "L3": {
+            "count": 75,
+            "accuracy": 0.37333333333333335,
+            "avg_ttft_ms": 50.3
+          }
+        },
+        "by_qa_type": {
+          "backward": {
+            "count": 324,
+            "accuracy": 0.5308641975308642,
+            "avg_ttft_ms": 42.8
+          },
+          "forward": {
+            "count": 23,
+            "accuracy": 0.30434782608695654,
+            "avg_ttft_ms": 51.6
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 29.8
+          },
+          "uav0000013_01392_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 33.9
+          },
+          "uav0000020_00406_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 33.8
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.2222222222222222,
+            "avg_ttft_ms": 31.4
+          },
+          "uav0000072_04488_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 29.6
+          },
+          "uav0000072_05448_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 31.9
+          },
+          "uav0000072_06432_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 26.2
+          },
+          "uav0000076_00720_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 44.7
+          },
+          "uav0000079_00480_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 37.3
+          },
+          "uav0000084_00000_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 34.8
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 50.2
+          },
+          "uav0000124_00944_v": {
+            "count": 6,
+            "accuracy": 0.8333333333333334,
+            "avg_ttft_ms": 60.3
+          },
+          "uav0000126_00001_v": {
+            "count": 9,
+            "accuracy": 0.7777777777777778,
+            "avg_ttft_ms": 63.4
+          },
+          "uav0000138_00000_v": {
+            "count": 7,
+            "accuracy": 0.8571428571428571,
+            "avg_ttft_ms": 47.9
+          },
+          "uav0000140_01590_v": {
+            "count": 10,
+            "accuracy": 0.3,
+            "avg_ttft_ms": 48.5
+          },
+          "uav0000143_02250_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 46.4
+          },
+          "uav0000145_00000_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 64.0
+          },
+          "uav0000150_02310_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 60.8
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 47.2
+          },
+          "uav0000222_03150_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 59.9
+          },
+          "uav0000239_03720_v": {
+            "count": 8,
+            "accuracy": 0.875,
+            "avg_ttft_ms": 35.0
+          },
+          "uav0000239_12336_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 29.7
+          },
+          "uav0000243_00001_v": {
+            "count": 10,
+            "accuracy": 0.1,
+            "avg_ttft_ms": 34.9
+          },
+          "uav0000244_01440_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 46.1
+          },
+          "uav0000248_00001_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 36.9
+          },
+          "uav0000263_03289_v": {
+            "count": 4,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 51.2
+          },
+          "uav0000264_02760_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 44.6
+          },
+          "uav0000266_03598_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 86.7
+          },
+          "uav0000266_04830_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 31.9
+          },
+          "uav0000270_00001_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 48.2
+          },
+          "uav0000273_00001_v": {
+            "count": 8,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 56.1
+          },
+          "uav0000278_00001_v": {
+            "count": 6,
+            "accuracy": 0.8333333333333334,
+            "avg_ttft_ms": 34.3
+          },
+          "uav0000279_00001_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 47.5
+          },
+          "uav0000281_00460_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 42.3
+          },
+          "uav0000288_00001_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 66.8
+          },
+          "uav0000289_00001_v": {
+            "count": 9,
+            "accuracy": 0.5555555555555556,
+            "avg_ttft_ms": 44.5
+          },
+          "uav0000289_06922_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 29.6
+          },
+          "uav0000295_02300_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 47.0
+          },
+          "uav0000300_00000_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 45.7
+          },
+          "uav0000307_00000_v": {
+            "count": 13,
+            "accuracy": 0.5384615384615384,
+            "avg_ttft_ms": 42.8
+          },
+          "uav0000308_00000_v": {
+            "count": 10,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 35.0
+          },
+          "uav0000308_01380_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 31.3
+          },
+          "uav0000309_00000_v": {
+            "count": 11,
+            "accuracy": 0.2727272727272727,
+            "avg_ttft_ms": 40.0
+          },
+          "uav0000315_00000_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 45.3
+          },
+          "uav0000316_01288_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 46.2
+          },
+          "uav0000323_01173_v": {
+            "count": 9,
+            "accuracy": 0.4444444444444444,
+            "avg_ttft_ms": 46.6
+          },
+          "uav0000326_01035_v": {
+            "count": 6,
+            "accuracy": 0.8333333333333334,
+            "avg_ttft_ms": 44.4
+          },
+          "uav0000329_04715_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 34.1
+          },
+          "uav0000342_04692_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 35.3
+          }
+        },
+        "avg_latency_ms": 121.9,
+        "avg_ttft_ms": 43.4,
+        "avg_cache_seq_len": 10366.5,
+        "worst_videos": [
+          {
+            "video_name": "uav0000273_00001_v",
+            "count": 8,
+            "accuracy": 0.0,
+            "avg_latency_ms": 133.0,
+            "avg_ttft_ms": 56.1
+          },
+          {
+            "video_name": "uav0000243_00001_v",
+            "count": 10,
+            "accuracy": 0.1,
+            "avg_latency_ms": 111.8,
+            "avg_ttft_ms": 34.9
+          },
+          {
+            "video_name": "uav0000076_00720_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 121.4,
+            "avg_ttft_ms": 44.7
+          },
+          {
+            "video_name": "uav0000289_06922_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 105.9,
+            "avg_ttft_ms": 29.6
+          },
+          {
+            "video_name": "uav0000013_01392_v",
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_latency_ms": 110.6,
+            "avg_ttft_ms": 33.9
+          },
+          {
+            "video_name": "uav0000071_03240_v",
+            "count": 9,
+            "accuracy": 0.2222222222222222,
+            "avg_latency_ms": 106.2,
+            "avg_ttft_ms": 31.4
+          },
+          {
+            "video_name": "uav0000013_00000_v",
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_latency_ms": 103.3,
+            "avg_ttft_ms": 29.8
+          },
+          {
+            "video_name": "uav0000309_00000_v",
+            "count": 11,
+            "accuracy": 0.2727272727272727,
+            "avg_latency_ms": 116.6,
+            "avg_ttft_ms": 40.0
+          },
+          {
+            "video_name": "uav0000140_01590_v",
+            "count": 10,
+            "accuracy": 0.3,
+            "avg_latency_ms": 123.6,
+            "avg_ttft_ms": 48.5
+          },
+          {
+            "video_name": "uav0000072_05448_v",
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 107.9,
+            "avg_ttft_ms": 31.9
+          }
+        ],
+        "mode": "history_prefix",
+        "chunk_size": 2,
+        "fps": 0.25,
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval/l23_history_prefix_chunk2",
+        "ttft_source": "choice_prefill",
+        "run_elapsed_seconds": 279.3
+      },
+      "chunk4": {
+        "branch_name": "l23_history_prefix_chunk4",
+        "generated_at": "2026-03-18T18:05:26+0800",
+        "mode_name": "L2-L3 History-Prefix Chunk4",
+        "num_queries": 347,
+        "num_correct": 180,
+        "num_wrong": 167,
+        "overall_accuracy": 0.5187319884726225,
+        "by_difficulty": {
+          "L2": {
+            "count": 272,
+            "accuracy": 0.5551470588235294,
+            "avg_ttft_ms": 41.5
+          },
+          "L3": {
+            "count": 75,
+            "accuracy": 0.38666666666666666,
+            "avg_ttft_ms": 50.7
+          }
+        },
+        "by_qa_type": {
+          "backward": {
+            "count": 324,
+            "accuracy": 0.5339506172839507,
+            "avg_ttft_ms": 42.9
+          },
+          "forward": {
+            "count": 23,
+            "accuracy": 0.30434782608695654,
+            "avg_ttft_ms": 51.9
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 29.8
+          },
+          "uav0000013_01392_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 36.1
+          },
+          "uav0000020_00406_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 40.8
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.2222222222222222,
+            "avg_ttft_ms": 38.5
+          },
+          "uav0000072_04488_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 30.0
+          },
+          "uav0000072_05448_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 31.6
+          },
+          "uav0000072_06432_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 26.7
+          },
+          "uav0000076_00720_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 46.0
+          },
+          "uav0000079_00480_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 36.3
+          },
+          "uav0000084_00000_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 33.5
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 50.2
+          },
+          "uav0000124_00944_v": {
+            "count": 6,
+            "accuracy": 0.8333333333333334,
+            "avg_ttft_ms": 59.6
+          },
+          "uav0000126_00001_v": {
+            "count": 9,
+            "accuracy": 0.7777777777777778,
+            "avg_ttft_ms": 63.2
+          },
+          "uav0000138_00000_v": {
+            "count": 7,
+            "accuracy": 0.8571428571428571,
+            "avg_ttft_ms": 47.8
+          },
+          "uav0000140_01590_v": {
+            "count": 10,
+            "accuracy": 0.3,
+            "avg_ttft_ms": 48.3
+          },
+          "uav0000143_02250_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 46.6
+          },
+          "uav0000145_00000_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 64.4
+          },
+          "uav0000150_02310_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 61.1
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 47.4
+          },
+          "uav0000222_03150_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 60.4
+          },
+          "uav0000239_03720_v": {
+            "count": 8,
+            "accuracy": 0.875,
+            "avg_ttft_ms": 34.5
+          },
+          "uav0000239_12336_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 31.0
+          },
+          "uav0000243_00001_v": {
+            "count": 10,
+            "accuracy": 0.1,
+            "avg_ttft_ms": 35.4
+          },
+          "uav0000244_01440_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 46.4
+          },
+          "uav0000248_00001_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 37.0
+          },
+          "uav0000263_03289_v": {
+            "count": 4,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 51.3
+          },
+          "uav0000264_02760_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 44.3
+          },
+          "uav0000266_03598_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 87.0
+          },
+          "uav0000266_04830_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 31.5
+          },
+          "uav0000270_00001_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 47.2
+          },
+          "uav0000273_00001_v": {
+            "count": 8,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 55.7
+          },
+          "uav0000278_00001_v": {
+            "count": 6,
+            "accuracy": 0.8333333333333334,
+            "avg_ttft_ms": 32.9
+          },
+          "uav0000279_00001_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 50.3
+          },
+          "uav0000281_00460_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 42.7
+          },
+          "uav0000288_00001_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 67.4
+          },
+          "uav0000289_00001_v": {
+            "count": 9,
+            "accuracy": 0.4444444444444444,
+            "avg_ttft_ms": 44.7
+          },
+          "uav0000289_06922_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 29.5
+          },
+          "uav0000295_02300_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 46.4
+          },
+          "uav0000300_00000_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 46.0
+          },
+          "uav0000307_00000_v": {
+            "count": 13,
+            "accuracy": 0.5384615384615384,
+            "avg_ttft_ms": 42.6
+          },
+          "uav0000308_00000_v": {
+            "count": 10,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 34.8
+          },
+          "uav0000308_01380_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 31.3
+          },
+          "uav0000309_00000_v": {
+            "count": 11,
+            "accuracy": 0.2727272727272727,
+            "avg_ttft_ms": 40.1
+          },
+          "uav0000315_00000_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 45.0
+          },
+          "uav0000316_01288_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 46.6
+          },
+          "uav0000323_01173_v": {
+            "count": 9,
+            "accuracy": 0.5555555555555556,
+            "avg_ttft_ms": 43.4
+          },
+          "uav0000326_01035_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 38.8
+          },
+          "uav0000329_04715_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 30.6
+          },
+          "uav0000342_04692_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 35.1
+          }
+        },
+        "avg_latency_ms": 120.9,
+        "avg_ttft_ms": 43.5,
+        "avg_cache_seq_len": 10360.9,
+        "worst_videos": [
+          {
+            "video_name": "uav0000273_00001_v",
+            "count": 8,
+            "accuracy": 0.0,
+            "avg_latency_ms": 132.1,
+            "avg_ttft_ms": 55.7
+          },
+          {
+            "video_name": "uav0000243_00001_v",
+            "count": 10,
+            "accuracy": 0.1,
+            "avg_latency_ms": 114.2,
+            "avg_ttft_ms": 35.4
+          },
+          {
+            "video_name": "uav0000289_06922_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 103.4,
+            "avg_ttft_ms": 29.5
+          },
+          {
+            "video_name": "uav0000013_01392_v",
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_latency_ms": 125.6,
+            "avg_ttft_ms": 36.1
+          },
+          {
+            "video_name": "uav0000071_03240_v",
+            "count": 9,
+            "accuracy": 0.2222222222222222,
+            "avg_latency_ms": 136.6,
+            "avg_ttft_ms": 38.5
+          },
+          {
+            "video_name": "uav0000013_00000_v",
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_latency_ms": 105.9,
+            "avg_ttft_ms": 29.8
+          },
+          {
+            "video_name": "uav0000309_00000_v",
+            "count": 11,
+            "accuracy": 0.2727272727272727,
+            "avg_latency_ms": 114.9,
+            "avg_ttft_ms": 40.1
+          },
+          {
+            "video_name": "uav0000076_00720_v",
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_latency_ms": 120.3,
+            "avg_ttft_ms": 46.0
+          },
+          {
+            "video_name": "uav0000239_12336_v",
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_latency_ms": 110.3,
+            "avg_ttft_ms": 31.0
+          },
+          {
+            "video_name": "uav0000140_01590_v",
+            "count": 10,
+            "accuracy": 0.3,
+            "avg_latency_ms": 123.3,
+            "avg_ttft_ms": 48.3
+          }
+        ],
+        "mode": "history_prefix",
+        "chunk_size": 4,
+        "fps": 0.25,
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval/l23_history_prefix_chunk4",
+        "ttft_source": "choice_prefill",
+        "run_elapsed_seconds": 285.0
+      }
+    },
+    "fps1": {
+      "l1": {
+        "branch_name": "l1_single_frame_video_chunk1",
+        "generated_at": "2026-03-20T11:40:40+0800",
+        "mode_name": "L1 Single-Frame Video Chunk1",
+        "num_queries": 204,
+        "num_correct": 122,
+        "num_wrong": 82,
+        "overall_accuracy": 0.5980392156862745,
+        "by_difficulty": {
+          "L1": {
+            "count": 204,
+            "accuracy": 0.5980392156862745,
+            "avg_ttft_ms": 31.1
+          }
+        },
+        "by_qa_type": {
+          "realtime": {
+            "count": 204,
+            "accuracy": 0.5980392156862745,
+            "avg_ttft_ms": 31.1
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 11,
+            "accuracy": 0.45454545454545453,
+            "avg_ttft_ms": 37.1
+          },
+          "uav0000013_01392_v": {
+            "count": 8,
+            "accuracy": 0.875,
+            "avg_ttft_ms": 33.8
+          },
+          "uav0000020_00406_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 33.8
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.5555555555555556,
+            "avg_ttft_ms": 28.2
+          },
+          "uav0000072_04488_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 28.9
+          },
+          "uav0000072_05448_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 27.4
+          },
+          "uav0000072_06432_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 27.7
+          },
+          "uav0000076_00720_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 27.4
+          },
+          "uav0000079_00480_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 27.9
+          },
+          "uav0000084_00000_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 33.8
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 34.7
+          },
+          "uav0000124_00944_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 32.3
+          },
+          "uav0000126_00001_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 32.1
+          },
+          "uav0000138_00000_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 32.9
+          },
+          "uav0000140_01590_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 32.8
+          },
+          "uav0000143_02250_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 35.4
+          },
+          "uav0000145_00000_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 32.9
+          },
+          "uav0000150_02310_v": {
+            "count": 3,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 32.4
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 32.7
+          },
+          "uav0000222_03150_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 33.4
+          },
+          "uav0000239_03720_v": {
+            "count": 5,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 33.9
+          },
+          "uav0000239_12336_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 32.6
+          },
+          "uav0000243_00001_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 34.9
+          },
+          "uav0000244_01440_v": {
+            "count": 1,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 28.6
+          },
+          "uav0000263_03289_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 29.8
+          },
+          "uav0000264_02760_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 27.2
+          },
+          "uav0000266_03598_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 32.7
+          },
+          "uav0000266_04830_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 32.2
+          },
+          "uav0000270_00001_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 28.4
+          },
+          "uav0000273_00001_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 30.6
+          },
+          "uav0000278_00001_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 32.3
+          },
+          "uav0000279_00001_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 27.8
+          },
+          "uav0000281_00460_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 28.0
+          },
+          "uav0000288_00001_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 27.3
+          },
+          "uav0000289_00001_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 26.9
+          },
+          "uav0000289_06922_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 26.8
+          },
+          "uav0000295_02300_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 32.0
+          },
+          "uav0000300_00000_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 26.3
+          },
+          "uav0000307_00000_v": {
+            "count": 1,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 27.0
+          },
+          "uav0000308_00000_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 27.2
+          },
+          "uav0000308_01380_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 28.7
+          },
+          "uav0000309_00000_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 27.1
+          },
+          "uav0000315_00000_v": {
+            "count": 4,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 26.7
+          },
+          "uav0000316_01288_v": {
+            "count": 4,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 32.8
+          },
+          "uav0000323_01173_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 29.3
+          },
+          "uav0000326_01035_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 28.0
+          },
+          "uav0000329_04715_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 27.3
+          },
+          "uav0000342_04692_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 28.0
+          }
+        },
+        "avg_latency_ms": 101.4,
+        "avg_ttft_ms": 31.1,
+        "avg_cache_seq_len": 3068.8,
+        "worst_videos": [
+          {
+            "video_name": "uav0000072_06432_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 110.1,
+            "avg_ttft_ms": 27.7
+          },
+          {
+            "video_name": "uav0000270_00001_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 94.3,
+            "avg_ttft_ms": 28.4
+          },
+          {
+            "video_name": "uav0000278_00001_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 118.5,
+            "avg_ttft_ms": 32.3
+          },
+          {
+            "video_name": "uav0000222_03150_v",
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_latency_ms": 111.8,
+            "avg_ttft_ms": 33.4
+          },
+          {
+            "video_name": "uav0000309_00000_v",
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_latency_ms": 105.0,
+            "avg_ttft_ms": 27.1
+          },
+          {
+            "video_name": "uav0000266_03598_v",
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 108.0,
+            "avg_ttft_ms": 32.7
+          },
+          {
+            "video_name": "uav0000239_12336_v",
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 105.2,
+            "avg_ttft_ms": 32.6
+          },
+          {
+            "video_name": "uav0000243_00001_v",
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 112.0,
+            "avg_ttft_ms": 34.9
+          },
+          {
+            "video_name": "uav0000300_00000_v",
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 77.7,
+            "avg_ttft_ms": 26.3
+          },
+          {
+            "video_name": "uav0000266_04830_v",
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_latency_ms": 94.8,
+            "avg_ttft_ms": 32.2
+          }
+        ],
+        "mode": "single_frame_video",
+        "chunk_size": 1,
+        "fps": 1.0,
+        "l1_input_mode": "video",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1/l1_single_frame_video_chunk1",
+        "ttft_source": "choice_prefill",
+        "experiment_config": {
+          "experiment_name": "stream_uav_qa_correct_pool_stream3b_eval_fps1",
+          "evaluation_type": "streaming_3b",
+          "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+          "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+          "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1",
+          "ttft_source": "choice_prefill",
+          "kv_cache_config": {
+            "max_cache_tokens": 150000
+          },
+          "l1_config": {
+            "mode": "single_frame_video",
+            "chunk_size": 1,
+            "fps": 1.0,
+            "input_mode": "video",
+            "append_frame_as_video": true,
+            "fps_semantics": "append_frame_video_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+          },
+          "l23_config": {
+            "mode": "history_prefix",
+            "fps": 1.0,
+            "chunk_sizes": [
+              2,
+              4
+            ],
+            "fps_semantics": "append_video_chunk_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          },
+          "branch": {
+            "branch_name": "l1_single_frame_video_chunk1",
+            "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1/l1_single_frame_video_chunk1",
+            "mode": "single_frame_video",
+            "chunk_size": 1,
+            "fps": 1.0,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json",
+            "l1_input_mode": "video"
+          }
+        },
+        "run_elapsed_seconds": 0.1
+      },
+      "chunk2": {
+        "branch_name": "l23_history_prefix_chunk2",
+        "generated_at": "2026-03-20T11:45:54+0800",
+        "mode_name": "L2-L3 History-Prefix Chunk2",
+        "num_queries": 347,
+        "num_correct": 134,
+        "num_wrong": 213,
+        "overall_accuracy": 0.3861671469740634,
+        "by_difficulty": {
+          "L2": {
+            "count": 272,
+            "accuracy": 0.40808823529411764,
+            "avg_ttft_ms": 82.2
+          },
+          "L3": {
+            "count": 75,
+            "accuracy": 0.30666666666666664,
+            "avg_ttft_ms": 115.1
+          }
+        },
+        "by_qa_type": {
+          "backward": {
+            "count": 324,
+            "accuracy": 0.39814814814814814,
+            "avg_ttft_ms": 87.1
+          },
+          "forward": {
+            "count": 23,
+            "accuracy": 0.21739130434782608,
+            "avg_ttft_ms": 120.0
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 42.8
+          },
+          "uav0000013_01392_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 31.2
+          },
+          "uav0000020_00406_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 65.7
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.2222222222222222,
+            "avg_ttft_ms": 51.2
+          },
+          "uav0000072_04488_v": {
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 35.9
+          },
+          "uav0000072_05448_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 65.9
+          },
+          "uav0000072_06432_v": {
+            "count": 6,
+            "accuracy": 0.16666666666666666,
+            "avg_ttft_ms": 41.4
+          },
+          "uav0000076_00720_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 87.2
+          },
+          "uav0000079_00480_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 61.2
+          },
+          "uav0000084_00000_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 69.7
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 134.1
+          },
+          "uav0000124_00944_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 167.4
+          },
+          "uav0000126_00001_v": {
+            "count": 9,
+            "accuracy": 0.1111111111111111,
+            "avg_ttft_ms": 143.7
+          },
+          "uav0000138_00000_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 95.4
+          },
+          "uav0000140_01590_v": {
+            "count": 10,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 77.3
+          },
+          "uav0000143_02250_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 106.9
+          },
+          "uav0000145_00000_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 122.3
+          },
+          "uav0000150_02310_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 148.9
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 92.0
+          },
+          "uav0000222_03150_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 136.4
+          },
+          "uav0000239_03720_v": {
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_ttft_ms": 64.5
+          },
+          "uav0000239_12336_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 44.8
+          },
+          "uav0000243_00001_v": {
+            "count": 10,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 58.9
+          },
+          "uav0000244_01440_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 101.7
+          },
+          "uav0000248_00001_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 87.7
+          },
+          "uav0000263_03289_v": {
+            "count": 4,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 136.7
+          },
+          "uav0000264_02760_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 95.6
+          },
+          "uav0000266_03598_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 252.0
+          },
+          "uav0000266_04830_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 66.0
+          },
+          "uav0000270_00001_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 102.4
+          },
+          "uav0000273_00001_v": {
+            "count": 8,
+            "accuracy": 0.875,
+            "avg_ttft_ms": 136.2
+          },
+          "uav0000278_00001_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 56.4
+          },
+          "uav0000279_00001_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 132.0
+          },
+          "uav0000281_00460_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 84.3
+          },
+          "uav0000288_00001_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 212.9
+          },
+          "uav0000289_00001_v": {
+            "count": 9,
+            "accuracy": 0.4444444444444444,
+            "avg_ttft_ms": 89.3
+          },
+          "uav0000289_06922_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 54.5
+          },
+          "uav0000295_02300_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 122.9
+          },
+          "uav0000300_00000_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 102.3
+          },
+          "uav0000307_00000_v": {
+            "count": 13,
+            "accuracy": 0.38461538461538464,
+            "avg_ttft_ms": 83.8
+          },
+          "uav0000308_00000_v": {
+            "count": 10,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 60.5
+          },
+          "uav0000308_01380_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 60.3
+          },
+          "uav0000309_00000_v": {
+            "count": 11,
+            "accuracy": 0.5454545454545454,
+            "avg_ttft_ms": 71.7
+          },
+          "uav0000315_00000_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 114.4
+          },
+          "uav0000316_01288_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 68.0
+          },
+          "uav0000323_01173_v": {
+            "count": 9,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 77.9
+          },
+          "uav0000326_01035_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 85.6
+          },
+          "uav0000329_04715_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 57.5
+          },
+          "uav0000342_04692_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 53.5
+          }
+        },
+        "avg_latency_ms": 264.2,
+        "avg_ttft_ms": 89.3,
+        "avg_cache_seq_len": 30165.0,
+        "worst_videos": [
+          {
+            "video_name": "uav0000072_04488_v",
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_latency_ms": 119.4,
+            "avg_ttft_ms": 35.9
+          },
+          {
+            "video_name": "uav0000126_00001_v",
+            "count": 9,
+            "accuracy": 0.1111111111111111,
+            "avg_latency_ms": 240.7,
+            "avg_ttft_ms": 143.7
+          },
+          {
+            "video_name": "uav0000239_03720_v",
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_latency_ms": 152.4,
+            "avg_ttft_ms": 64.5
+          },
+          {
+            "video_name": "uav0000079_00480_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 145.5,
+            "avg_ttft_ms": 61.2
+          },
+          {
+            "video_name": "uav0000138_00000_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 194.6,
+            "avg_ttft_ms": 95.4
+          },
+          {
+            "video_name": "uav0000264_02760_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 180.9,
+            "avg_ttft_ms": 95.6
+          },
+          {
+            "video_name": "uav0000288_00001_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 996.8,
+            "avg_ttft_ms": 212.9
+          },
+          {
+            "video_name": "uav0000072_06432_v",
+            "count": 6,
+            "accuracy": 0.16666666666666666,
+            "avg_latency_ms": 121.3,
+            "avg_ttft_ms": 41.4
+          },
+          {
+            "video_name": "uav0000308_00000_v",
+            "count": 10,
+            "accuracy": 0.2,
+            "avg_latency_ms": 291.2,
+            "avg_ttft_ms": 60.5
+          },
+          {
+            "video_name": "uav0000150_02310_v",
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_latency_ms": 288.8,
+            "avg_ttft_ms": 148.9
+          }
+        ],
+        "mode": "history_prefix",
+        "chunk_size": 2,
+        "fps": 1.0,
+        "l1_input_mode": "video",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1/l23_history_prefix_chunk2",
+        "ttft_source": "choice_prefill",
+        "experiment_config": {
+          "experiment_name": "stream_uav_qa_correct_pool_stream3b_eval_fps1",
+          "evaluation_type": "streaming_3b",
+          "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+          "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+          "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1",
+          "ttft_source": "choice_prefill",
+          "kv_cache_config": {
+            "max_cache_tokens": 150000
+          },
+          "l1_config": {
+            "mode": "single_frame_video",
+            "chunk_size": 1,
+            "fps": 1.0,
+            "input_mode": "video",
+            "append_frame_as_video": true,
+            "fps_semantics": "append_frame_video_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+          },
+          "l23_config": {
+            "mode": "history_prefix",
+            "fps": 1.0,
+            "chunk_sizes": [
+              2,
+              4
+            ],
+            "fps_semantics": "append_video_chunk_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          },
+          "branch": {
+            "branch_name": "l23_history_prefix_chunk2",
+            "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1/l23_history_prefix_chunk2",
+            "mode": "history_prefix",
+            "chunk_size": 2,
+            "fps": 1.0,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          }
+        },
+        "run_elapsed_seconds": 314.4
+      },
+      "chunk4": {
+        "branch_name": "l23_history_prefix_chunk4",
+        "generated_at": "2026-03-20T12:03:39+0800",
+        "mode_name": "L2-L3 History-Prefix Chunk4",
+        "num_queries": 347,
+        "num_correct": 138,
+        "num_wrong": 209,
+        "overall_accuracy": 0.3976945244956772,
+        "by_difficulty": {
+          "L2": {
+            "count": 272,
+            "accuracy": 0.41544117647058826,
+            "avg_ttft_ms": 82.1
+          },
+          "L3": {
+            "count": 75,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 114.7
+          }
+        },
+        "by_qa_type": {
+          "backward": {
+            "count": 324,
+            "accuracy": 0.4104938271604938,
+            "avg_ttft_ms": 87.0
+          },
+          "forward": {
+            "count": 23,
+            "accuracy": 0.21739130434782608,
+            "avg_ttft_ms": 119.4
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 42.5
+          },
+          "uav0000013_01392_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 31.5
+          },
+          "uav0000020_00406_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 65.4
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.2222222222222222,
+            "avg_ttft_ms": 50.6
+          },
+          "uav0000072_04488_v": {
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 35.6
+          },
+          "uav0000072_05448_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 66.6
+          },
+          "uav0000072_06432_v": {
+            "count": 6,
+            "accuracy": 0.16666666666666666,
+            "avg_ttft_ms": 41.2
+          },
+          "uav0000076_00720_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 87.4
+          },
+          "uav0000079_00480_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 61.4
+          },
+          "uav0000084_00000_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 68.7
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 131.5
+          },
+          "uav0000124_00944_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 165.6
+          },
+          "uav0000126_00001_v": {
+            "count": 9,
+            "accuracy": 0.1111111111111111,
+            "avg_ttft_ms": 142.6
+          },
+          "uav0000138_00000_v": {
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 96.0
+          },
+          "uav0000140_01590_v": {
+            "count": 10,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 78.1
+          },
+          "uav0000143_02250_v": {
+            "count": 3,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 106.7
+          },
+          "uav0000145_00000_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 123.2
+          },
+          "uav0000150_02310_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 147.6
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 92.0
+          },
+          "uav0000222_03150_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 134.8
+          },
+          "uav0000239_03720_v": {
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_ttft_ms": 64.0
+          },
+          "uav0000239_12336_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 43.9
+          },
+          "uav0000243_00001_v": {
+            "count": 10,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 60.2
+          },
+          "uav0000244_01440_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 102.1
+          },
+          "uav0000248_00001_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 87.0
+          },
+          "uav0000263_03289_v": {
+            "count": 4,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 135.4
+          },
+          "uav0000264_02760_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 95.3
+          },
+          "uav0000266_03598_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 252.5
+          },
+          "uav0000266_04830_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 66.6
+          },
+          "uav0000270_00001_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 101.8
+          },
+          "uav0000273_00001_v": {
+            "count": 8,
+            "accuracy": 0.875,
+            "avg_ttft_ms": 136.3
+          },
+          "uav0000278_00001_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 55.0
+          },
+          "uav0000279_00001_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 130.9
+          },
+          "uav0000281_00460_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 84.3
+          },
+          "uav0000288_00001_v": {
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 212.0
+          },
+          "uav0000289_00001_v": {
+            "count": 9,
+            "accuracy": 0.4444444444444444,
+            "avg_ttft_ms": 90.3
+          },
+          "uav0000289_06922_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 54.5
+          },
+          "uav0000295_02300_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 122.9
+          },
+          "uav0000300_00000_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 101.7
+          },
+          "uav0000307_00000_v": {
+            "count": 13,
+            "accuracy": 0.38461538461538464,
+            "avg_ttft_ms": 84.1
+          },
+          "uav0000308_00000_v": {
+            "count": 10,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 60.2
+          },
+          "uav0000308_01380_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 60.1
+          },
+          "uav0000309_00000_v": {
+            "count": 11,
+            "accuracy": 0.5454545454545454,
+            "avg_ttft_ms": 71.6
+          },
+          "uav0000315_00000_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 113.9
+          },
+          "uav0000316_01288_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 67.9
+          },
+          "uav0000323_01173_v": {
+            "count": 9,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 78.1
+          },
+          "uav0000326_01035_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 88.2
+          },
+          "uav0000329_04715_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 57.5
+          },
+          "uav0000342_04692_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 53.6
+          }
+        },
+        "avg_latency_ms": 431.8,
+        "avg_ttft_ms": 89.1,
+        "avg_cache_seq_len": 30132.4,
+        "worst_videos": [
+          {
+            "video_name": "uav0000138_00000_v",
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_latency_ms": 467.2,
+            "avg_ttft_ms": 96.0
+          },
+          {
+            "video_name": "uav0000288_00001_v",
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1033.0,
+            "avg_ttft_ms": 212.0
+          },
+          {
+            "video_name": "uav0000072_04488_v",
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_latency_ms": 167.3,
+            "avg_ttft_ms": 35.6
+          },
+          {
+            "video_name": "uav0000143_02250_v",
+            "count": 3,
+            "accuracy": 0.0,
+            "avg_latency_ms": 518.8,
+            "avg_ttft_ms": 106.7
+          },
+          {
+            "video_name": "uav0000126_00001_v",
+            "count": 9,
+            "accuracy": 0.1111111111111111,
+            "avg_latency_ms": 697.1,
+            "avg_ttft_ms": 142.6
+          },
+          {
+            "video_name": "uav0000239_03720_v",
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_latency_ms": 308.2,
+            "avg_ttft_ms": 64.0
+          },
+          {
+            "video_name": "uav0000079_00480_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 295.6,
+            "avg_ttft_ms": 61.4
+          },
+          {
+            "video_name": "uav0000072_06432_v",
+            "count": 6,
+            "accuracy": 0.16666666666666666,
+            "avg_latency_ms": 195.6,
+            "avg_ttft_ms": 41.2
+          },
+          {
+            "video_name": "uav0000308_00000_v",
+            "count": 10,
+            "accuracy": 0.2,
+            "avg_latency_ms": 289.9,
+            "avg_ttft_ms": 60.2
+          },
+          {
+            "video_name": "uav0000150_02310_v",
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_latency_ms": 722.5,
+            "avg_ttft_ms": 147.6
+          }
+        ],
+        "mode": "history_prefix",
+        "chunk_size": 4,
+        "fps": 1.0,
+        "l1_input_mode": "video",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1/l23_history_prefix_chunk4",
+        "ttft_source": "choice_prefill",
+        "experiment_config": {
+          "experiment_name": "stream_uav_qa_correct_pool_stream3b_eval_fps1",
+          "evaluation_type": "streaming_3b",
+          "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+          "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+          "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1",
+          "ttft_source": "choice_prefill",
+          "kv_cache_config": {
+            "max_cache_tokens": 150000
+          },
+          "l1_config": {
+            "mode": "single_frame_video",
+            "chunk_size": 1,
+            "fps": 1.0,
+            "input_mode": "video",
+            "append_frame_as_video": true,
+            "fps_semantics": "append_frame_video_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+          },
+          "l23_config": {
+            "mode": "history_prefix",
+            "fps": 1.0,
+            "chunk_sizes": [
+              2,
+              4
+            ],
+            "fps_semantics": "append_video_chunk_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          },
+          "branch": {
+            "branch_name": "l23_history_prefix_chunk4",
+            "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps1/l23_history_prefix_chunk4",
+            "mode": "history_prefix",
+            "chunk_size": 4,
+            "fps": 1.0,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          }
+        },
+        "run_elapsed_seconds": 1064.5
+      }
+    },
+    "fps4": {
+      "l1": {
+        "generated_at": "2026-03-20T16:17:59+0800",
+        "mode_name": "L1 Single-Frame Video Chunk1",
+        "num_queries": 204,
+        "num_correct": 108,
+        "num_wrong": 96,
+        "overall_accuracy": 0.5294117647058824,
+        "by_difficulty": {
+          "L1": {
+            "count": 204,
+            "accuracy": 0.5294117647058824,
+            "avg_ttft_ms": 31.3
+          }
+        },
+        "by_qa_type": {
+          "realtime": {
+            "count": 204,
+            "accuracy": 0.5294117647058824,
+            "avg_ttft_ms": 31.3
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 11,
+            "accuracy": 0.5454545454545454,
+            "avg_ttft_ms": 42.2
+          },
+          "uav0000013_01392_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 33.2
+          },
+          "uav0000020_00406_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 41.5
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.5555555555555556,
+            "avg_ttft_ms": 26.4
+          },
+          "uav0000072_04488_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 26.7
+          },
+          "uav0000072_05448_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 26.5
+          },
+          "uav0000072_06432_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 26.0
+          },
+          "uav0000076_00720_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 26.3
+          },
+          "uav0000079_00480_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 26.1
+          },
+          "uav0000084_00000_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 30.8
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 31.2
+          },
+          "uav0000124_00944_v": {
+            "count": 4,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 31.9
+          },
+          "uav0000126_00001_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 31.5
+          },
+          "uav0000138_00000_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 32.2
+          },
+          "uav0000140_01590_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 32.4
+          },
+          "uav0000143_02250_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 32.6
+          },
+          "uav0000145_00000_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 32.3
+          },
+          "uav0000150_02310_v": {
+            "count": 3,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 31.9
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 32.9
+          },
+          "uav0000222_03150_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 32.9
+          },
+          "uav0000239_03720_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 30.7
+          },
+          "uav0000239_12336_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 34.0
+          },
+          "uav0000243_00001_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 31.2
+          },
+          "uav0000244_01440_v": {
+            "count": 1,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 25.9
+          },
+          "uav0000263_03289_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 27.0
+          },
+          "uav0000264_02760_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 26.9
+          },
+          "uav0000266_03598_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 32.3
+          },
+          "uav0000266_04830_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 32.2
+          },
+          "uav0000270_00001_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 26.5
+          },
+          "uav0000273_00001_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 28.3
+          },
+          "uav0000278_00001_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 77.2
+          },
+          "uav0000279_00001_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 26.6
+          },
+          "uav0000281_00460_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 27.9
+          },
+          "uav0000288_00001_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 26.0
+          },
+          "uav0000289_00001_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 28.5
+          },
+          "uav0000289_06922_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 30.5
+          },
+          "uav0000295_02300_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 35.0
+          },
+          "uav0000300_00000_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 27.0
+          },
+          "uav0000307_00000_v": {
+            "count": 1,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 27.0
+          },
+          "uav0000308_00000_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 26.9
+          },
+          "uav0000308_01380_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 26.9
+          },
+          "uav0000309_00000_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 28.4
+          },
+          "uav0000315_00000_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 27.2
+          },
+          "uav0000316_01288_v": {
+            "count": 4,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 32.3
+          },
+          "uav0000323_01173_v": {
+            "count": 4,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 27.3
+          },
+          "uav0000326_01035_v": {
+            "count": 3,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 26.9
+          },
+          "uav0000329_04715_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 26.6
+          },
+          "uav0000342_04692_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 27.3
+          }
+        },
+        "avg_latency_ms": 115.6,
+        "avg_ttft_ms": 31.3,
+        "avg_cache_seq_len": 3068.8,
+        "worst_videos": [
+          {
+            "video_name": "uav0000326_01035_v",
+            "count": 3,
+            "accuracy": 0.0,
+            "avg_latency_ms": 121.9,
+            "avg_ttft_ms": 26.9
+          },
+          {
+            "video_name": "uav0000072_05448_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 121.0,
+            "avg_ttft_ms": 26.5
+          },
+          {
+            "video_name": "uav0000072_06432_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 118.7,
+            "avg_ttft_ms": 26.0
+          },
+          {
+            "video_name": "uav0000079_00480_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 119.4,
+            "avg_ttft_ms": 26.1
+          },
+          {
+            "video_name": "uav0000278_00001_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 169.4,
+            "avg_ttft_ms": 77.2
+          },
+          {
+            "video_name": "uav0000222_03150_v",
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_latency_ms": 149.8,
+            "avg_ttft_ms": 32.9
+          },
+          {
+            "video_name": "uav0000316_01288_v",
+            "count": 4,
+            "accuracy": 0.25,
+            "avg_latency_ms": 119.7,
+            "avg_ttft_ms": 32.3
+          },
+          {
+            "video_name": "uav0000323_01173_v",
+            "count": 4,
+            "accuracy": 0.25,
+            "avg_latency_ms": 85.0,
+            "avg_ttft_ms": 27.3
+          },
+          {
+            "video_name": "uav0000266_04830_v",
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_latency_ms": 123.2,
+            "avg_ttft_ms": 32.2
+          },
+          {
+            "video_name": "uav0000266_03598_v",
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 138.6,
+            "avg_ttft_ms": 32.3
+          }
+        ],
+        "mode": "single_frame_video",
+        "chunk_size": 1,
+        "fps": 4.0,
+        "l1_input_mode": "video",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4/l1_single_frame_video_chunk1",
+        "ttft_source": "choice_prefill",
+        "experiment_config": {
+          "experiment_name": "stream_uav_qa_correct_pool_stream3b_eval_fps4",
+          "evaluation_type": "streaming_3b",
+          "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+          "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+          "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4",
+          "ttft_source": "choice_prefill",
+          "kv_cache_config": {
+            "max_cache_tokens": 150000
+          },
+          "l1_config": {
+            "mode": "single_frame_video",
+            "chunk_size": 1,
+            "fps": 4.0,
+            "input_mode": "video",
+            "append_frame_as_video": true,
+            "fps_semantics": "append_frame_video_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+          },
+          "l23_config": {
+            "mode": "history_prefix",
+            "fps": 4.0,
+            "chunk_sizes": [
+              2,
+              4
+            ],
+            "fps_semantics": "append_video_chunk_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          },
+          "branch": {
+            "branch_name": "l1_single_frame_video_chunk1",
+            "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4/l1_single_frame_video_chunk1",
+            "mode": "single_frame_video",
+            "chunk_size": 1,
+            "fps": 4.0,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json",
+            "l1_input_mode": "video"
+          }
+        },
+        "run_elapsed_seconds": 0.1
+      },
+      "chunk2": {
+        "generated_at": "2026-03-20T16:18:02+0800",
+        "mode_name": "L2-L3 History-Prefix Chunk2",
+        "num_queries": 347,
+        "num_correct": 130,
+        "num_wrong": 217,
+        "overall_accuracy": 0.3746397694524496,
+        "by_difficulty": {
+          "L2": {
+            "count": 272,
+            "accuracy": 0.39338235294117646,
+            "avg_ttft_ms": 223.9
+          },
+          "L3": {
+            "count": 75,
+            "accuracy": 0.30666666666666664,
+            "avg_ttft_ms": 305.7
+          }
+        },
+        "by_qa_type": {
+          "backward": {
+            "count": 324,
+            "accuracy": 0.38580246913580246,
+            "avg_ttft_ms": 236.2
+          },
+          "forward": {
+            "count": 23,
+            "accuracy": 0.21739130434782608,
+            "avg_ttft_ms": 317.6
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 103.3
+          },
+          "uav0000013_01392_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 53.3
+          },
+          "uav0000020_00406_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 203.5
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.2222222222222222,
+            "avg_ttft_ms": 128.6
+          },
+          "uav0000072_04488_v": {
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 63.0
+          },
+          "uav0000072_05448_v": {
+            "count": 6,
+            "accuracy": 0.8333333333333334,
+            "avg_ttft_ms": 193.4
+          },
+          "uav0000072_06432_v": {
+            "count": 6,
+            "accuracy": 0.16666666666666666,
+            "avg_ttft_ms": 88.6
+          },
+          "uav0000076_00720_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 309.3
+          },
+          "uav0000079_00480_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 179.8
+          },
+          "uav0000084_00000_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 221.7
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 403.0
+          },
+          "uav0000124_00944_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 362.4
+          },
+          "uav0000126_00001_v": {
+            "count": 9,
+            "accuracy": 0.1111111111111111,
+            "avg_ttft_ms": 330.7
+          },
+          "uav0000138_00000_v": {
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 318.3
+          },
+          "uav0000140_01590_v": {
+            "count": 10,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 216.1
+          },
+          "uav0000143_02250_v": {
+            "count": 3,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 332.5
+          },
+          "uav0000145_00000_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 368.9
+          },
+          "uav0000150_02310_v": {
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 384.3
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 305.4
+          },
+          "uav0000222_03150_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 296.6
+          },
+          "uav0000239_03720_v": {
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_ttft_ms": 206.8
+          },
+          "uav0000239_12336_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 107.4
+          },
+          "uav0000243_00001_v": {
+            "count": 10,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 177.6
+          },
+          "uav0000244_01440_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 257.9
+          },
+          "uav0000248_00001_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 312.3
+          },
+          "uav0000263_03289_v": {
+            "count": 4,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 344.5
+          },
+          "uav0000264_02760_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 266.4
+          },
+          "uav0000266_03598_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 408.1
+          },
+          "uav0000266_04830_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 174.7
+          },
+          "uav0000270_00001_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 271.1
+          },
+          "uav0000273_00001_v": {
+            "count": 8,
+            "accuracy": 0.875,
+            "avg_ttft_ms": 343.4
+          },
+          "uav0000278_00001_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 150.7
+          },
+          "uav0000279_00001_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 409.8
+          },
+          "uav0000281_00460_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 264.8
+          },
+          "uav0000288_00001_v": {
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 281.4
+          },
+          "uav0000289_00001_v": {
+            "count": 9,
+            "accuracy": 0.4444444444444444,
+            "avg_ttft_ms": 283.6
+          },
+          "uav0000289_06922_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 144.4
+          },
+          "uav0000295_02300_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 320.6
+          },
+          "uav0000300_00000_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 308.5
+          },
+          "uav0000307_00000_v": {
+            "count": 13,
+            "accuracy": 0.38461538461538464,
+            "avg_ttft_ms": 285.9
+          },
+          "uav0000308_00000_v": {
+            "count": 10,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 169.8
+          },
+          "uav0000308_01380_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 169.0
+          },
+          "uav0000309_00000_v": {
+            "count": 11,
+            "accuracy": 0.5454545454545454,
+            "avg_ttft_ms": 230.6
+          },
+          "uav0000315_00000_v": {
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_ttft_ms": 312.3
+          },
+          "uav0000316_01288_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 183.5
+          },
+          "uav0000323_01173_v": {
+            "count": 9,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 268.3
+          },
+          "uav0000326_01035_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 295.6
+          },
+          "uav0000329_04715_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 156.7
+          },
+          "uav0000342_04692_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 142.3
+          }
+        },
+        "avg_latency_ms": 1178.3,
+        "avg_ttft_ms": 241.6,
+        "avg_cache_seq_len": 88661.5,
+        "worst_videos": [
+          {
+            "video_name": "uav0000138_00000_v",
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1559.3,
+            "avg_ttft_ms": 318.3
+          },
+          {
+            "video_name": "uav0000288_00001_v",
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1375.5,
+            "avg_ttft_ms": 281.4
+          },
+          {
+            "video_name": "uav0000072_04488_v",
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_latency_ms": 303.4,
+            "avg_ttft_ms": 63.0
+          },
+          {
+            "video_name": "uav0000150_02310_v",
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1881.2,
+            "avg_ttft_ms": 384.3
+          },
+          {
+            "video_name": "uav0000143_02250_v",
+            "count": 3,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1622.7,
+            "avg_ttft_ms": 332.5
+          },
+          {
+            "video_name": "uav0000279_00001_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 2004.9,
+            "avg_ttft_ms": 409.8
+          },
+          {
+            "video_name": "uav0000126_00001_v",
+            "count": 9,
+            "accuracy": 0.1111111111111111,
+            "avg_latency_ms": 1618.7,
+            "avg_ttft_ms": 330.7
+          },
+          {
+            "video_name": "uav0000239_03720_v",
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_latency_ms": 996.5,
+            "avg_ttft_ms": 206.8
+          },
+          {
+            "video_name": "uav0000315_00000_v",
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_latency_ms": 1525.0,
+            "avg_ttft_ms": 312.3
+          },
+          {
+            "video_name": "uav0000079_00480_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 875.9,
+            "avg_ttft_ms": 179.8
+          }
+        ],
+        "mode": "history_prefix",
+        "chunk_size": 2,
+        "fps": 4.0,
+        "l1_input_mode": "video",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4/l23_history_prefix_chunk2",
+        "ttft_source": "choice_prefill",
+        "experiment_config": {
+          "experiment_name": "stream_uav_qa_correct_pool_stream3b_eval_fps4",
+          "evaluation_type": "streaming_3b",
+          "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+          "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+          "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4",
+          "ttft_source": "choice_prefill",
+          "kv_cache_config": {
+            "max_cache_tokens": 150000
+          },
+          "l1_config": {
+            "mode": "single_frame_video",
+            "chunk_size": 1,
+            "fps": 4.0,
+            "input_mode": "video",
+            "append_frame_as_video": true,
+            "fps_semantics": "append_frame_video_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+          },
+          "l23_config": {
+            "mode": "history_prefix",
+            "fps": 4.0,
+            "chunk_sizes": [
+              2,
+              4
+            ],
+            "fps_semantics": "append_video_chunk_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          },
+          "branch": {
+            "branch_name": "l23_history_prefix_chunk2",
+            "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4/l23_history_prefix_chunk2",
+            "mode": "history_prefix",
+            "chunk_size": 2,
+            "fps": 4.0,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          }
+        },
+        "run_elapsed_seconds": 3.0
+      },
+      "chunk4": {
+        "generated_at": "2026-03-20T18:36:06+0800",
+        "mode_name": "L2-L3 History-Prefix Chunk4",
+        "num_queries": 347,
+        "num_correct": 133,
+        "num_wrong": 214,
+        "overall_accuracy": 0.38328530259365995,
+        "by_difficulty": {
+          "L2": {
+            "count": 272,
+            "accuracy": 0.39705882352941174,
+            "avg_ttft_ms": 211.4
+          },
+          "L3": {
+            "count": 75,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 278.5
+          }
+        },
+        "by_qa_type": {
+          "backward": {
+            "count": 324,
+            "accuracy": 0.3950617283950617,
+            "avg_ttft_ms": 221.3
+          },
+          "forward": {
+            "count": 23,
+            "accuracy": 0.21739130434782608,
+            "avg_ttft_ms": 290.5
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 102.3
+          },
+          "uav0000013_01392_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 52.9
+          },
+          "uav0000020_00406_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 202.3
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.2222222222222222,
+            "avg_ttft_ms": 127.8
+          },
+          "uav0000072_04488_v": {
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 63.0
+          },
+          "uav0000072_05448_v": {
+            "count": 6,
+            "accuracy": 0.8333333333333334,
+            "avg_ttft_ms": 193.7
+          },
+          "uav0000072_06432_v": {
+            "count": 6,
+            "accuracy": 0.16666666666666666,
+            "avg_ttft_ms": 87.9
+          },
+          "uav0000076_00720_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 304.0
+          },
+          "uav0000079_00480_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 179.9
+          },
+          "uav0000084_00000_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 217.9
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 402.4
+          },
+          "uav0000124_00944_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 316.6
+          },
+          "uav0000126_00001_v": {
+            "count": 9,
+            "accuracy": 0.1111111111111111,
+            "avg_ttft_ms": 294.6
+          },
+          "uav0000138_00000_v": {
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 286.3
+          },
+          "uav0000140_01590_v": {
+            "count": 10,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 202.2
+          },
+          "uav0000143_02250_v": {
+            "count": 3,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 297.3
+          },
+          "uav0000145_00000_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 337.7
+          },
+          "uav0000150_02310_v": {
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 340.4
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 278.6
+          },
+          "uav0000222_03150_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 264.4
+          },
+          "uav0000239_03720_v": {
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_ttft_ms": 207.0
+          },
+          "uav0000239_12336_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 110.5
+          },
+          "uav0000243_00001_v": {
+            "count": 10,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 180.2
+          },
+          "uav0000244_01440_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 240.9
+          },
+          "uav0000248_00001_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 314.1
+          },
+          "uav0000263_03289_v": {
+            "count": 4,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 301.9
+          },
+          "uav0000264_02760_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 244.2
+          },
+          "uav0000266_03598_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 351.7
+          },
+          "uav0000266_04830_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 174.0
+          },
+          "uav0000270_00001_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 237.9
+          },
+          "uav0000273_00001_v": {
+            "count": 8,
+            "accuracy": 0.875,
+            "avg_ttft_ms": 300.6
+          },
+          "uav0000278_00001_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 142.0
+          },
+          "uav0000279_00001_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 352.2
+          },
+          "uav0000281_00460_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 236.7
+          },
+          "uav0000288_00001_v": {
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 248.5
+          },
+          "uav0000289_00001_v": {
+            "count": 9,
+            "accuracy": 0.4444444444444444,
+            "avg_ttft_ms": 253.1
+          },
+          "uav0000289_06922_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 143.7
+          },
+          "uav0000295_02300_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 290.3
+          },
+          "uav0000300_00000_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 273.7
+          },
+          "uav0000307_00000_v": {
+            "count": 13,
+            "accuracy": 0.38461538461538464,
+            "avg_ttft_ms": 273.8
+          },
+          "uav0000308_00000_v": {
+            "count": 10,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 168.7
+          },
+          "uav0000308_01380_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 167.4
+          },
+          "uav0000309_00000_v": {
+            "count": 11,
+            "accuracy": 0.5454545454545454,
+            "avg_ttft_ms": 220.4
+          },
+          "uav0000315_00000_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 275.6
+          },
+          "uav0000316_01288_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 182.3
+          },
+          "uav0000323_01173_v": {
+            "count": 9,
+            "accuracy": 0.2222222222222222,
+            "avg_ttft_ms": 239.1
+          },
+          "uav0000326_01035_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 298.8
+          },
+          "uav0000329_04715_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 155.3
+          },
+          "uav0000342_04692_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 142.0
+          }
+        },
+        "avg_latency_ms": 1102.1,
+        "avg_ttft_ms": 225.9,
+        "avg_cache_seq_len": 83053.6,
+        "worst_videos": [
+          {
+            "video_name": "uav0000138_00000_v",
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1404.9,
+            "avg_ttft_ms": 286.3
+          },
+          {
+            "video_name": "uav0000288_00001_v",
+            "count": 7,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1216.3,
+            "avg_ttft_ms": 248.5
+          },
+          {
+            "video_name": "uav0000072_04488_v",
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_latency_ms": 303.7,
+            "avg_ttft_ms": 63.0
+          },
+          {
+            "video_name": "uav0000150_02310_v",
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1667.8,
+            "avg_ttft_ms": 340.4
+          },
+          {
+            "video_name": "uav0000143_02250_v",
+            "count": 3,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1445.9,
+            "avg_ttft_ms": 297.3
+          },
+          {
+            "video_name": "uav0000279_00001_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1724.5,
+            "avg_ttft_ms": 352.2
+          },
+          {
+            "video_name": "uav0000126_00001_v",
+            "count": 9,
+            "accuracy": 0.1111111111111111,
+            "avg_latency_ms": 1437.7,
+            "avg_ttft_ms": 294.6
+          },
+          {
+            "video_name": "uav0000239_03720_v",
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_latency_ms": 999.5,
+            "avg_ttft_ms": 207.0
+          },
+          {
+            "video_name": "uav0000264_02760_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 1190.1,
+            "avg_ttft_ms": 244.2
+          },
+          {
+            "video_name": "uav0000270_00001_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 1161.4,
+            "avg_ttft_ms": 237.9
+          }
+        ],
+        "mode": "history_prefix",
+        "chunk_size": 4,
+        "fps": 4.0,
+        "l1_input_mode": "video",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4_chunk4_resume130k_v2/l23_history_prefix_chunk4",
+        "ttft_source": "choice_prefill",
+        "experiment_config": {
+          "experiment_name": "stream_uav_qa_correct_pool_stream3b_eval_fps4_chunk4_resume130k_v2",
+          "evaluation_type": "streaming_3b",
+          "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+          "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+          "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4_chunk4_resume130k_v2",
+          "ttft_source": "choice_prefill",
+          "kv_cache_config": {
+            "max_cache_tokens": 130000
+          },
+          "l1_config": {
+            "mode": "single_frame_video",
+            "chunk_size": 1,
+            "fps": 4.0,
+            "input_mode": "video",
+            "append_frame_as_video": true,
+            "fps_semantics": "append_frame_video_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+          },
+          "l23_config": {
+            "mode": "history_prefix",
+            "fps": 4.0,
+            "chunk_sizes": [
+              4
+            ],
+            "fps_semantics": "append_video_chunk_fps",
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          },
+          "branch": {
+            "branch_name": "l23_history_prefix_chunk4",
+            "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_stream3b_eval_fps4_chunk4_resume130k_v2/l23_history_prefix_chunk4",
+            "mode": "history_prefix",
+            "chunk_size": 4,
+            "fps": 4.0,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          }
+        },
+        "run_elapsed_seconds": 5442.4
+      },
+      "chunk4_progress": {
+        "generated_at": "2026-03-20T18:36:06+0800",
+        "branch_name": "l23_history_prefix_chunk4",
+        "stage": "completed",
+        "total_available_queries": 347,
+        "existing_done_at_start": 74,
+        "planned_total_queries": 347,
+        "completed_queries_total": 347,
+        "completed_queries_this_run": 273,
+        "remaining_queries": 0,
+        "elapsed_seconds": 5442.4,
+        "session_rate_qps": 0.0502,
+        "eta_seconds": 0.0,
+        "eta_hms": "00:00",
+        "accuracy_so_far": 0.383285,
+        "current_video": null,
+        "current_query_id": null
+      },
+      "chunk4_status": "complete"
+    },
+    "native": {
+      "l1": {
+        "branch_name": "l1_single_frame_native",
+        "generated_at": "2026-03-20T16:33:32+0800",
+        "mode_name": "L1 Native Single-Frame Current-Image",
+        "num_queries": 204,
+        "num_correct": 125,
+        "num_wrong": 79,
+        "overall_accuracy": 0.6127450980392157,
+        "by_difficulty": {
+          "L1": {
+            "count": 204,
+            "accuracy": 0.6127450980392157,
+            "avg_ttft_ms": 993.7
+          }
+        },
+        "by_qa_type": {
+          "realtime": {
+            "count": 204,
+            "accuracy": 0.6127450980392157,
+            "avg_ttft_ms": 993.7
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 11,
+            "accuracy": 0.5454545454545454,
+            "avg_ttft_ms": 415.0
+          },
+          "uav0000013_01392_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 369.3
+          },
+          "uav0000020_00406_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 372.6
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.5555555555555556,
+            "avg_ttft_ms": 808.7
+          },
+          "uav0000072_04488_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 801.8
+          },
+          "uav0000072_05448_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 800.5
+          },
+          "uav0000072_06432_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 800.1
+          },
+          "uav0000076_00720_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 803.7
+          },
+          "uav0000079_00480_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 812.1
+          },
+          "uav0000084_00000_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 369.3
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 379.6
+          },
+          "uav0000124_00944_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 1784.2
+          },
+          "uav0000126_00001_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 1766.3
+          },
+          "uav0000138_00000_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 1762.1
+          },
+          "uav0000140_01590_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 1761.3
+          },
+          "uav0000143_02250_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 1745.7
+          },
+          "uav0000145_00000_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 1753.4
+          },
+          "uav0000150_02310_v": {
+            "count": 3,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 1752.8
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 1764.9
+          },
+          "uav0000222_03150_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 1774.8
+          },
+          "uav0000239_03720_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 376.7
+          },
+          "uav0000239_12336_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 378.8
+          },
+          "uav0000243_00001_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 374.8
+          },
+          "uav0000244_01440_v": {
+            "count": 1,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 882.2
+          },
+          "uav0000263_03289_v": {
+            "count": 7,
+            "accuracy": 0.7142857142857143,
+            "avg_ttft_ms": 840.2
+          },
+          "uav0000264_02760_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 825.3
+          },
+          "uav0000266_03598_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 1802.6
+          },
+          "uav0000266_04830_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 1770.0
+          },
+          "uav0000270_00001_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 815.2
+          },
+          "uav0000273_00001_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 821.3
+          },
+          "uav0000278_00001_v": {
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 388.4
+          },
+          "uav0000279_00001_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 822.9
+          },
+          "uav0000281_00460_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 876.0
+          },
+          "uav0000288_00001_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 826.7
+          },
+          "uav0000289_00001_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 811.7
+          },
+          "uav0000289_06922_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 813.5
+          },
+          "uav0000295_02300_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 1910.3
+          },
+          "uav0000300_00000_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 822.9
+          },
+          "uav0000307_00000_v": {
+            "count": 1,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 823.5
+          },
+          "uav0000308_00000_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 827.9
+          },
+          "uav0000308_01380_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 828.7
+          },
+          "uav0000309_00000_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 832.0
+          },
+          "uav0000315_00000_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 829.1
+          },
+          "uav0000316_01288_v": {
+            "count": 4,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 1886.2
+          },
+          "uav0000323_01173_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 798.7
+          },
+          "uav0000326_01035_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 805.6
+          },
+          "uav0000329_04715_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 823.6
+          },
+          "uav0000342_04692_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 828.1
+          }
+        },
+        "avg_latency_ms": 3698.0,
+        "avg_ttft_ms": 993.7,
+        "avg_cache_seq_len": 3095.9,
+        "worst_videos": [
+          {
+            "video_name": "uav0000072_06432_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 3428.2,
+            "avg_ttft_ms": 800.1
+          },
+          {
+            "video_name": "uav0000270_00001_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 2793.9,
+            "avg_ttft_ms": 815.2
+          },
+          {
+            "video_name": "uav0000278_00001_v",
+            "count": 2,
+            "accuracy": 0.0,
+            "avg_latency_ms": 1651.4,
+            "avg_ttft_ms": 388.4
+          },
+          {
+            "video_name": "uav0000222_03150_v",
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_latency_ms": 7668.9,
+            "avg_ttft_ms": 1774.8
+          },
+          {
+            "video_name": "uav0000266_04830_v",
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_latency_ms": 6408.0,
+            "avg_ttft_ms": 1770.0
+          },
+          {
+            "video_name": "uav0000266_03598_v",
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 7207.8,
+            "avg_ttft_ms": 1802.6
+          },
+          {
+            "video_name": "uav0000239_12336_v",
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 1416.9,
+            "avg_ttft_ms": 378.8
+          },
+          {
+            "video_name": "uav0000243_00001_v",
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 1412.1,
+            "avg_ttft_ms": 374.8
+          },
+          {
+            "video_name": "uav0000300_00000_v",
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 2594.4,
+            "avg_ttft_ms": 822.9
+          },
+          {
+            "video_name": "uav0000020_00406_v",
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_latency_ms": 1526.8,
+            "avg_ttft_ms": 372.6
+          }
+        ],
+        "mode": "single_frame_native",
+        "chunk_size": 1,
+        "l1_input_mode": "native_image",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_single_frame_eval/l1_single_frame_native",
+        "ttft_source": "choice_prefill",
+        "experiment_config": {
+          "experiment_name": "stream_uav_qa_correct_pool_qwen25vl_single_frame_eval",
+          "evaluation_type": "qwen2_5_vl_native_single_frame",
+          "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+          "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+          "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_single_frame_eval",
+          "ttft_source": "choice_prefill",
+          "baseline_config": {
+            "input_mode": "single_image_current_frame_only",
+            "query_frame_selection": "timestamp_clamp_to_current_frame",
+            "choice_scoring": "option_letter_logprob"
+          },
+          "l1_config": {
+            "mode": "single_frame_native",
+            "chunk_size": 1,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+          },
+          "l23_config": {
+            "mode": "current_frame_only_native",
+            "chunk_size": 1,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          },
+          "branch": {
+            "branch_name": "l1_single_frame_native",
+            "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_single_frame_eval/l1_single_frame_native",
+            "mode": "single_frame_native",
+            "chunk_size": 1,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+          }
+        },
+        "run_elapsed_seconds": 758.5
+      },
+      "l23": {
+        "branch_name": "l23_current_frame_native",
+        "generated_at": "2026-03-20T16:58:10+0800",
+        "mode_name": "L2-L3 Native Current-Frame Single-Image",
+        "num_queries": 347,
+        "num_correct": 138,
+        "num_wrong": 209,
+        "overall_accuracy": 0.3976945244956772,
+        "by_difficulty": {
+          "L2": {
+            "count": 272,
+            "accuracy": 0.4264705882352941,
+            "avg_ttft_ms": 980.5
+          },
+          "L3": {
+            "count": 75,
+            "accuracy": 0.29333333333333333,
+            "avg_ttft_ms": 1034.5
+          }
+        },
+        "by_qa_type": {
+          "backward": {
+            "count": 324,
+            "accuracy": 0.4104938271604938,
+            "avg_ttft_ms": 990.3
+          },
+          "forward": {
+            "count": 23,
+            "accuracy": 0.21739130434782608,
+            "avg_ttft_ms": 1018.0
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 376.3
+          },
+          "uav0000013_01392_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 377.7
+          },
+          "uav0000020_00406_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 379.3
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.2222222222222222,
+            "avg_ttft_ms": 818.3
+          },
+          "uav0000072_04488_v": {
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 816.3
+          },
+          "uav0000072_05448_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 819.1
+          },
+          "uav0000072_06432_v": {
+            "count": 6,
+            "accuracy": 0.16666666666666666,
+            "avg_ttft_ms": 818.1
+          },
+          "uav0000076_00720_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 825.0
+          },
+          "uav0000079_00480_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 823.1
+          },
+          "uav0000084_00000_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 378.1
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 375.3
+          },
+          "uav0000124_00944_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 1786.5
+          },
+          "uav0000126_00001_v": {
+            "count": 9,
+            "accuracy": 0.1111111111111111,
+            "avg_ttft_ms": 1780.9
+          },
+          "uav0000138_00000_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 1786.1
+          },
+          "uav0000140_01590_v": {
+            "count": 10,
+            "accuracy": 0.3,
+            "avg_ttft_ms": 1785.0
+          },
+          "uav0000143_02250_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 1753.1
+          },
+          "uav0000145_00000_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 1789.9
+          },
+          "uav0000150_02310_v": {
+            "count": 5,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 1773.3
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 1772.0
+          },
+          "uav0000222_03150_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 1791.9
+          },
+          "uav0000239_03720_v": {
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_ttft_ms": 373.4
+          },
+          "uav0000239_12336_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 375.1
+          },
+          "uav0000243_00001_v": {
+            "count": 10,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 374.6
+          },
+          "uav0000244_01440_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 862.2
+          },
+          "uav0000248_00001_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 372.1
+          },
+          "uav0000263_03289_v": {
+            "count": 4,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 825.9
+          },
+          "uav0000264_02760_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 813.9
+          },
+          "uav0000266_03598_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 1783.5
+          },
+          "uav0000266_04830_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 1779.7
+          },
+          "uav0000270_00001_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 834.8
+          },
+          "uav0000273_00001_v": {
+            "count": 8,
+            "accuracy": 0.875,
+            "avg_ttft_ms": 821.6
+          },
+          "uav0000278_00001_v": {
+            "count": 6,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 388.0
+          },
+          "uav0000279_00001_v": {
+            "count": 2,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 823.3
+          },
+          "uav0000281_00460_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 837.7
+          },
+          "uav0000288_00001_v": {
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_ttft_ms": 825.2
+          },
+          "uav0000289_00001_v": {
+            "count": 9,
+            "accuracy": 0.4444444444444444,
+            "avg_ttft_ms": 825.5
+          },
+          "uav0000289_06922_v": {
+            "count": 7,
+            "accuracy": 0.8571428571428571,
+            "avg_ttft_ms": 839.0
+          },
+          "uav0000295_02300_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 1900.6
+          },
+          "uav0000300_00000_v": {
+            "count": 5,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 818.0
+          },
+          "uav0000307_00000_v": {
+            "count": 13,
+            "accuracy": 0.38461538461538464,
+            "avg_ttft_ms": 825.9
+          },
+          "uav0000308_00000_v": {
+            "count": 10,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 832.2
+          },
+          "uav0000308_01380_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 814.7
+          },
+          "uav0000309_00000_v": {
+            "count": 11,
+            "accuracy": 0.5454545454545454,
+            "avg_ttft_ms": 826.9
+          },
+          "uav0000315_00000_v": {
+            "count": 8,
+            "accuracy": 0.25,
+            "avg_ttft_ms": 854.0
+          },
+          "uav0000316_01288_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 1883.9
+          },
+          "uav0000323_01173_v": {
+            "count": 9,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 823.8
+          },
+          "uav0000326_01035_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 821.0
+          },
+          "uav0000329_04715_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 816.6
+          },
+          "uav0000342_04692_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 819.9
+          }
+        },
+        "avg_latency_ms": 4235.9,
+        "avg_ttft_ms": 992.1,
+        "avg_cache_seq_len": 3108.2,
+        "worst_videos": [
+          {
+            "video_name": "uav0000072_04488_v",
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_latency_ms": 3472.6,
+            "avg_ttft_ms": 816.3
+          },
+          {
+            "video_name": "uav0000126_00001_v",
+            "count": 9,
+            "accuracy": 0.1111111111111111,
+            "avg_latency_ms": 7699.7,
+            "avg_ttft_ms": 1780.9
+          },
+          {
+            "video_name": "uav0000239_03720_v",
+            "count": 8,
+            "accuracy": 0.125,
+            "avg_latency_ms": 1612.0,
+            "avg_ttft_ms": 373.4
+          },
+          {
+            "video_name": "uav0000079_00480_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 3488.0,
+            "avg_ttft_ms": 823.1
+          },
+          {
+            "video_name": "uav0000138_00000_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 7711.1,
+            "avg_ttft_ms": 1786.1
+          },
+          {
+            "video_name": "uav0000264_02760_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 3484.7,
+            "avg_ttft_ms": 813.9
+          },
+          {
+            "video_name": "uav0000270_00001_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 3487.1,
+            "avg_ttft_ms": 834.8
+          },
+          {
+            "video_name": "uav0000288_00001_v",
+            "count": 7,
+            "accuracy": 0.14285714285714285,
+            "avg_latency_ms": 3487.4,
+            "avg_ttft_ms": 825.2
+          },
+          {
+            "video_name": "uav0000072_06432_v",
+            "count": 6,
+            "accuracy": 0.16666666666666666,
+            "avg_latency_ms": 3475.5,
+            "avg_ttft_ms": 818.1
+          },
+          {
+            "video_name": "uav0000308_00000_v",
+            "count": 10,
+            "accuracy": 0.2,
+            "avg_latency_ms": 3492.9,
+            "avg_ttft_ms": 832.2
+          }
+        ],
+        "mode": "current_frame_only_native",
+        "chunk_size": 1,
+        "l1_input_mode": "native_image",
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_single_frame_eval/l23_current_frame_native",
+        "ttft_source": "choice_prefill",
+        "experiment_config": {
+          "experiment_name": "stream_uav_qa_correct_pool_qwen25vl_single_frame_eval",
+          "evaluation_type": "qwen2_5_vl_native_single_frame",
+          "model_path": "/root/autodl-tmp/Qwen/Qwen2___5-VL-3B-Instruct",
+          "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+          "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_single_frame_eval",
+          "ttft_source": "choice_prefill",
+          "baseline_config": {
+            "input_mode": "single_image_current_frame_only",
+            "query_frame_selection": "timestamp_clamp_to_current_frame",
+            "choice_scoring": "option_letter_logprob"
+          },
+          "l1_config": {
+            "mode": "single_frame_native",
+            "chunk_size": 1,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l1_single_frame.json"
+          },
+          "l23_config": {
+            "mode": "current_frame_only_native",
+            "chunk_size": 1,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          },
+          "branch": {
+            "branch_name": "l23_current_frame_native",
+            "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_single_frame_eval/l23_current_frame_native",
+            "mode": "current_frame_only_native",
+            "chunk_size": 1,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          }
+        },
+        "run_elapsed_seconds": 1477.9
+      }
+    },
+    "api_video": {
+      "l1_policy": "reused_from_native_single_frame_baseline",
+      "l23": {
+        "branch_name": "l23_history_prefix_api_video_prefix",
+        "generated_at": "2026-03-21T20:03:52+0800",
+        "mode_name": "L2-L3 API Native Video Prefix",
+        "num_queries": 347,
+        "num_correct": 192,
+        "num_wrong": 155,
+        "overall_accuracy": 0.553314121037464,
+        "by_difficulty": {
+          "L2": {
+            "count": 272,
+            "accuracy": 0.5772058823529411,
+            "avg_ttft_ms": 7681.9
+          },
+          "L3": {
+            "count": 75,
+            "accuracy": 0.4666666666666667,
+            "avg_ttft_ms": 9230.8
+          }
+        },
+        "by_qa_type": {
+          "backward": {
+            "count": 324,
+            "accuracy": 0.5462962962962963,
+            "avg_ttft_ms": 8009.6
+          },
+          "forward": {
+            "count": 23,
+            "accuracy": 0.6521739130434783,
+            "avg_ttft_ms": 8115.5
+          }
+        },
+        "by_video": {
+          "uav0000013_00000_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 33849.5
+          },
+          "uav0000013_01392_v": {
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_ttft_ms": 12424.7
+          },
+          "uav0000020_00406_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 41700.1
+          },
+          "uav0000071_03240_v": {
+            "count": 9,
+            "accuracy": 0.4444444444444444,
+            "avg_ttft_ms": 23852.0
+          },
+          "uav0000072_04488_v": {
+            "count": 5,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 14257.6
+          },
+          "uav0000072_05448_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 15943.0
+          },
+          "uav0000072_06432_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 16095.0
+          },
+          "uav0000076_00720_v": {
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_ttft_ms": 73900.6
+          },
+          "uav0000079_00480_v": {
+            "count": 7,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 56639.3
+          },
+          "uav0000084_00000_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 49311.5
+          },
+          "uav0000099_02109_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 3595.2
+          },
+          "uav0000124_00944_v": {
+            "count": 6,
+            "accuracy": 0.8333333333333334,
+            "avg_ttft_ms": 1827.8
+          },
+          "uav0000126_00001_v": {
+            "count": 9,
+            "accuracy": 0.7777777777777778,
+            "avg_ttft_ms": 1590.2
+          },
+          "uav0000138_00000_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 1530.9
+          },
+          "uav0000140_01590_v": {
+            "count": 10,
+            "accuracy": 0.4,
+            "avg_ttft_ms": 1197.4
+          },
+          "uav0000143_02250_v": {
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_ttft_ms": 1443.3
+          },
+          "uav0000145_00000_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 1391.9
+          },
+          "uav0000150_02310_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 1545.1
+          },
+          "uav0000218_00001_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 1116.2
+          },
+          "uav0000222_03150_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 1719.8
+          },
+          "uav0000239_03720_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 2343.0
+          },
+          "uav0000239_12336_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 1407.1
+          },
+          "uav0000243_00001_v": {
+            "count": 10,
+            "accuracy": 0.2,
+            "avg_ttft_ms": 1741.0
+          },
+          "uav0000244_01440_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 1816.0
+          },
+          "uav0000248_00001_v": {
+            "count": 3,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 2480.3
+          },
+          "uav0000263_03289_v": {
+            "count": 4,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 1783.7
+          },
+          "uav0000264_02760_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 1613.9
+          },
+          "uav0000266_03598_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 2494.3
+          },
+          "uav0000266_04830_v": {
+            "count": 8,
+            "accuracy": 0.75,
+            "avg_ttft_ms": 1122.9
+          },
+          "uav0000270_00001_v": {
+            "count": 7,
+            "accuracy": 0.5714285714285714,
+            "avg_ttft_ms": 1655.6
+          },
+          "uav0000273_00001_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 1860.1
+          },
+          "uav0000278_00001_v": {
+            "count": 6,
+            "accuracy": 0.8333333333333334,
+            "avg_ttft_ms": 1883.2
+          },
+          "uav0000279_00001_v": {
+            "count": 2,
+            "accuracy": 1.0,
+            "avg_ttft_ms": 2355.1
+          },
+          "uav0000281_00460_v": {
+            "count": 8,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 1480.1
+          },
+          "uav0000288_00001_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 3010.6
+          },
+          "uav0000289_00001_v": {
+            "count": 9,
+            "accuracy": 0.5555555555555556,
+            "avg_ttft_ms": 1658.3
+          },
+          "uav0000289_06922_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 1561.4
+          },
+          "uav0000295_02300_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 1775.4
+          },
+          "uav0000300_00000_v": {
+            "count": 5,
+            "accuracy": 0.6,
+            "avg_ttft_ms": 2443.7
+          },
+          "uav0000307_00000_v": {
+            "count": 13,
+            "accuracy": 0.5384615384615384,
+            "avg_ttft_ms": 1492.7
+          },
+          "uav0000308_00000_v": {
+            "count": 10,
+            "accuracy": 0.8,
+            "avg_ttft_ms": 1225.7
+          },
+          "uav0000308_01380_v": {
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_ttft_ms": 1246.5
+          },
+          "uav0000309_00000_v": {
+            "count": 11,
+            "accuracy": 0.45454545454545453,
+            "avg_ttft_ms": 1509.8
+          },
+          "uav0000315_00000_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 2020.0
+          },
+          "uav0000316_01288_v": {
+            "count": 8,
+            "accuracy": 0.625,
+            "avg_ttft_ms": 1197.6
+          },
+          "uav0000323_01173_v": {
+            "count": 9,
+            "accuracy": 0.5555555555555556,
+            "avg_ttft_ms": 1415.0
+          },
+          "uav0000326_01035_v": {
+            "count": 6,
+            "accuracy": 0.5,
+            "avg_ttft_ms": 1513.7
+          },
+          "uav0000329_04715_v": {
+            "count": 6,
+            "accuracy": 0.6666666666666666,
+            "avg_ttft_ms": 1113.1
+          },
+          "uav0000342_04692_v": {
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_ttft_ms": 1036.2
+          }
+        },
+        "avg_latency_ms": 8098.7,
+        "avg_ttft_ms": 8016.6,
+        "avg_cache_seq_len": null,
+        "parse_failure_rate": 0.0,
+        "parse_status_counts": {
+          "direct_letter": 347
+        },
+        "worst_videos": [
+          {
+            "video_name": "uav0000013_01392_v",
+            "count": 5,
+            "accuracy": 0.0,
+            "avg_latency_ms": 12739.9,
+            "avg_ttft_ms": 12424.7
+          },
+          {
+            "video_name": "uav0000243_00001_v",
+            "count": 10,
+            "accuracy": 0.2,
+            "avg_latency_ms": 1760.2,
+            "avg_ttft_ms": 1741.0
+          },
+          {
+            "video_name": "uav0000076_00720_v",
+            "count": 7,
+            "accuracy": 0.2857142857142857,
+            "avg_latency_ms": 73999.2,
+            "avg_ttft_ms": 73900.6
+          },
+          {
+            "video_name": "uav0000143_02250_v",
+            "count": 3,
+            "accuracy": 0.3333333333333333,
+            "avg_latency_ms": 1478.8,
+            "avg_ttft_ms": 1443.3
+          },
+          {
+            "video_name": "uav0000244_01440_v",
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_latency_ms": 1836.3,
+            "avg_ttft_ms": 1816.0
+          },
+          {
+            "video_name": "uav0000273_00001_v",
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_latency_ms": 1879.9,
+            "avg_ttft_ms": 1860.1
+          },
+          {
+            "video_name": "uav0000342_04692_v",
+            "count": 8,
+            "accuracy": 0.375,
+            "avg_latency_ms": 1059.8,
+            "avg_ttft_ms": 1036.2
+          },
+          {
+            "video_name": "uav0000140_01590_v",
+            "count": 10,
+            "accuracy": 0.4,
+            "avg_latency_ms": 1227.9,
+            "avg_ttft_ms": 1197.4
+          },
+          {
+            "video_name": "uav0000145_00000_v",
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_latency_ms": 1420.2,
+            "avg_ttft_ms": 1391.9
+          },
+          {
+            "video_name": "uav0000239_12336_v",
+            "count": 7,
+            "accuracy": 0.42857142857142855,
+            "avg_latency_ms": 1450.0,
+            "avg_ttft_ms": 1407.1
+          }
+        ],
+        "mode": "history_prefix_api_video",
+        "history_prefix_fps": 0.25,
+        "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json",
+        "output_dir": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_api_video_prefix_eval",
+        "ttft_source": "stream_first_delta",
+        "streaming_response": true,
+        "experiment_config": {
+          "experiment_name": "stream_uav_qa_correct_pool_qwen25vl_api_video_prefix_eval",
+          "evaluation_type": "qwen2_5_vl_api_video_prefix",
+          "model_path": "qwen2.5-vl-3b-instruct",
+          "api_config": {
+            "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+            "api_key_env": "DASHSCOPE_API_KEY",
+            "request_timeout": 300.0,
+            "stream": true,
+            "ttft_source": "stream_first_delta"
+          },
+          "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json",
+          "sequences_root": "/root/autodl-tmp/streamVQA/VisDrone2019-VID-train/VisDrone2019-VID-train/sequences",
+          "output_root": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_qwen25vl_api_video_prefix_eval",
+          "l1_policy": "reused_from_native_single_frame_baseline",
+          "l23_config": {
+            "mode": "history_prefix_api_video",
+            "history_prefix_fps": 0.25,
+            "fps_semantics": "api_video_input_fps",
+            "chunk_size": null,
+            "dataset_json": "/root/autodl-tmp/streamVQA/datasets/stream_uav_qa_correct_pool_mode_split/stream_uav_eval_l23_history_prefix.json"
+          }
+        },
+        "api_model": "qwen2.5-vl-3b-instruct",
+        "api_base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "run_elapsed_seconds": 1758.1
+      }
+    }
+  }
+}
